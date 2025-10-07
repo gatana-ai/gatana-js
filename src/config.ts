@@ -18,7 +18,7 @@ export interface McpBossConfig {
   defaultOrgId?: string;
 }
 
-const CONFIG_FILE_PATH = join(homedir(), '.mcpboss.config');
+const CONFIG_FILE_PATH = join(homedir(), '.gatana.config');
 
 export function getConfigFilePath(): string {
   return CONFIG_FILE_PATH;
@@ -35,7 +35,7 @@ export function readConfig(): McpBossConfig {
 
     // Migrate legacy config to new structure if needed
     if (config.orgId && !config.orgs) {
-      const baseUrl = config.baseUrl || `https://${config.orgId}.mcp-boss.com`;
+      const baseUrl = config.baseUrl || `https://${config.orgId}.gatana.ai`;
       config.orgs = {
         [baseUrl]: {
           apiKey: config.apiKey,

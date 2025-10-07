@@ -5,7 +5,7 @@ import createDebug from 'debug';
 import { getOrganization, getDefaultOrganization, setOrganizationConfig } from '../src/config.js';
 import * as openidClient from 'openid-client';
 import { Config } from './api/client/types.gen.js';
-const debug = createDebug('mcpboss');
+const debug = createDebug('gatana');
 
 export interface McpBossOptions {
   apiKey: string;
@@ -43,7 +43,7 @@ export class OptionsConfigStrategy extends ConfigStrategy {
     }
     if (this.options.apiKey && (this.options.orgId || this.options.baseUrl)) {
       const key = this.options.apiKey;
-      const baseUrl = this.options.baseUrl || `https://${this.options.orgId}.mcp-boss.com`;
+      const baseUrl = this.options.baseUrl || `https://${this.options.orgId}.gatana.ai`;
       return {
         baseUrl,
         token: async () => key,
@@ -60,7 +60,7 @@ export class EnvConfigStrategy extends ConfigStrategy {
     const overrideBaseUrl = process.env.MCPBOSS_BASE_URL;
     if (apiKey && (orgId || overrideBaseUrl)) {
       return {
-        baseUrl: overrideBaseUrl || `https://${orgId}.mcp-boss.com`,
+        baseUrl: overrideBaseUrl || `https://${orgId}.gatana.ai`,
         token: async () => apiKey,
       };
     }
@@ -241,7 +241,7 @@ export class McpBoss {
             llmApiId: model.llmApiId,
             apiKeyId: options?.llmApiKeyId ?? null,
             name: `Auto-created agent for model ${model.name}`,
-            description: 'An agent created automatically by the mcpboss-js SDK',
+            description: 'An agent created automatically by the gatana-js SDK',
             modelConfiguration: {},
             systemMessage:
               'You are an assistant. Please make sure you use any tools available to you to to answer questions. Think step by step. Be consise and accurate.',

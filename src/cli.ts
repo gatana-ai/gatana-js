@@ -25,8 +25,8 @@ const configLoader = new ConfigLoader([new EnvConfigStrategy(), new FileConfigSt
 const mcpBoss = new McpBoss({ configLoader });
 
 program
-  .name('mcpboss')
-  .description('CLI tool for MCP Boss - AI agent management and querying')
+  .name('gatana')
+  .description('CLI tool for Gatana - AI agent management and querying')
   .version(packageJson.version)
   .option('-f, --format <format>', 'Output format (json, yaml, table)', 'table')
   .option('--non-interactive', 'Non-interactive mode (errors to stderr, no prompts)')

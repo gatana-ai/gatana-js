@@ -1,14 +1,14 @@
 {
-  "name": "mcpboss",
+  "name": "gatana",
   "version": "1.2.1",
-  "description": "Javascript/Typescript SDK for MCP Boss",
-  "homepage": "https://github.com/mcpboss/mcpboss-js#readme",
+  "description": "Javascript/Typescript SDK for Gatana",
+  "homepage": "https://github.com/gatana/gatana-js#readme",
   "bugs": {
-    "url": "https://github.com/mcpboss/mcpboss-js/issues"
+    "url": "https://github.com/gatana/gatana-js/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mcpboss/mcpboss-js.git"
+    "url": "git+https://github.com/gatana/gatana-js.git"
   },
   "license": "MIT",
   "author": "",
@@ -17,7 +17,7 @@
     "dist"
   ],
   "bin": {
-    "mcpboss": "./dist/bin/mcpboss.js"
+    "gatana": "./dist/bin/gatana.js"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",

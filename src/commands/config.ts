@@ -33,7 +33,7 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
 
   configCommand.addCommand(
     new Command('login')
-      .description(`Login using OIDC authentication flow. Example: mcpboss login my-organization`)
+      .description(`Login using OIDC authentication flow. Example: gatana login my-organization`)
       .argument('<org-id>', 'Organization ID (e.g., org123)')
       .option(
         '-b, --base-url <base-url>',
@@ -41,10 +41,10 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
       )
       .action(async (orgId: string, options: { baseUrl?: string }) => {
         try {
-          const baseUrl = options.baseUrl || `https://${orgId}.mcp-boss.com`;
+          const baseUrl = options.baseUrl || `https://${orgId}.gatana.ai`;
           const config = await openidClient.discovery(new URL(baseUrl), `${orgId}-cli`);
 
-          const scope = 'openid profile email offline_access mcpboss.selfservice';
+          const scope = 'openid profile email offline_access gatana.selfservice';
           const response = await openidClient.initiateDeviceAuthorization(config, { scope });
 
           console.log(
@@ -72,7 +72,7 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
           } else {
             console.log(`Current default organization: ${getDefaultOrganization()}`);
             console.log(
-              `Do you want to set ${baseUrl} as the default organization? Use "mcpboss config org set-default ${baseUrl}" to do so.`
+              `Do you want to set ${baseUrl} as the default organization? Use "gatana config org set-default ${baseUrl}" to do so.`
             );
           }
         } catch (error) {
@@ -121,7 +121,7 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
       .option('--default', 'Set this organization as the default')
       .action(async ({ apiKey, orgId, default: isDefault }: { apiKey: string; orgId: string; default?: boolean }) => {
         try {
-          const baseUrl = `https://${orgId}.mcp-boss.com`;
+          const baseUrl = `https://${orgId}.gatana.ai`;
 
           setOrganizationConfig(orgId, {
             baseUrl,

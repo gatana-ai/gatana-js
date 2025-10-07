@@ -26,11 +26,11 @@ export function createUpdateCommand(mcpBoss: McpBoss): Command {
       'after',
       `
 Examples:
-  $ mcpboss hosted update func123 --name "My Updated Function"
-  $ mcpboss hosted update func123 --description "A better description"
-  $ mcpboss hosted update func123 --env API_KEY=secret123
-  $ mcpboss hosted update func123 --env DB_URL=postgres://localhost --env DEBUG=true
-  $ mcpboss hosted update func123 --name "New Name" --description "New desc" --env PORT=3000`
+  $ gatana hosted update func123 --name "My Updated Function"
+  $ gatana hosted update func123 --description "A better description"
+  $ gatana hosted update func123 --env API_KEY=secret123
+  $ gatana hosted update func123 --env DB_URL=postgres://localhost --env DEBUG=true
+  $ gatana hosted update func123 --name "New Name" --description "New desc" --env PORT=3000`
     )
     .action(
       async (

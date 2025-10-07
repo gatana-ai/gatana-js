@@ -35,8 +35,8 @@ export function createCreateCommand(mcpBoss: McpBoss): Command {
           nextSteps: [
             'Prepare your function code with an index.js file',
             'Make sure your index.js exports a schema (export const schema or module.exports.schema)',
-            `Deploy your function: mcpboss hosted deploy --id ${functionInfo.id} [path]`,
-            'Or list all functions: mcpboss hosted ls',
+            `Deploy your function: gatana hosted deploy --id ${functionInfo.id} [path]`,
+            'Or list all functions: gatana hosted ls',
           ],
         });
       } catch (error) {

@@ -15,7 +15,7 @@ interface QueryOptions {
 
 export function createQueryCommand(mcpBoss: McpBoss): Command {
   return new Command('query')
-    .description('Send a query to an MCP Boss agent')
+    .description('Send a query to an Gatana agent')
     .argument('<prompt>', 'The prompt to send to the agent')
     .option('-a, --agent-id <id>', 'Specific agent ID to use')
     .option('-m, --model-id <id>', 'Model ID to use')
@@ -39,7 +39,7 @@ export function createQueryCommand(mcpBoss: McpBoss): Command {
         if (options.noAutoCreate) queryOptions.dontAutoCreateAgent = true;
         if (options.timeout) queryOptions.timeoutInMilliseconds = options.timeout;
 
-        outputProgress('Sending query to MCP Boss...');
+        outputProgress('Sending query to Gatana...');
         const result = await mcpBoss.query(prompt, queryOptions);
 
         if (result.type === 'error') {
