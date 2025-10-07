@@ -2,13 +2,13 @@
   "name": "gatana",
   "version": "2.0.1",
   "description": "Javascript/Typescript SDK for Gatana",
-  "homepage": "https://github.com/gatana/gatana-js#readme",
+  "homepage": "https://github.com/gatana-ai/gatana-js#readme",
   "bugs": {
-    "url": "https://github.com/gatana/gatana-js/issues"
+    "url": "https://github.com/gatana-ai/gatana-js/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatana/gatana-js.git"
+    "url": "git+https://github.com/gatana-ai/gatana-js.git"
   },
   "license": "MIT",
   "author": "",
