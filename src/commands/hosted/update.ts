@@ -1,10 +1,10 @@
 import { Command } from 'commander';
-import { McpBoss } from '../../../lib/index.js';
+import { Gatana } from '../../../lib/index.js';
 import { getHostedFunction, getErrorMessage } from '../../hosted.js';
 import { output, outputError, outputProgress } from '../../output.js';
 import { UpdateHostedToolFunctionRequest } from '../../../lib/api/types.gen.js';
 
-export function createUpdateCommand(mcpBoss: McpBoss): Command {
+export function createUpdateCommand(gatana: Gatana): Command {
   return new Command('update')
     .description('Update hosted tool metadata (name, description, environment variables)')
     .argument('<functionId>', 'Hosted function ID to update')
@@ -46,7 +46,7 @@ Examples:
           // Verify the function exists and get current details
           let currentFunction;
           try {
-            currentFunction = await getHostedFunction(mcpBoss, functionId);
+            currentFunction = await getHostedFunction(gatana, functionId);
           } catch (error) {
             outputError(`Hosted function with ID ${functionId} not found`);
             process.exit(1);
@@ -87,7 +87,7 @@ Examples:
             updateData.env = Array.from(envMap.entries());
           }
 
-          const { error } = await mcpBoss.api.putHostedFunctionsByFunctionId({
+          const { error } = await gatana.api.putHostedFunctionsByFunctionId({
             path: { functionId },
             body: updateData,
           });
@@ -98,7 +98,7 @@ Examples:
           }
 
           // Get updated function details
-          const updatedFunction = await getHostedFunction(mcpBoss, functionId);
+          const updatedFunction = await getHostedFunction(gatana, functionId);
 
           output(updatedFunction);
         } catch (error) {

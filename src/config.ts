@@ -13,7 +13,7 @@ export interface OrganizationConfig {
   };
 }
 
-export interface McpBossConfig {
+export interface GatanaConfig {
   orgs?: Record<string, OrganizationConfig>;
   defaultOrgId?: string;
 }
@@ -24,7 +24,7 @@ export function getConfigFilePath(): string {
   return CONFIG_FILE_PATH;
 }
 
-export function readConfig(): McpBossConfig {
+export function readConfig(): GatanaConfig {
   try {
     if (!existsSync(CONFIG_FILE_PATH)) {
       return {};
@@ -51,7 +51,7 @@ export function readConfig(): McpBossConfig {
   }
 }
 
-export function writeConfig(config: McpBossConfig): void {
+export function writeConfig(config: GatanaConfig): void {
   try {
     // Ensure the directory exists (though homedir should always exist)
     const configDir = homedir();
@@ -65,7 +65,7 @@ export function writeConfig(config: McpBossConfig): void {
   }
 }
 
-export function updateConfig(updates: Partial<McpBossConfig>): void {
+export function updateConfig(updates: Partial<GatanaConfig>): void {
   const currentConfig = readConfig();
   const newConfig = { ...currentConfig, ...updates };
   writeConfig(newConfig);

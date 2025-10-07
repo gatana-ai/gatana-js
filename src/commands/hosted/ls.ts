@@ -1,12 +1,12 @@
 import { Command } from 'commander';
-import { McpBoss } from '../../../lib/index.js';
+import { Gatana } from '../../../lib/index.js';
 import { listHostedFunctions } from '../../hosted.js';
 import { output, outputError, TableColumn } from '../../output.js';
 
-export function createLsCommand(mcpBoss: McpBoss): Command {
+export function createLsCommand(gatana: Gatana): Command {
   return new Command('ls').description('List hosted tools').action(async () => {
     try {
-      const functions = await listHostedFunctions(mcpBoss);
+      const functions = await listHostedFunctions(gatana);
 
       // Define table columns for hosted tools
       const functionsTableColumns: TableColumn[] = [

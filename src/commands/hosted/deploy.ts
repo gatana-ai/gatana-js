@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { ConfigLoader, McpBoss } from '../../../lib/index.js';
+import { ConfigLoader, Gatana } from '../../../lib/index.js';
 import {
   promptForNewFunction,
   checkIndexJsExists,
@@ -15,7 +15,7 @@ import {
 import { output, outputError, outputInfo, outputProgress } from '../../output.js';
 import { getDeploymentsStatus } from '../../../lib/api/sdk.gen.js';
 
-export function createDeployCommand(mcpBoss: McpBoss): Command {
+export function createDeployCommand(gatana: Gatana): Command {
   return new Command('deploy')
     .description('Deploy hosted tool (new or existing)')
     .argument('[path]', 'Root directory path for deployment (default: current directory)', process.cwd())
@@ -39,7 +39,7 @@ export function createDeployCommand(mcpBoss: McpBoss): Command {
           }
 
           outputInfo(`Creating new hosted tool: ${name}`);
-          const functionInfo = await createHostedFunction(mcpBoss, name!);
+          const functionInfo = await createHostedFunction(gatana, name!);
           functionId = functionInfo.id;
           outputInfo(`Created hosted tool with ID: ${functionId}`);
         }
@@ -68,12 +68,12 @@ export function createDeployCommand(mcpBoss: McpBoss): Command {
 
         // Step 4: Upload ZIP
         outputInfo('Deploying...');
-        await uploadZipToFunction(mcpBoss, functionId, zipPath);
-        await startHostedFunction(mcpBoss, functionId);
+        await uploadZipToFunction(gatana, functionId, zipPath);
+        await startHostedFunction(gatana, functionId);
 
         // Step 5: Show deployment progress (if not disabled)
         if (options.progress) {
-          const result = await showDeploymentProgress(mcpBoss, functionId, false);
+          const result = await showDeploymentProgress(gatana, functionId, false);
           output({
             deployed: result.deployed,
             stabilized: result.stabilized,
@@ -91,7 +91,7 @@ export function createDeployCommand(mcpBoss: McpBoss): Command {
               }
 
               if (podName) {
-                const crashLogs = await fetchCrashLogs(mcpBoss, podName);
+                const crashLogs = await fetchCrashLogs(gatana, podName);
                 if (crashLogs) {
                   output(crashLogs.stdout);
                 }
@@ -107,7 +107,7 @@ export function createDeployCommand(mcpBoss: McpBoss): Command {
           }
 
           // If stabilized, call endpoint to get tools for final validation
-          const tools = await mcpBoss.api.getHostedFunctionsByFunctionIdTools({ path: { functionId } });
+          const tools = await gatana.api.getHostedFunctionsByFunctionIdTools({ path: { functionId } });
           if (tools.error) {
             outputError(`Failed to validate deployed function tools: ${getErrorMessage(tools.error)}`);
             process.exit(1);

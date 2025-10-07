@@ -7,17 +7,17 @@ import * as openidClient from 'openid-client';
 import { Config } from './api/client/types.gen.js';
 const debug = createDebug('gatana');
 
-export interface McpBossOptions {
+export interface GatanaOptions {
   apiKey: string;
   orgId?: string;
   baseUrl?: string;
 }
 
-export type McpBossConfig = { baseUrl: string; token: () => Promise<string> };
+export type GatanaConfig = { baseUrl: string; token: () => Promise<string> };
 export class ConfigLoader {
   constructor(private strategies: ConfigStrategy[]) {}
 
-  getConfig(): McpBossConfig {
+  getConfig(): GatanaConfig {
     for (const strategy of this.strategies) {
       const config = strategy.getConfig();
       if (config) {
@@ -33,7 +33,7 @@ export abstract class ConfigStrategy {
 }
 
 export class OptionsConfigStrategy extends ConfigStrategy {
-  constructor(private options?: McpBossOptions) {
+  constructor(private options?: GatanaOptions) {
     super();
   }
 
@@ -55,9 +55,9 @@ export class OptionsConfigStrategy extends ConfigStrategy {
 
 export class EnvConfigStrategy extends ConfigStrategy {
   getConfig() {
-    const apiKey = process.env.MCPBOSS_API_KEY;
-    const orgId = process.env.MCPBOSS_ORG_ID;
-    const overrideBaseUrl = process.env.MCPBOSS_BASE_URL;
+    const apiKey = process.env.GATANA_API_KEY;
+    const orgId = process.env.GATANA_ORG_ID;
+    const overrideBaseUrl = process.env.GATANA_BASE_URL;
     if (apiKey && (orgId || overrideBaseUrl)) {
       return {
         baseUrl: overrideBaseUrl || `https://${orgId}.gatana.ai`,
@@ -74,7 +74,7 @@ export class FileConfigStrategy extends ConfigStrategy {
   }
 
   getConfig() {
-    let orgId = this.orgId || process.env.MCPBOSS_ORG_ID || getDefaultOrganization();
+    let orgId = this.orgId || process.env.GATANA_ORG_ID || getDefaultOrganization();
     if (!orgId) {
       return null;
     }
@@ -116,10 +116,10 @@ export class FileConfigStrategy extends ConfigStrategy {
   }
 }
 
-export class McpBoss {
+export class Gatana {
   public api = sdk;
-  public readonly config: McpBossConfig;
-  constructor(arg?: { options?: McpBossOptions; configLoader?: ConfigLoader }) {
+  public readonly config: GatanaConfig;
+  constructor(arg?: { options?: GatanaOptions; configLoader?: ConfigLoader }) {
     // Try to get config from file if not provided via options or env vars
     const configLoader =
       arg?.configLoader ||
@@ -132,7 +132,7 @@ export class McpBoss {
       auth: this.config.token,
     } satisfies Config;
     client.setConfig(clientConfig);
-    debug('McpBoss initialized with config', clientConfig);
+    debug('Gatana initialized with config', clientConfig);
   }
 
   async query(

@@ -28,8 +28,8 @@ npm install gatana
 ## Quick Start SDK
 
 ```typescript
-import { McpBoss } from 'gatana';
-const client = new McpBoss();
+import { Gatana } from 'gatana';
+const client = new Gatana();
 
 // Agents
 await client.query('Current weather?');
@@ -62,9 +62,9 @@ gatana hosted deploy pgk
 This is the default configuration lookup strategy:
 
 1. Passed options (only SDK)
-2. Environment variables `MCPBOSS_ORG_ID` and `MCPBOSS_API_KEY`
+2. Environment variables `GATANA_ORG_ID` and `GATANA_API_KEY`
 3. Configurations from `~/.gatana.config` in the following order
-   1. `MCPBOSS_ORG_ID`
+   1. `GATANA_ORG_ID`
    2. The default organization
 
 ## SDK
@@ -72,7 +72,7 @@ This is the default configuration lookup strategy:
 Authentication can be controlled in the constructor by providing a custom `ConfigLoader`:
 
 ```typescript
-const client = new McpBoss({ configLoader: ConfigLoader });
+const client = new Gatana({ configLoader: ConfigLoader });
 ```
 
 The configLoader must follow this shape:

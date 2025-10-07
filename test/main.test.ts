@@ -1,10 +1,10 @@
 import { describe, before, it, beforeEach } from 'node:test';
 import { randomUUID } from 'crypto';
-import { McpBoss } from '../lib/index.js';
+import { Gatana } from '../lib/index.js';
 
 [undefined, 'some-org'].forEach(providedOrgId => {
-  describe('McpBoss SDK', () => {
-    const sdk = new McpBoss();
+  describe('Gatana SDK', () => {
+    const sdk = new Gatana();
 
     it('should create a run with agentId', async () => {
       // Arrange

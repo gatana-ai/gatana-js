@@ -1,12 +1,12 @@
 import { Command } from 'commander';
-import { ConfigLoader, McpBoss } from '../../lib/index.js';
+import { ConfigLoader, Gatana } from '../../lib/index.js';
 import { output, outputError, TableColumn } from '../output.js';
 
-export function createAgentsCommand(mcpBoss: McpBoss): Command {
+export function createAgentsCommand(gatana: Gatana): Command {
   return new Command('agents').addCommand(
     new Command('ls').description('List available agents').action(async () => {
       try {
-        const { data, error } = await mcpBoss.api.getAgents();
+        const { data, error } = await gatana.api.getAgents();
 
         if (error) {
           outputError(error);

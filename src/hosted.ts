@@ -5,7 +5,7 @@ import archiver from 'archiver';
 import { createWriteStream } from 'fs';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
-import { McpBoss, McpBossConfig } from '../lib/index.js';
+import { Gatana, GatanaConfig } from '../lib/index.js';
 import { HostedToolFunction, DeploymentLogPayload } from '../lib/api/types.gen.js';
 import { EventSource } from 'eventsource';
 import { formDataBodySerializer } from '../lib/api/core/bodySerializer.gen.js';
@@ -141,11 +141,11 @@ export async function createZipFromDirectory(sourceDir: string = process.cwd()):
 }
 
 export async function createHostedFunction(
-  mcpBoss: McpBoss,
+  gatana: Gatana,
   name: string,
   description?: string
 ): Promise<HostedFunctionInfo> {
-  const { data, error } = await mcpBoss.api.postHostedFunctions({
+  const { data, error } = await gatana.api.postHostedFunctions({
     body: {
       name,
       description: description || `Hosted function ${name}`,
@@ -167,7 +167,7 @@ export async function createHostedFunction(
   };
 }
 
-export async function uploadZipToFunction(mcpBoss: McpBoss, functionId: string, zipPath: string): Promise<void> {
+export async function uploadZipToFunction(gatana: Gatana, functionId: string, zipPath: string): Promise<void> {
   // Read the zip file as a buffer
   const fs = await import('fs/promises');
   const fileBuffer = await fs.readFile(zipPath);
@@ -176,10 +176,10 @@ export async function uploadZipToFunction(mcpBoss: McpBoss, functionId: string, 
   const formData = new FormData();
   formData.append('file', new Blob([new Uint8Array(fileBuffer)]), 'function.zip');
 
-  const uploadResponse = await fetch(`${mcpBoss.config.baseUrl}/hosted-functions/${functionId}/upload`, {
+  const uploadResponse = await fetch(`${gatana.config.baseUrl}/hosted-functions/${functionId}/upload`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${await mcpBoss.config.token()}`,
+      Authorization: `Bearer ${await gatana.config.token()}`,
     },
     body: formData,
   });
@@ -189,8 +189,8 @@ export async function uploadZipToFunction(mcpBoss: McpBoss, functionId: string, 
   }
 }
 
-export async function startHostedFunction(mcpBoss: McpBoss, functionId: string): Promise<void> {
-  const { error } = await mcpBoss.api.postHostedFunctionsByFunctionIdStart({
+export async function startHostedFunction(gatana: Gatana, functionId: string): Promise<void> {
+  const { error } = await gatana.api.postHostedFunctionsByFunctionIdStart({
     path: { functionId },
   });
 
@@ -200,7 +200,7 @@ export async function startHostedFunction(mcpBoss: McpBoss, functionId: string):
 }
 
 export async function fetchCrashLogs(
-  mcpBoss: McpBoss,
+  gatana: Gatana,
   podName: string
 ): Promise<{ stdout: string; stderr: string } | null> {
   const maxRetries = 50; // 50 retries * 100ms = 5 seconds max
@@ -209,7 +209,7 @@ export async function fetchCrashLogs(
   const attemptFetch = async (): Promise<{ stdout: string; stderr: string } | null> => {
     try {
       await new Promise(resolve => setTimeout(resolve, 200));
-      const { data, error } = await mcpBoss.api.getDeploymentsLogs({
+      const { data, error } = await gatana.api.getDeploymentsLogs({
         query: { podName, previous: 'true' },
       });
 
@@ -269,7 +269,7 @@ interface DeploymentState {
 }
 
 export async function showDeploymentProgress(
-  mcpBoss: McpBoss,
+  gatana: Gatana,
   functionId: string,
   follow: boolean
 ): Promise<{
@@ -287,7 +287,7 @@ export async function showDeploymentProgress(
     };
 
     // Create EventSource URL with query parameter
-    const eventSourceUrl = `${mcpBoss.config.baseUrl}/deployments/deployment-logs?hostedFunctionId=${functionId}`;
+    const eventSourceUrl = `${gatana.config.baseUrl}/deployments/deployment-logs?hostedFunctionId=${functionId}`;
 
     outputInfo('Deployment progress...');
 
@@ -297,7 +297,7 @@ export async function showDeploymentProgress(
           ...init,
           headers: {
             ...init.headers,
-            Authorization: `Bearer ${await mcpBoss.config.token()}`,
+            Authorization: `Bearer ${await gatana.config.token()}`,
           },
         }),
     });
@@ -598,8 +598,8 @@ export async function showDeploymentProgress(
   });
 }
 
-export async function listHostedFunctions(mcpBoss: McpBoss): Promise<HostedToolFunction[]> {
-  const { data, error } = await mcpBoss.api.getHostedFunctions();
+export async function listHostedFunctions(gatana: Gatana): Promise<HostedToolFunction[]> {
+  const { data, error } = await gatana.api.getHostedFunctions();
 
   if (error) {
     throw new Error(`Failed to list hosted tools: ${getErrorMessage(error)}`);
@@ -608,8 +608,8 @@ export async function listHostedFunctions(mcpBoss: McpBoss): Promise<HostedToolF
   return data?.functions || [];
 }
 
-export async function getHostedFunction(mcpBoss: McpBoss, functionId: string): Promise<HostedToolFunction> {
-  const { data, error } = await mcpBoss.api.getHostedFunctionsByFunctionId({
+export async function getHostedFunction(gatana: Gatana, functionId: string): Promise<HostedToolFunction> {
+  const { data, error } = await gatana.api.getHostedFunctionsByFunctionId({
     path: { functionId },
   });
 

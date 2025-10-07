@@ -12,7 +12,7 @@ import {
 import * as openidClient from 'openid-client';
 import open from 'open';
 import { output } from '../output.js';
-import { ConfigLoader, McpBoss } from '../../lib/index.js';
+import { ConfigLoader, Gatana } from '../../lib/index.js';
 
 export function createConfigCommand(configLoader: ConfigLoader): Command {
   const configCommand = new Command('config').description('Show configuration requirements and current status');

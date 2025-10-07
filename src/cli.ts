@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { setOutputOptions, OutputFormat } from './output.js';
 import { createQueryCommand, createAgentsCommand, createHostedCommand, createConfigCommand } from './commands/index.js';
-import { ConfigLoader, EnvConfigStrategy, FileConfigStrategy, McpBoss } from '../lib/index.js';
+import { ConfigLoader, EnvConfigStrategy, FileConfigStrategy, Gatana } from '../lib/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,7 +22,7 @@ interface GlobalOptions {
 }
 
 const configLoader = new ConfigLoader([new EnvConfigStrategy(), new FileConfigStrategy()]);
-const mcpBoss = new McpBoss({ configLoader });
+const gatana = new Gatana({ configLoader });
 
 program
   .name('gatana')
@@ -52,9 +52,9 @@ program
   });
 
 // Register all commands
-program.addCommand(createQueryCommand(mcpBoss));
-program.addCommand(createAgentsCommand(mcpBoss));
-program.addCommand(createHostedCommand(mcpBoss));
+program.addCommand(createQueryCommand(gatana));
+program.addCommand(createAgentsCommand(gatana));
+program.addCommand(createHostedCommand(gatana));
 program.addCommand(createConfigCommand(configLoader));
 
 program.parse();

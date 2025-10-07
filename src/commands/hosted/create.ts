@@ -1,9 +1,9 @@
 import { Command } from 'commander';
-import { McpBoss } from '../../../lib/index.js';
+import { Gatana } from '../../../lib/index.js';
 import { createHostedFunction } from '../../hosted.js';
 import { outputError, outputSuccess } from '../../output.js';
 
-export function createCreateCommand(mcpBoss: McpBoss): Command {
+export function createCreateCommand(gatana: Gatana): Command {
   return new Command('create')
     .description('Create a new hosted tool (without deploying)')
     .option('-n, --name <name>', 'Function name')
@@ -27,7 +27,7 @@ export function createCreateCommand(mcpBoss: McpBoss): Command {
           });
         }
 
-        const functionInfo = await createHostedFunction(mcpBoss, functionName, options.description);
+        const functionInfo = await createHostedFunction(gatana, functionName, options.description);
 
         outputSuccess('Hosted function created successfully!', {
           functionId: functionInfo.id,

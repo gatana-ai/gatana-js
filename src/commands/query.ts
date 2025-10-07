@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { McpBoss } from '../../lib/index.js';
+import { Gatana } from '../../lib/index.js';
 import { output, outputError, outputProgress } from '../output.js';
 
 interface QueryOptions {
@@ -13,7 +13,7 @@ interface QueryOptions {
   timeout?: number;
 }
 
-export function createQueryCommand(mcpBoss: McpBoss): Command {
+export function createQueryCommand(gatana: Gatana): Command {
   return new Command('query')
     .description('Send a query to an Gatana agent')
     .argument('<prompt>', 'The prompt to send to the agent')
@@ -30,7 +30,7 @@ export function createQueryCommand(mcpBoss: McpBoss): Command {
     .option('--timeout <ms>', 'Timeout in milliseconds', parseInt)
     .action(async (prompt: string, options: QueryOptions) => {
       try {
-        const queryOptions: Parameters<typeof mcpBoss.query>[1] = {};
+        const queryOptions: Parameters<typeof gatana.query>[1] = {};
         if (options.agentId) queryOptions.agentId = options.agentId;
         if (options.modelId) queryOptions.modelId = options.modelId;
         if (options.apiKeyId) queryOptions.llmApiKeyId = options.apiKeyId;
@@ -40,7 +40,7 @@ export function createQueryCommand(mcpBoss: McpBoss): Command {
         if (options.timeout) queryOptions.timeoutInMilliseconds = options.timeout;
 
         outputProgress('Sending query to Gatana...');
-        const result = await mcpBoss.query(prompt, queryOptions);
+        const result = await gatana.query(prompt, queryOptions);
 
         if (result.type === 'error') {
           outputError(result.text);
