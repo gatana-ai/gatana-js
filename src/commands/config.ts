@@ -63,17 +63,16 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
             },
           });
 
-          console.log(result);
-          console.log('Login successful! Refresh token saved. You can now use the CLI commands.');
-          const allorganizations = listOrganizations();
-          if (allorganizations.length === 1) {
+          console.log('Login successful! You can now use the CLI commands.');
+
+          const currentDefault = getDefaultOrganization();
+
+          if (!currentDefault) {
             setDefaultOrganization(baseUrl);
-            console.log(`Set ${baseUrl} as the default organization since it's the only one configured.`);
-          } else {
+            console.log(`${orgId} is now the default organization since it's the only one configured.`);
+          } else if (orgId !== currentDefault) {
             console.log(`Current default organization: ${getDefaultOrganization()}`);
-            console.log(
-              `Do you want to set ${baseUrl} as the default organization? Use "gatana config org set-default ${baseUrl}" to do so.`
-            );
+            console.log(`Run "gatana config org set-default ${orgId}" to set this as default.`);
           }
         } catch (error) {
           let didPrintCause = false;

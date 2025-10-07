@@ -84,7 +84,7 @@ export function setOrganizationConfig(orgId: string, orgConfig: Partial<Organiza
     config.orgs = {};
   }
 
-  _.merge(config.orgs[orgId], orgConfig);
+  _.merge(config.orgs, { [orgId]: orgConfig });
 
   // Set as default if it's the first organization
   if (!config.defaultOrgId) {
@@ -116,7 +116,7 @@ export function setDefaultOrganization(orgId: string): void {
 
 export function getDefaultOrganization(): string | undefined {
   const config = readConfig();
-  return config.defaultOrgId;
+  return config?.defaultOrgId;
 }
 
 export function removeOrganization(orgId: string): void {

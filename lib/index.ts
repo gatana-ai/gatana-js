@@ -119,20 +119,30 @@ export class FileConfigStrategy extends ConfigStrategy {
 export class Gatana {
   public api = sdk;
   public readonly config: GatanaConfig;
-  constructor(arg?: { options?: GatanaOptions; configLoader?: ConfigLoader }) {
+  constructor(arg?: { options?: GatanaOptions; configLoader?: ConfigLoader; isCli?: boolean }) {
     // Try to get config from file if not provided via options or env vars
     const configLoader =
       arg?.configLoader ||
       new ConfigLoader([new OptionsConfigStrategy(arg?.options), new EnvConfigStrategy(), new FileConfigStrategy()]);
 
-    this.config = configLoader.getConfig();
+    try {
+      this.config = configLoader.getConfig();
 
-    const clientConfig = {
-      baseUrl: new URL('/api/v1/', this.config.baseUrl).toString(),
-      auth: this.config.token,
-    } satisfies Config;
-    client.setConfig(clientConfig);
-    debug('Gatana initialized with config', clientConfig);
+      const clientConfig = {
+        baseUrl: new URL('/api/v1/', this.config.baseUrl).toString(),
+        auth: this.config.token,
+      } satisfies Config;
+      client.setConfig(clientConfig);
+      debug('Gatana initialized with config', clientConfig);
+    } catch (error) {
+      debug('Failed to initialize', error);
+      if (arg?.isCli && error.message === 'No valid configuration found from any strategy') {
+        console.error('Warning: No valid configuration found. Run "gatana config login" to set up your credentials.');
+      } else {
+        console.error('Error initializing Gatana:', error.message);
+        process.exit(1);
+      }
+    }
   }
 
   async query(

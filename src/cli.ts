@@ -22,7 +22,7 @@ interface GlobalOptions {
 }
 
 const configLoader = new ConfigLoader([new EnvConfigStrategy(), new FileConfigStrategy()]);
-const gatana = new Gatana({ configLoader });
+const gatana = new Gatana({ configLoader, isCli: true });
 
 program
   .name('gatana')
