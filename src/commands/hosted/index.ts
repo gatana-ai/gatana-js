@@ -7,9 +7,9 @@ import { createGetCommand } from './get.js';
 import { createShowCommand } from './show.js';
 import { ConfigLoader, Gatana } from '../../../lib/index.js';
 
-export function createHostedCommand(gatana: Gatana): Command {
-  return new Command('hosted')
-    .description('Manage hosted tools')
+export function createServerCommand(gatana: Gatana): Command {
+  return new Command('server')
+    .description('Manage servers')
     .addCommand(createDeployCommand(gatana))
     .addCommand(createUpdateCommand(gatana))
     .addCommand(createLsCommand(gatana))

@@ -1,16 +1,16 @@
 import { Command } from 'commander';
 import { Gatana } from '../../../lib/index.js';
-import { getHostedFunction, getErrorMessage } from '../../hosted.js';
+import { getErrorMessage, getServer } from '../../hosted.js';
 import { output, outputError, outputProgress } from '../../output.js';
-import { UpdateHostedToolFunctionRequest } from '../../../lib/api/types.gen.js';
+import { UpdateMcpServerRequest } from '../../../lib/api/types.gen.js';
 
 export function createUpdateCommand(gatana: Gatana): Command {
   return new Command('update')
-    .description('Update hosted tool metadata (name, description, environment variables)')
-    .argument('<functionId>', 'Hosted function ID to update')
-    .option('-n, --name <name>', 'Update function name')
-    .option('-d, --description <description>', 'Update function description')
-    .option('-E, --is-enabled <isEnabled>', 'Update function enabled status (true or false)')
+    .description('Update swerver metadata (name, description, environment variables)')
+    .argument('<serverSlug>', 'Server to update')
+    .option('-n, --name <name>', 'Update name')
+    .option('-d, --description <description>', 'Update description')
+    .option('-E, --is-enabled <isEnabled>', 'Update enabled status (true or false)')
     .option(
       '-e, --env <key=value>',
       'Set environment variable (can be used multiple times)',
@@ -26,15 +26,15 @@ export function createUpdateCommand(gatana: Gatana): Command {
       'after',
       `
 Examples:
-  $ gatana hosted update func123 --name "My Updated Function"
-  $ gatana hosted update func123 --description "A better description"
-  $ gatana hosted update func123 --env API_KEY=secret123
-  $ gatana hosted update func123 --env DB_URL=postgres://localhost --env DEBUG=true
-  $ gatana hosted update func123 --name "New Name" --description "New desc" --env PORT=3000`
+  $ gatana hosted update my-server --name "My Updated Server"
+  $ gatana hosted update my-server --description "A better description"
+  $ gatana hosted update my-server --env API_KEY=secret123
+  $ gatana hosted update my-server --env DB_URL=postgres://localhost --env DEBUG=true
+  $ gatana hosted update my-server --name "New Name" --description "New desc" --env PORT=3000`
     )
     .action(
       async (
-        functionId: string,
+        serverSlug: string,
         options: {
           name?: string;
           description?: string;
@@ -44,11 +44,11 @@ Examples:
       ) => {
         try {
           // Verify the function exists and get current details
-          let currentFunction;
+          let currentServer;
           try {
-            currentFunction = await getHostedFunction(gatana, functionId);
+            currentServer = await getServer(gatana, serverSlug);
           } catch (error) {
-            outputError(`Hosted function with ID ${functionId} not found`);
+            outputError(`Hosted server ${serverSlug} not found`);
             process.exit(1);
           }
 
@@ -59,24 +59,19 @@ Examples:
           }
 
           // Prepare update payload
-          const updateData: UpdateHostedToolFunctionRequest = {};
-
-          if (options.name) {
-            updateData.name = options.name;
-          }
-
-          if (options.description) {
-            updateData.description = options.description;
-          }
-
-          if (options.enabled !== undefined) {
-            updateData.isEnabled = options.enabled.toLowerCase() === 'true';
-          }
+          const updateData: UpdateMcpServerRequest = {
+            ...(currentServer as UpdateMcpServerRequest),
+            name: currentServer.name ?? options.name,
+            description: currentServer.description ?? options.description,
+          };
 
           // Handle environment variables
-          if (options.env) {
+          if (
+            options.env &&
+            (updateData.transportConfig.type === 'stdio' || updateData.transportConfig.type === 'hosted')
+          ) {
             // Start with existing env vars if not clearing
-            const existingEnv = currentFunction.env || [];
+            const existingEnv = updateData.transportConfig.env || [];
             const envMap = new Map(existingEnv);
 
             // Add/update new env vars
@@ -84,21 +79,21 @@ Examples:
               envMap.set(key, value);
             });
 
-            updateData.env = Array.from(envMap.entries());
+            updateData.transportConfig.env = Array.from(envMap.entries());
           }
 
-          const { error } = await gatana.api.putHostedFunctionsByFunctionId({
-            path: { functionId },
+          const { error } = await gatana.api.putMcpServersByServerSlug({
+            path: { serverSlug },
             body: updateData,
           });
 
           if (error) {
-            outputError(`Failed to update hosted tool: ${getErrorMessage(error)}`);
+            outputError(`Failed to update server: ${getErrorMessage(error)}`);
             process.exit(1);
           }
 
           // Get updated function details
-          const updatedFunction = await getHostedFunction(gatana, functionId);
+          const updatedFunction = await getServer(gatana, serverSlug);
 
           output(updatedFunction);
         } catch (error) {

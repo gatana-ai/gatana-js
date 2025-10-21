@@ -5,14 +5,14 @@ import { output, outputError } from '../../output.js';
 
 export function createShowCommand(gatana: Gatana): Command {
   return new Command('show')
-    .description('Show hosted tool deployment')
-    .argument('<functionId>', 'Hosted function ID to retrieve')
-    .action(async (functionId: string) => {
-      const result = await showDeploymentProgress(gatana, functionId, false);
+    .description('Show server deployment and their tools')
+    .argument('<serverSlug>', 'Server ID to retrieve')
+    .action(async (serverSlug: string) => {
+      const result = await showDeploymentProgress(gatana, serverSlug, false);
       if (result.stabilized && result.podName) {
-        const tools = await gatana.api.getHostedFunctionsByFunctionIdTools({ path: { functionId } });
+        const tools = await gatana.api.getMcpServersByServerSlugTools({ path: { serverSlug } });
         if (tools.error) {
-          outputError(`Failed to validate deployed function tools: ${getErrorMessage(tools.error)}`);
+          outputError(`Failed to validate tools: ${getErrorMessage(tools.error)}`);
           process.exit(1);
         }
 

@@ -6,15 +6,15 @@ import { createWriteStream } from 'fs';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
 import { Gatana, GatanaConfig } from '../lib/index.js';
-import { HostedToolFunction, DeploymentLogPayload } from '../lib/api/types.gen.js';
+import { DeploymentLogPayload, TenantMcpServer } from '../lib/api/types.gen.js';
 import { EventSource } from 'eventsource';
 import { formDataBodySerializer } from '../lib/api/core/bodySerializer.gen.js';
 import { output, outputError, outputInfo } from './output.js';
 import { OrganizationConfig } from './config.js';
 
-export interface HostedFunctionInfo {
-  id: string;
+export interface HostedServerInfo {
   name: string;
+  slug: string;
 }
 
 export interface HostedFunctionListItem {
@@ -51,7 +51,7 @@ export function getErrorMessage(error: unknown): string {
 
 export async function promptForNewFunction(): Promise<{ create: boolean; name?: string }> {
   const create = await confirm({
-    message: 'No hosted tool ID provided. Would you like to create a new hosted tool?',
+    message: 'No server ID provided. Would you like to create a new hosted server?',
     default: true,
   });
 
@@ -60,13 +60,13 @@ export async function promptForNewFunction(): Promise<{ create: boolean; name?: 
   }
 
   const name = await input({
-    message: 'Enter the name for the new hosted tool:',
+    message: 'Enter the name for the new server:',
     validate: input => {
       if (!input.trim()) {
-        return 'Function name is required';
+        return 'Server name is required';
       }
       if (input.length < 3) {
-        return 'Function name must be at least 3 characters long';
+        return 'Server name must be at least 3 characters long';
       }
       return true;
     },
@@ -140,34 +140,41 @@ export async function createZipFromDirectory(sourceDir: string = process.cwd()):
   });
 }
 
-export async function createHostedFunction(
+export async function createHostedServer(
   gatana: Gatana,
   name: string,
   description?: string
-): Promise<HostedFunctionInfo> {
-  const { data, error } = await gatana.api.postHostedFunctions({
+): Promise<HostedServerInfo> {
+  const { data, error } = await gatana.api.postMcpServers({
     body: {
       name,
-      description: description || `Hosted function ${name}`,
-      runtime: 'node24',
+      description,
+      authorization: { method: 'none' },
+      slug: name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+      transportType: 'hosted',
+      transportConfig: {
+        type: 'hosted',
+        runtime: 'node24',
+        env: [],
+      },
     },
   });
 
   if (error) {
-    throw new Error(`Failed to create hosted tool: ${getErrorMessage(error)}`);
+    throw new Error(`Failed to create hosted server: ${getErrorMessage(error)}`);
   }
 
-  if (!data?.function) {
-    throw new Error('Failed to create hosted tool: No function data returned');
+  if (!data?.server) {
+    throw new Error('Failed to create hosted server: No server data returned');
   }
 
   return {
-    id: data.function.id,
-    name: data.function.name,
+    name: data.server.name,
+    slug: data.server.slug,
   };
 }
 
-export async function uploadZipToFunction(gatana: Gatana, functionId: string, zipPath: string): Promise<void> {
+export async function uploadZipToFunction(gatana: Gatana, serverSlug: string, zipPath: string): Promise<void> {
   // Read the zip file as a buffer
   const fs = await import('fs/promises');
   const fileBuffer = await fs.readFile(zipPath);
@@ -176,7 +183,7 @@ export async function uploadZipToFunction(gatana: Gatana, functionId: string, zi
   const formData = new FormData();
   formData.append('file', new Blob([new Uint8Array(fileBuffer)]), 'function.zip');
 
-  const uploadResponse = await fetch(`${gatana.config.baseUrl}/hosted-functions/${functionId}/upload`, {
+  const uploadResponse = await fetch(`${gatana.config.baseUrl}/mcp-servers/${serverSlug}/source-code`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${await gatana.config.token()}`,
@@ -189,13 +196,13 @@ export async function uploadZipToFunction(gatana: Gatana, functionId: string, zi
   }
 }
 
-export async function startHostedFunction(gatana: Gatana, functionId: string): Promise<void> {
-  const { error } = await gatana.api.postHostedFunctionsByFunctionIdStart({
-    path: { functionId },
+export async function startServer(gatana: Gatana, serverSlug: string): Promise<void> {
+  const { error } = await gatana.api.postMcpServersByServerSlugStart({
+    path: { serverSlug },
   });
 
   if (error) {
-    throw new Error(`Failed to start hosted tool: ${getErrorMessage(error)}`);
+    throw new Error(`Failed to start server: ${getErrorMessage(error)}`);
   }
 }
 
@@ -598,30 +605,30 @@ export async function showDeploymentProgress(
   });
 }
 
-export async function listHostedFunctions(gatana: Gatana): Promise<HostedToolFunction[]> {
-  const { data, error } = await gatana.api.getHostedFunctions();
+export async function listServers(gatana: Gatana): Promise<HostedServerInfo[]> {
+  const { data, error } = await gatana.api.getMcpServers();
 
   if (error) {
-    throw new Error(`Failed to list hosted tools: ${getErrorMessage(error)}`);
+    throw new Error(`Failed to list servers: ${getErrorMessage(error)}`);
   }
 
-  return data?.functions || [];
+  return data?.servers || [];
 }
 
-export async function getHostedFunction(gatana: Gatana, functionId: string): Promise<HostedToolFunction> {
-  const { data, error } = await gatana.api.getHostedFunctionsByFunctionId({
-    path: { functionId },
+export async function getServer(gatana: Gatana, serverSlug: string): Promise<TenantMcpServer> {
+  const { data, error } = await gatana.api.getMcpServersByServerSlug({
+    path: { serverSlug },
   });
 
   if (error) {
-    throw new Error(`Failed to get hosted tool: ${getErrorMessage(error)}`);
+    throw new Error(`Failed to get server: ${getErrorMessage(error)}`);
   }
 
-  if (!data?.function) {
-    throw new Error(`Hosted function with ID ${functionId} not found`);
+  if (!data?.server) {
+    throw new Error(`Server with ID ${serverSlug} not found`);
   }
 
-  return data.function;
+  return data.server;
 }
 
 export async function cleanupZipFile(zipPath: string): Promise<void> {

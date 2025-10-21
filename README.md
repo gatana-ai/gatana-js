@@ -46,15 +46,15 @@ await client.api.getMcpServers();
 ```bash
 npm i -g gatana
 gatana config login # login
-gatana hosted ls # list hosted tools
+gatana server ls # list servers
 ```
 
-### Package & Upload Hosted Tool
+### Package & Upload Hosted Server
 
 ```bash
 mkdir pkg
 echo 'export const schema = {}' > pkg/index.js
-gatana hosted deploy pgk
+gatana server deploy pgk
 ```
 
 ## Configuration

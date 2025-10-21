@@ -4,9 +4,9 @@ import {
   promptForNewFunction,
   checkIndexJsExists,
   createZipFromDirectory,
-  createHostedFunction,
+  createHostedServer,
   uploadZipToFunction,
-  startHostedFunction,
+  startServer,
   showDeploymentProgress,
   cleanupZipFile,
   fetchCrashLogs,
@@ -16,32 +16,32 @@ import { output, outputError, outputInfo, outputProgress } from '../../output.js
 import { getDeploymentsStatus } from '../../../lib/api/sdk.gen.js';
 
 export function createDeployCommand(gatana: Gatana): Command {
-  return new Command('deploy')
-    .description('Deploy hosted tool (new or existing)')
+  return new Command('deploy-hosted-server')
+    .description('Deploy hosted server (new or existing)')
     .argument('[path]', 'Root directory path for deployment (default: current directory)', process.cwd())
-    .option('-i, --id <id>', 'Hosted function ID (if not provided, will create new)')
+    .option('-i, --id <id>', 'Server slug (if not provided, will create new)')
     .option('--no-progress', 'Skip deployment progress monitoring')
     .option('--no-logs', 'Skip fetching crash logs on deployment failure')
     .action(async (path: string, options: { id?: string; progress: boolean; logs: boolean }) => {
       let zipPath = '';
       try {
-        let functionId = options.id;
+        let serverSlug = options.id;
 
         // Use the positional argument for deployment path
         const deploymentPath = path;
 
         // Step 1: Handle function ID (create new if not provided)
-        if (!functionId) {
+        if (!serverSlug) {
           const { create, name } = await promptForNewFunction();
           if (!create) {
             outputInfo('Deployment cancelled.');
             process.exit(0);
           }
 
-          outputInfo(`Creating new hosted tool: ${name}`);
-          const functionInfo = await createHostedFunction(gatana, name!);
-          functionId = functionInfo.id;
-          outputInfo(`Created hosted tool with ID: ${functionId}`);
+          outputInfo(`Creating new hosted server: ${name}`);
+          const serverInfo = await createHostedServer(gatana, name!);
+          serverSlug = serverInfo.slug;
+          outputInfo(`Created hosted server with ID: ${serverSlug}`);
         }
 
         const indexCheck = checkIndexJsExists(deploymentPath);
@@ -68,12 +68,12 @@ export function createDeployCommand(gatana: Gatana): Command {
 
         // Step 4: Upload ZIP
         outputInfo('Deploying...');
-        await uploadZipToFunction(gatana, functionId, zipPath);
-        await startHostedFunction(gatana, functionId);
+        await uploadZipToFunction(gatana, serverSlug, zipPath);
+        await startServer(gatana, serverSlug);
 
         // Step 5: Show deployment progress (if not disabled)
         if (options.progress) {
-          const result = await showDeploymentProgress(gatana, functionId, false);
+          const result = await showDeploymentProgress(gatana, serverSlug, false);
           output({
             deployed: result.deployed,
             stabilized: result.stabilized,
@@ -85,7 +85,7 @@ export function createDeployCommand(gatana: Gatana): Command {
               let podName = result.podName;
               if (!podName) {
                 // Fallback: get podName from deployment status
-                const state = await getDeploymentsStatus({ query: { hostedFunctionId: functionId } });
+                const state = await getDeploymentsStatus({ query: { hostedFunctionId: serverSlug } });
                 const deployments = state.data?.deployments || [];
                 podName = deployments.length > 0 ? deployments[0].name : undefined;
               }
@@ -107,9 +107,9 @@ export function createDeployCommand(gatana: Gatana): Command {
           }
 
           // If stabilized, call endpoint to get tools for final validation
-          const tools = await gatana.api.getHostedFunctionsByFunctionIdTools({ path: { functionId } });
+          const tools = await gatana.api.getMcpServersByServerSlugTools({ path: { serverSlug } });
           if (tools.error) {
-            outputError(`Failed to validate deployed function tools: ${getErrorMessage(tools.error)}`);
+            outputError(`Failed to validate tools: ${getErrorMessage(tools.error)}`);
             process.exit(1);
           }
 

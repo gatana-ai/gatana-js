@@ -1,18 +1,18 @@
 import { Command } from 'commander';
 import { Gatana } from '../../../lib/index.js';
-import { getHostedFunction } from '../../hosted.js';
-import { output, outputProgress } from '../../output.js';
+import { output } from '../../output.js';
 import { getDeploymentsStatus } from '../../../lib/api/sdk.gen.js';
+import { getServer } from '../../hosted.js';
 
 export function createGetCommand(gatana: Gatana): Command {
   return new Command('get')
-    .description('Get hosted tool details and show deployment logs')
-    .argument('<functionId>', 'Hosted function ID to retrieve')
-    .action(async (functionId: string) => {
-      // Get the hosted tool details
-      const hostedFunction = await getHostedFunction(gatana, functionId);
-      const state = await getDeploymentsStatus({ query: { hostedFunctionId: functionId } });
+    .description('Get server details and show deployment logs')
+    .argument('<serverSlug>', 'ID to retrieve')
+    .action(async (serverSlug: string) => {
+      // Get the server details
+      const server = await getServer(gatana, serverSlug);
+      const state = await getDeploymentsStatus({ query: { serverSlug } });
 
-      output({ ...hostedFunction, ...state.data });
+      output({ ...server, ...state.data });
     });
 }
