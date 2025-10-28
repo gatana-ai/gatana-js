@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import { Gatana } from '../../../lib/index.js';
 import { getErrorMessage, getServer } from '../../hosted.js';
 import { output, outputError, outputProgress } from '../../output.js';
-import { UpdateMcpServerRequest } from '../../../lib/api/types.gen.js';
+import { UpdateServerRequest } from '../../../lib/api/types.gen.js';
 
 export function createUpdateCommand(gatana: Gatana): Command {
   return new Command('update')
@@ -59,8 +59,8 @@ Examples:
           }
 
           // Prepare update payload
-          const updateData: UpdateMcpServerRequest = {
-            ...(currentServer as UpdateMcpServerRequest),
+          const updateData: UpdateServerRequest = {
+            ...(currentServer as UpdateServerRequest),
             name: currentServer.name ?? options.name,
             description: currentServer.description ?? options.description,
           };

@@ -182,8 +182,8 @@ export async function uploadZipToFunction(gatana: Gatana, serverSlug: string, zi
   const formData = new FormData();
   formData.append('file', new Blob([new Uint8Array(fileBuffer)]), 'function.zip');
 
-  const uploadResponse = await fetch(`${gatana.config.baseUrl}/mcp-servers/${serverSlug}/source-code`, {
-    method: 'POST',
+  const uploadResponse = await fetch(`${gatana.config.baseUrl}/api/v1/mcp-servers/${serverSlug}/source-code`, {
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${await gatana.config.token()}`,
     },

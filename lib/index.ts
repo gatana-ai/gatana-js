@@ -134,10 +134,14 @@ export class Gatana {
       } satisfies Config;
       client.setConfig(clientConfig);
       debug('Gatana initialized with config', clientConfig);
-    } catch (error) {
+    } catch (error: any) {
       debug('Failed to initialize', error);
       if (arg?.isCli && error.message === 'No valid configuration found from any strategy') {
         console.error('Warning: No valid configuration found. Run "gatana config login" to set up your credentials.');
+        this.config = {
+          baseUrl: 'https://NO_ORGANIZATION_SET.gatana.ai',
+          token: async () => 'PLEASE_SET_UP_CONFIGURATION',
+        };
       } else {
         console.error('Error initializing Gatana:', error.message);
         process.exit(1);
