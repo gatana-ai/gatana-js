@@ -1,6 +1,6 @@
 {
   "name": "gatana",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Javascript/Typescript SDK for Gatana",
   "homepage": "https://github.com/gatana-ai/gatana-js#readme",
   "bugs": {
