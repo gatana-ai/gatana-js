@@ -6,7 +6,7 @@ import { createWriteStream } from 'fs';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
 import { Gatana, GatanaConfig } from '../lib/index.js';
-import { DeploymentLogPayload, TenantMcpServer } from '../lib/api/types.gen.js';
+import { DeploymentLogPayload, ServerDto } from '../lib/api/types.gen.js';
 import { EventSource } from 'eventsource';
 import { formDataBodySerializer } from '../lib/api/core/bodySerializer.gen.js';
 import { output, outputError, outputInfo } from './output.js';
@@ -148,10 +148,9 @@ export async function createHostedServer(
   const { data, error } = await gatana.api.postMcpServers({
     body: {
       name,
-      description,
-      authorization: { method: 'none' },
+      description: description || '',
+      authorization: { method: 'none', credentialsScope: 'server' },
       slug: name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-      transportType: 'hosted',
       transportConfig: {
         type: 'hosted',
         runtime: 'node24',
@@ -294,9 +293,9 @@ export async function showDeploymentProgress(
     };
 
     // Create EventSource URL with query parameter
-    const eventSourceUrl = `${gatana.config.baseUrl}/deployments/deployment-logs?hostedFunctionId=${functionId}`;
+    const eventSourceUrl = `${gatana.config.baseUrl}/api/v1/deployments/deployment-logs?serverSlug=${functionId}`;
 
-    outputInfo('Deployment progress...');
+    outputInfo('Deployment progress');
 
     const eventSource = new EventSource(eventSourceUrl, {
       fetch: async (input, init) =>
@@ -309,25 +308,9 @@ export async function showDeploymentProgress(
         }),
     });
 
-    const getStatusIcon = (status: ContainerStatus): string => {
-      switch (status) {
-        case 'pending':
-          return '⏳';
-        case 'running':
-          return '🔄';
-        case 'completed':
-        case 'ready':
-          return '✅';
-        case 'failed':
-          return '❌';
-        case 'crashBackOff':
-          return '🔄';
-      }
-    };
-
     const printCurrentState = () => {
       console.clear();
-      outputInfo('Deployment progress...');
+      outputInfo('Deployment progress @ ' + eventSourceUrl);
       let toLog: Record<string, any> = {};
       if (deploymentState.podInfo) {
         toLog.deploymentId = deploymentState.podInfo.pod;
@@ -577,10 +560,10 @@ export async function showDeploymentProgress(
     });
 
     eventSource.onerror = (error: any) => {
-      console.error('EventSource error:', error);
-      deploymentState.errors.push('Connection error occurred');
+      deploymentState.errors.push('Connection error occurred: ' + getErrorMessage(error));
       printCurrentState();
       eventSource.close();
+      console.error('EventSource error:', error);
       resolve({
         deployed: false,
         stabilized: false,
@@ -615,7 +598,7 @@ export async function listServers(gatana: Gatana): Promise<HostedServerInfo[]> {
   return data?.servers || [];
 }
 
-export async function getServer(gatana: Gatana, serverSlug: string): Promise<TenantMcpServer> {
+export async function getServer(gatana: Gatana, serverSlug: string): Promise<ServerDto> {
   const { data, error } = await gatana.api.getMcpServersByServerSlug({
     path: { serverSlug },
   });
