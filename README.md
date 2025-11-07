@@ -31,12 +31,6 @@ npm install gatana
 import { Gatana } from 'gatana';
 const client = new Gatana();
 
-// Agents
-await client.query('Current weather?');
-await client.query('Weather tomorrow?', {
-  limitTools: ['getWeather'],
-});
-
 // List MCP Servers
 await client.api.getMcpServers();
 ```
@@ -82,53 +76,6 @@ The configLoader must follow this shape:
   getConfig(): { baseUrl: string; token: () => Promise<string> } | null;
 }
 ```
-
-## Agent Usage
-
-### Basic Query
-
-```typescript
-const response = await client.query('Hello, how are you?');
-
-if (response.type === 'success') {
-  console.log(response.text);
-  console.log(response.fullOutput); // Complete API response
-} else {
-  console.error('Error:', response.text);
-}
-```
-
-### Advanced Query Options
-
-```typescript
-const response = await client.query('Search for recent news about AI', {
-  agentId: 'specific-agent-id', // Use a specific agent
-  modelId: 'gpt-4', // Use a specific model
-  llmApiKeyId: 'my-openai-key', // Use a specific API key
-  limitMcpServers: ['news-server'], // Limit to specific MCP servers
-  limitTools: ['brave_news_search'], // Limit to specific tools
-  dontAutoCreateAgent: false, // Prevent auto-creation of agents
-  timeoutInMilliseconds: 300e3, // Wait maximum 5 minutes for LLM generation
-});
-```
-
-### Agent Management
-
-The SDK automatically handles agent selection and creation with intelligent fallback logic:
-
-1. **Exact Match**: If `agentId` is provided, uses that specific agent
-2. **Model + API Key**: Finds agent matching both `modelId` and `llmApiKeyId`
-3. **Model Only**: Finds agent matching `modelId`
-4. **API Key Only**: Finds agent matching `llmApiKeyId`
-5. **Auto-Create**: Creates a new agent if none match (unless `dontAutoCreateAgent` is true)
-6. **Fallback**: Uses the first available agent if no criteria specified
-
-When auto-creating agents, the SDK will:
-
-- Prefer the specified `modelId` if available
-- Fall back to GPT-5 if available
-- Use the first available model as a last resort
-- Apply the specified `llmApiKeyId` or use the default
 
 ## Debugging
 
