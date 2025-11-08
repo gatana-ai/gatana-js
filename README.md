@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://gatana.ai">Homepage</a><span>&nbsp;•&nbsp;</span>
-  <a href="https://docs.gatana.ai/">API Spec</a>
+  <a href="https://docs.gatana.ai/">Documentation</a>
   <span>&nbsp;•&nbsp;</span>
   <a href="https://discord.gg/6TvjvmSP">Discord</a>
 </p>
