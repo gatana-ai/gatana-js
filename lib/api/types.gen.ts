@@ -9,14 +9,14 @@ export type UpdateUserMeRequest = {
 export type CreateUserRequest = {
     email: string;
     name: string;
-    role: 'member' | 'owner';
+    role: Schema1;
     isServiceAccount: boolean;
 };
 
 export type UpdateUserRequest = {
     email: string;
     name: string;
-    role: 'member' | 'owner';
+    role: Schema1;
     isDisabled: boolean;
 };
 
@@ -31,99 +31,50 @@ export type UpdatePersonalAccessTokenRequest = {
 };
 
 export type CreateServerRequest = {
-    name: string;
-    slug: string;
-    description?: string;
-    logoUrl?: string;
     /**
-     * The URL of the remote MCP server
+     * Transport type: httpstreaming, sse, stdio, or hosted
      */
-    url?: string;
-    authorization: ServerAuthorization;
-    transportConfig: HttpStreamingTransportConfig | HostedTransportConfig | StdioTransportConfig | SseTransportConfig;
-};
-
-export type ServerAuthorization = {
-    method: 'none' | 'oauth' | 'apikey';
-    credentialsScope: 'server' | 'user';
-    apikeys?: Array<string>;
-};
-
-export type HttpStreamingTransportConfig = {
-    type: 'httpstreaming';
-    url: string;
-    headers?: Array<[
-        string,
-        string
-    ]>;
-};
-
-export type HostedTransportConfig = {
-    type: 'hosted';
-    runtime: 'node24';
-    env?: Array<[
-        string,
-        string
-    ]>;
-};
-
-export type StdioTransportConfig = {
-    type: 'stdio';
-    command: string;
-    dockerImage?: string;
-    env?: Array<[
-        string,
-        string
-    ]>;
-    transport: 'sse' | 'httpstreaming' | 'stdio';
-    httpPort?: number | null;
-    urlPath?: string | null;
-};
-
-export type SseTransportConfig = {
-    type: 'sse';
-    url: string;
-    headers?: Array<[
-        string,
-        string
-    ]>;
+    transportType: 'hosted' | 'stdio' | 'httpstreaming' | 'sse';
+    /**
+     * Technical identifier.
+     */
+    slug: string;
 };
 
 export type UpdateServerRequest = {
-    name: string;
-    slug: string;
+    slug?: string;
     description?: string;
     logoUrl?: string;
     /**
      * The URL of the remote MCP server
      */
     url?: string;
-    authorization: ServerAuthorization;
-    transportConfig: HttpStreamingTransportConfig | HostedTransportConfig | StdioTransportConfig | SseTransportConfig | {
-        type: 'self';
-        id: string;
+    authorization?: ServerAuthorization;
+    transportConfig?: HttpStreamingTransportConfig | HostedTransportConfig | StdioTransportConfig | SseTransportConfig | {
+        type: Schema23;
+        id: Schema24;
     };
     oauthMetadata?: {
         requiresAuthorization?: boolean;
         resource?: {
-            id?: string;
-            availableScopes?: Array<string>;
-            metadataUrl?: string;
+            id?: Schema25;
+            availableScopes?: Schema26;
+            metadataUrl?: Schema27;
         } | null;
         as?: {
-            issuer?: string;
-            authorizeEndpoint?: string;
-            deviceAuthorizationEndpoint?: string;
-            tokenEndpoint?: string;
-            extraAuthorizationParameters?: string;
-            registrationEndpoint?: string;
-            supportsPKCE?: boolean;
-            supportedClientAuthMethods?: Array<string>;
-            supportsDynamicClientRegistration?: boolean;
-            noDynamicClientRegistrationReason?: string | null;
-            serviceDocumentation?: string;
-            metadataUrl?: string;
-            availableScopes?: Array<string>;
+            issuer?: Schema28;
+            authorizeEndpoint?: Schema29;
+            deviceAuthorizationEndpoint?: Schema30;
+            tokenEndpoint?: Schema31;
+            extraAuthorizationParameters?: Schema32;
+            registrationEndpoint?: Schema33;
+            supportsPKCE?: Schema34;
+            supportedClientAuthMethods?: Schema35;
+            supportsDynamicClientRegistration?: Schema36;
+            noDynamicClientRegistrationReason?: Schema37;
+            serviceDocumentation?: Schema38;
+            metadataUrl?: Schema39;
+            availableScopes?: Schema40;
         } | null;
     } | null;
     oauthClientConfiguration?: {
@@ -133,6 +84,81 @@ export type UpdateServerRequest = {
         clientAuthMethod?: 'client_secret_basic' | 'client_secret_post' | 'none' | string;
         scopes?: string;
     } | null;
+    timeoutProtocol?: number;
+    timeoutTotal?: number;
+    resetTimeoutOnProgressNotification?: boolean;
+};
+
+export type ServerAuthorization = {
+    method: Schema4;
+    credentialsScope: Schema5;
+    apikeys?: Schema6;
+};
+
+export type HttpStreamingTransportConfig = {
+    type: Schema7;
+    url: Schema8;
+    headers?: Schema9;
+};
+
+export type HostedTransportConfig = {
+    type: Schema10;
+    runtime: Schema11;
+    env?: Schema12;
+};
+
+export type StdioTransportConfig = {
+    type: Schema13;
+    command: Schema14;
+    dockerImage?: Schema15;
+    env?: Schema16;
+    transport: Schema17;
+    httpPort?: Schema18;
+    urlPath?: Schema19;
+};
+
+export type SseTransportConfig = {
+    type: Schema20;
+    url: Schema21;
+    headers?: Schema22;
+};
+
+export type ServerOAuthMetadata = {
+    requiresAuthorization: boolean;
+    resource?: {
+        id?: Schema25;
+        availableScopes?: Schema26;
+        metadataUrl?: Schema27;
+    };
+    as?: {
+        issuer?: Schema28;
+        authorizeEndpoint?: Schema29;
+        deviceAuthorizationEndpoint?: Schema30;
+        tokenEndpoint?: Schema31;
+        extraAuthorizationParameters?: Schema32;
+        registrationEndpoint?: Schema33;
+        supportsPKCE?: Schema34;
+        supportedClientAuthMethods?: Schema35;
+        supportsDynamicClientRegistration?: Schema36;
+        noDynamicClientRegistrationReason?: Schema37;
+        serviceDocumentation?: Schema38;
+        metadataUrl?: Schema39;
+        availableScopes?: Schema40;
+    };
+};
+
+export type DeviceAuthorizationJwtPayload = {
+    sub: string;
+    serverSlug: string;
+    tenantId: string;
+    credentialScope: Schema41;
+    credentialOwnerId?: number | null;
+    verification_uri: string;
+    verification_uri_complete?: string;
+    device_code: string;
+    user_code?: string;
+    expires_at?: number;
+    interval?: number;
 };
 
 export type ServerCredentialsOuth = {
@@ -152,6 +178,50 @@ export type ServerCredentialsApiKeys = {
         string
     ]>;
 };
+
+export type UpdateTenantRequest = {
+    displayName?: string;
+    upstreamOidcConfiguration?: {
+        isEnabled: boolean;
+        displayName: string;
+        issuer: string;
+        authorizeEndpoint: string;
+        tokenEndpoint: string;
+        userInfoEndpoint: string;
+        introspectionEndpoint: string;
+        extraParameters: string;
+        jwksUri: string;
+        clientId: string;
+        clientSecret: string;
+        clientAuthMethod: 'client_secret_basic' | 'client_secret_post';
+        scopes: string;
+    } | null;
+    upstreamSamlConfiguration?: {
+        isEnabled: boolean;
+        displayName: string;
+        idpMetadataUrl?: string;
+        idpMetadataDocument: string;
+        entryPoint: string;
+        cert: string;
+        identifierFormat: string;
+        signatureAlgorithm: string;
+        emailClaim: string;
+        firstNameClaim: string;
+        lastNameClaim: string;
+    } | null;
+    isUpstreamOidcTokensTrusted?: boolean;
+    isAutomaticSeatIncreaseEnabled?: boolean;
+    isMcpAuthorizationApiKeyEnabled?: boolean;
+    grantPermissionsNewToolPolicy?: boolean;
+    allowMemberAddRemoteServers?: boolean;
+    allowMemberAddLocalServers?: boolean;
+    allowMemberAddHostedServers?: boolean;
+    isGoogleRefreshTokenSavingEnabled?: boolean;
+    memberDefaultRole?: Schema48 | 'none';
+    mcpAuditLogLevel?: McpAuditLogVerbosity;
+};
+
+export type McpAuditLogVerbosity = 'off' | 'terse' | 'detailed' | 'detailed-with-error' | 'verbose';
 
 export type AwsSecretsManagerConfiguration = {
     type: 'aws_secrets_manager';
@@ -198,8 +268,157 @@ export type TestSecretRequest = {
     secretIdentifier: string;
 };
 
+export type ExecCommandBody = {
+    command: string;
+    workdir?: string | null;
+    timeout?: number | null;
+};
+
+export type SendVerificationCodeRequest = {
+    email: string;
+    purpose: 'signup' | 'playground-conversion';
+    turnstileToken?: string;
+};
+
+export type Schema0 = string;
+
+export type Schema1 = 'member' | 'owner';
+
+export type Schema2 = string;
+
+export type Schema3 = string;
+
+export type Schema4 = 'none' | 'oauth' | 'apikey';
+
+export type Schema5 = 'server' | 'user';
+
+export type Schema6 = Array<string>;
+
+export type Schema7 = 'httpstreaming';
+
+export type Schema8 = string;
+
+export type Schema9 = Array<[
+    string,
+    string
+]>;
+
+export type Schema10 = 'hosted';
+
+export type Schema11 = 'node24';
+
+export type Schema12 = Array<[
+    string,
+    string
+]>;
+
+export type Schema13 = 'stdio';
+
+export type Schema14 = string;
+
+export type Schema15 = string;
+
+export type Schema16 = Array<[
+    string,
+    string
+]>;
+
+export type Schema17 = 'sse' | 'httpstreaming' | 'stdio';
+
+export type Schema18 = number | null;
+
+export type Schema19 = string | null;
+
+export type Schema20 = 'sse';
+
+export type Schema21 = string;
+
+export type Schema22 = Array<[
+    string,
+    string
+]>;
+
+export type Schema23 = 'self';
+
+export type Schema24 = string;
+
+export type Schema25 = string;
+
+export type Schema26 = Array<string>;
+
+export type Schema27 = string;
+
+export type Schema28 = string;
+
+export type Schema29 = string;
+
+export type Schema30 = string;
+
+export type Schema31 = string;
+
+export type Schema32 = string;
+
+export type Schema33 = string;
+
+export type Schema34 = boolean;
+
+export type Schema35 = Array<string>;
+
+export type Schema36 = boolean;
+
+export type Schema37 = string | null;
+
+export type Schema38 = string;
+
+export type Schema39 = string;
+
+export type Schema40 = Array<string>;
+
+export type Schema41 = 'server' | 'user' | 'profile';
+
+export type Schema42 = string;
+
+export type Schema43 = string;
+
+export type Schema44 = {
+    value: boolean;
+};
+
+export type Schema45 = string;
+
+export type Schema46 = 'users' | 'teams';
+
+export type Schema47 = string;
+
+export type Schema48 = 'member' | 'admin' | 'maintainer';
+
+export type Schema49 = ServerCredentialsOuth | ServerCredentialsApiKeys;
+
+export type Schema50 = string;
+
+export type Schema51 = string;
+
+export type Schema52 = string;
+
+export type Schema53 = string;
+
+export type Schema54 = string;
+
+export type Schema55 = string;
+
+export type Schema56 = 'member' | 'maintainer';
+
+export type Schema57 = string;
+
+export type Schema58 = string;
+
+export type Schema59 = AwsSecretsManagerConfiguration | GcpSecretManagerConfiguration | HashiCorpVaultConfiguration | InfisicalConfiguration | AzureKeyVaultConfiguration;
+
+export type Schema60 = string;
+
 export type AuthMetadata = {
     isPlayground: boolean;
+    hasPaidSubscription: boolean;
     user: {
         id: number;
         sub: string;
@@ -207,7 +426,7 @@ export type AuthMetadata = {
         name: string;
         apiKey: string;
         email: string;
-        role: 'member' | 'owner';
+        role: Schema61;
         isServiceAccount: boolean;
         createdAt: string;
         updatedAt: string;
@@ -224,6 +443,16 @@ export type AuthMetadata = {
         numberOfEnabledUsers?: number;
         freeCredits: number;
         paidCredits: number;
+        abilities: {
+            canHaveMultipleUsers: boolean;
+            canUseSandbox: boolean;
+            canUseHostedServers: boolean;
+            canUseLocalServers: boolean;
+            canUpdateSeats: boolean;
+            maxEnabledServers: number;
+            maxUsers: number;
+            hasPaidFeatures: boolean;
+        };
     };
     rules: Array<unknown>;
     quota: {
@@ -253,30 +482,23 @@ export type AuditLogResponse = {
     serverSlug: string | null;
 };
 
-export type PaginatedAuditLogs = {
+export type PaginatedAuditLogResponse = {
+    pagination: Schema62;
     data: Array<AuditLogResponse>;
-    pagination: {
-        page: number;
-        limit: number;
-        total: number;
-        totalPages: number;
-        hasNext: boolean;
-        hasPrev: boolean;
-    };
 };
 
 export type GetUserMeResponse = {
     user: {
-        id: number;
-        sub: string;
-        tenantId: string;
-        name: string;
-        email: string;
-        role: 'member' | 'owner';
-        isDisabled: boolean;
-        isServiceAccount: boolean;
-        createdAt: string;
-        updatedAt: string;
+        id: Schema63;
+        sub: Schema64;
+        tenantId: Schema65;
+        name: Schema66;
+        email: Schema67;
+        role: Schema61;
+        isDisabled: Schema68;
+        isServiceAccount: Schema69;
+        createdAt: Schema70;
+        updatedAt: Schema71;
     };
     identities: Array<UserIdentity>;
 };
@@ -291,17 +513,17 @@ export type UserIdentity = {
 };
 
 export type User = {
-    id: number;
-    sub: string;
-    tenantId: string;
-    name: string;
-    email: string;
-    role: 'member' | 'owner';
+    id: Schema63;
+    sub: Schema64;
+    tenantId: Schema65;
+    name: Schema66;
+    email: Schema67;
+    role: Schema61;
     isSuperAdministrator: boolean;
-    isDisabled: boolean;
-    isServiceAccount: boolean;
-    createdAt: string;
-    updatedAt: string;
+    isDisabled: Schema68;
+    isServiceAccount: Schema69;
+    createdAt: Schema70;
+    updatedAt: Schema71;
 };
 
 export type PersonalAccessToken = {
@@ -323,72 +545,24 @@ export type ServerOAuthClientConfiguration = {
     scopes: string;
 };
 
-export type ServerOAuthMetadata = {
-    requiresAuthorization: boolean;
-    resource?: {
-        id: string;
-        availableScopes: Array<string>;
-        metadataUrl: string;
-    };
-    as?: {
-        issuer: string;
-        authorizeEndpoint: string;
-        deviceAuthorizationEndpoint: string;
-        tokenEndpoint: string;
-        extraAuthorizationParameters: string;
-        registrationEndpoint?: string;
-        supportsPKCE: boolean;
-        supportedClientAuthMethods: Array<string>;
-        supportsDynamicClientRegistration: boolean;
-        noDynamicClientRegistrationReason?: string | null;
-        serviceDocumentation: string;
-        metadataUrl: string;
-        availableScopes: Array<string>;
-    };
-};
-
-export type ServerCredentialsDto = {
-    id: string;
-    tenantId: string;
-    scope: 'server' | 'user' | 'profile';
-    userId: number | null;
-    profileId: string | null;
-    lastUsedAt: string | null;
-    authorizedAt: string;
-    type: 'oauth' | 'apikey';
-    createdAt: string;
-    updatedAt: string;
-    userSub: string | null;
-    userEmail: string | null;
-    userName: string | null;
-    profileName: string | null;
-    apikeysPresent: Array<string> | null;
-    hasAccessToken: boolean | null;
-    accessTokenExpiry: string | null;
-    hasRefreshToken: boolean | null;
-    subject: string | null;
-    email: string | null;
-};
-
 export type ServerDto = {
-    id: number;
-    slug: string;
-    tenantId: string;
-    name: string;
-    description: string;
-    logoUrl?: string;
+    id: Schema73;
+    slug: Schema74;
+    tenantId: Schema75;
+    name: Schema76;
+    description: Schema77;
+    logoUrl?: Schema78;
     authorization: ServerAuthorizationOutput;
-    transportConfig: HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
-        type: 'self';
-        id: string;
-    } | HostedTransportConfigOutput;
-    oauthClientConfiguration: null | ServerOAuthClientConfiguration;
-    oauthMetadata: null | ServerOAuthMetadata;
-    isEnabled: boolean;
-    lastToolRefreshAt: string | null;
-    createdAt: string;
-    updatedAt: string;
-    serverCredentials: ServerCredentialsDto | null;
+    transportConfig: Schema79;
+    oauthClientConfiguration: Schema80;
+    oauthMetadata: Schema81;
+    isEnabled: Schema82;
+    lastToolRefreshAt: Schema83;
+    timeoutProtocol: Schema84;
+    timeoutTotal: Schema85;
+    resetTimeoutOnProgressNotification: Schema86;
+    createdAt: Schema87;
+    updatedAt: Schema88;
 };
 
 export type ServerFile = {
@@ -419,9 +593,8 @@ export type ServerPodStatus = {
     createdAt?: string;
 };
 
-export type McpServerTool = {
+export type ServerToolDto = {
     tenantId: string;
-    serverId: number;
     toolName: string;
     description: string;
     schema: {
@@ -434,22 +607,64 @@ export type McpServerTool = {
         [key: string]: never;
     } | null;
     isEnabled: boolean;
-    createdAt: number;
-    updatedAt: number;
+    serverSlug: string;
+    universalName: string;
 };
 
 export type GetMembersResponse = {
     teams: Array<{
-        role: 'member' | 'admin' | 'maintainer';
+        role: Schema92;
         id: string;
         name: string;
     }>;
     users: Array<{
-        role: 'member' | 'admin' | 'maintainer';
+        role: Schema92;
         sub: string;
         name: string;
         email: string;
     }>;
+};
+
+export type ServerCredentialsDto = {
+    id: string;
+    tenantId: string;
+    scope: Schema93;
+    userId: number | null;
+    profileId: string | null;
+    lastUsedAt: string | null;
+    authorizedAt: string;
+    type: 'oauth' | 'apikey';
+    createdAt: string;
+    updatedAt: string;
+    userSub: string | null;
+    userEmail: string | null;
+    userName: string | null;
+    profileName: string | null;
+    apikeysPresent: Array<string> | null;
+    hasAccessToken: boolean | null;
+    accessTokenExpiry: string | null;
+    hasRefreshToken: boolean | null;
+    subject: string | null;
+    email: string | null;
+};
+
+export type GetCredentialTokenResponse = {
+    type: 'oauth' | 'apikey';
+    /**
+     * The OAuth access token (refreshed if necessary and possible).
+     */
+    accessToken?: string;
+    /**
+     * Unix timestamp (ms) when the access token expires.
+     */
+    expiresAt?: number;
+    /**
+     * Array of [key, value] tuples for API key credentials.
+     */
+    apikeys?: Array<[
+        string,
+        string
+    ]>;
 };
 
 export type UploadSourceCodeResponse = {
@@ -458,21 +673,109 @@ export type UploadSourceCodeResponse = {
     analysisResult?: unknown;
 };
 
-export type TenantDto = {
-    id: string;
-    isPlayground: boolean;
-    displayName: string;
-    upstreamOidcConfiguration: TenantOidcConfiguration | null;
-    upstreamSamlConfiguration: TenantSamlConfiguration | null;
-    isUpstreamOidcTokensTrusted: boolean;
-    isAutomaticSeatIncreaseEnabled: boolean;
-    isMcpAuthorizationApiKeyEnabled: boolean;
-    grantPermissionsNewToolPolicy: boolean;
-    allowMemberAddRemoteServers: boolean;
-    allowMemberAddLocalServers: boolean;
-    allowMemberAddHostedServers: boolean;
-    memberDefaultRole: ('member' | 'admin' | 'maintainer') | 'none';
+export type PredefinedMcpServer = {
+    id: number;
+    type: 'self' | 'pulsemcp' | 'glama';
+    priority: number;
+    meta: {
+        [key: string]: unknown;
+    };
+    config: PredefinedMcpServerConfig;
+    isDisabled: boolean;
+    isDivergedFromExternalSource: boolean;
+    isVerified: boolean;
+    isOfficial: boolean;
+    commentsCount: number;
+};
+
+export type PredefinedMcpServerConfig = {
+    /**
+     * Short technical unique ID/slug. For example for Google Docs "gdoc" would be a good slug.
+     */
+    defaultSlug: string;
+    /**
+     * Human-readable name of the MCP server.
+     */
+    name: string;
+    /**
+     * Category of the MCP server.
+     */
+    category: string;
+    /**
+     * Description of the MCP server.
+     */
+    description: string;
+    /**
+     * Only required if: this is a remote (SSE/HTTP Streaming) MCP server. The endpoint URL of the remote MCP Server
+     */
+    url?: string;
+    authorizationMethod: 'none' | 'oauth' | 'apikey';
+    maintainer: string;
+    maintainer_url: string;
+    transport_type: TransportConfigType;
+    /**
+     * Only required if: this is a local (stdip) MCP Server. The command to run for self-hosted MCP servers
+     */
+    command?: string;
+    /**
+     * Only required if: this is a local (stdip) MCP Server. The Docker image to use for self-hosted MCP servers
+     */
+    docker_image?: string;
+    /**
+     * Only required if: User needs to enter some information before the MCP server can be created. This can be for example API_KEY: meaning user needs to enter the API_KEY value
+     */
+    parameters?: Array<{
+        name: string;
+        description: string;
+        type: 'string' | 'file';
+        required: boolean;
+    }>;
+    /**
+     * Only relevant for remote (SSE/HTTP Streaming) MCP servers
+     */
+    headers?: Array<[
+        string,
+        string
+    ]>;
+    /**
+     * Only relevant for local (stdio) MCP servers
+     */
+    env_variables?: Array<[
+        string,
+        string
+    ]>;
+};
+
+export type TransportConfigType = 'self' | 'hosted' | 'stdio' | 'httpstreaming' | 'sse' | 'local';
+
+export type Tenant = {
+    id: Schema95;
+    displayName: Schema96;
+    rootEmail: string | null;
+    isDisabled: boolean;
+    isMcpAuthorizationApiKeyEnabled: Schema97;
+    grantPermissionsNewToolPolicy: Schema98;
+    stripeCustomerId: string;
+    stripeSubscriptionId: string;
+    subscriptionPlan: string;
+    stripeCachedSubscription: unknown | null;
+    subscriptionSeats: number;
+    isPlayground: Schema99;
+    freeCredits: number;
+    paidCredits: number;
+    isUpstreamOidcTokensTrusted: Schema100;
+    isAutomaticSeatIncreaseEnabled: Schema101;
+    upstreamOidcConfiguration: Schema102;
+    upstreamSamlConfiguration: Schema103;
+    allowMemberAddRemoteServers: Schema104;
+    allowMemberAddLocalServers: Schema105;
+    allowMemberAddHostedServers: Schema106;
+    isGoogleRefreshTokenSavingEnabled: Schema107;
+    memberDefaultRole: Schema108;
     mcpAuditLogLevel: McpAuditLogVerbosity;
+    hasSandboxPreview: boolean;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type TenantOidcConfiguration = {
@@ -505,7 +808,23 @@ export type TenantSamlConfiguration = {
     lastNameClaim: string;
 };
 
-export type McpAuditLogVerbosity = 'off' | 'terse' | 'detailed' | 'detailed-with-error' | 'verbose';
+export type TenantDto = {
+    id: Schema95;
+    isPlayground: Schema99;
+    displayName: Schema96;
+    upstreamOidcConfiguration: Schema102;
+    upstreamSamlConfiguration: Schema103;
+    isUpstreamOidcTokensTrusted: Schema100;
+    isAutomaticSeatIncreaseEnabled: Schema101;
+    isMcpAuthorizationApiKeyEnabled: Schema97;
+    grantPermissionsNewToolPolicy: Schema98;
+    allowMemberAddRemoteServers: Schema104;
+    allowMemberAddLocalServers: Schema105;
+    allowMemberAddHostedServers: Schema106;
+    isGoogleRefreshTokenSavingEnabled: Schema107;
+    memberDefaultRole: Schema108;
+    mcpAuditLogLevel: McpAuditLogVerbosity;
+};
 
 export type GetSubscriptionResponse = {
     subscriptionPlan: string;
@@ -529,6 +848,110 @@ export type GetSubscriptionResponse = {
     } | null;
 };
 
+export type OidcDiscoveryResponse = {
+    issuer: string;
+    authorizeEndpoint: string;
+    tokenEndpoint: string;
+    userInfoEndpoint: string;
+    introspectionEndpoint: string;
+    clientAuthMethods: Array<string>;
+    jwksUri: string;
+};
+
+export type PaginatedTenantUsage = {
+    pagination: Schema62;
+    data: Array<TenantUsage>;
+};
+
+export type TenantUsage = {
+    id: number;
+    tenantId: string | null;
+    type: 'AgentRun' | 'FreeCredit' | 'PaidCredit' | 'McpToolCall';
+    amount: number;
+    meta: {
+        [key: string]: unknown;
+    };
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type UsageAggregationResponse = {
+    stats: Array<{
+        name: string;
+        values: Array<{
+            date: string;
+            total: number;
+        }>;
+    }>;
+};
+
+export type DeploymentStatusResponse = {
+    isDeployed: boolean;
+    isAvailable: boolean;
+    isStabilizing: boolean;
+    currentReplicaSet?: string;
+    deployments: Array<DeploymentStatus>;
+};
+
+export type DeploymentStatus = {
+    name: string;
+    ready: boolean;
+    crash: boolean;
+    phase?: string;
+    reason?: string;
+    createdAt?: string;
+    restartCount: number;
+    hasPreviousFailure: boolean;
+    lastFailure?: Schema111;
+    waitingReason?: string;
+};
+
+export type DeploymentLogPayload = {
+    type: 'error';
+    message: string;
+} | {
+    type: 'podInfo';
+    createdAt: string;
+    pod: string;
+    initContainers: Array<string>;
+    containers: Array<string>;
+    waitingReason: string | null;
+    restartCount: number;
+    hasPreviousFailure: boolean;
+    lastFailure?: Schema111;
+    isSandbox: boolean;
+} | {
+    type: 'initContainerRunning';
+    name: string;
+} | {
+    type: 'initContainerTerminated';
+    name: string;
+    exitCode: number;
+    reason?: string;
+    startedAt: string;
+    finishedAt: string;
+} | {
+    type: 'mainContainerWaiting';
+    reason: string;
+} | {
+    type: 'mainContainerCrashBackOff' | 'mainContainerImagePullBackOff';
+    reason: string;
+    detail?: string;
+    restarts: number;
+} | {
+    type: 'mainContainerRunning';
+} | {
+    type: 'mainContainerReady';
+} | {
+    type: 'mainContainerCrashed';
+    exitCode: number;
+    reason?: string;
+    startedAt: string;
+    finishedAt: string;
+} | {
+    type: 'done';
+};
+
 export type TeamWithMemberCount = {
     id: string;
     tenantId: string;
@@ -542,7 +965,7 @@ export type TeamWithMemberCount = {
 export type TeamMember = {
     teamId: string;
     userId: number;
-    role: 'member' | 'maintainer';
+    role: Schema113;
     createdAt: string;
     updatedAt: string;
 };
@@ -553,7 +976,7 @@ export type TeamInvitation = {
     tenantId: string;
     inviterUserId: number | null;
     email: string;
-    role: 'member' | 'maintainer';
+    role: Schema113;
     token: string;
     expiresAt: string;
     acceptedAt: string | null;
@@ -562,41 +985,41 @@ export type TeamInvitation = {
 };
 
 export type ServerMember = {
-    tenantId: string;
-    serverId: number;
-    role: 'member' | 'admin' | 'maintainer';
-    createdAt: string;
-    updatedAt: string;
+    tenantId: Schema114;
+    serverId: Schema115;
+    role: Schema92;
+    createdAt: Schema116;
+    updatedAt: Schema117;
     userId: number;
     teamId: null;
 } | {
-    tenantId: string;
-    serverId: number;
-    role: 'member' | 'admin' | 'maintainer';
-    createdAt: string;
-    updatedAt: string;
+    tenantId: Schema114;
+    serverId: Schema115;
+    role: Schema92;
+    createdAt: Schema116;
+    updatedAt: Schema117;
     userId: null;
     teamId: string;
 };
 
 export type Server = {
-    id: number;
-    slug: string;
-    tenantId: string;
-    name: string;
-    description: string;
-    logoUrl?: string;
+    id: Schema73;
+    slug: Schema74;
+    tenantId: Schema75;
+    name: Schema76;
+    description: Schema77;
+    logoUrl?: Schema78;
     authorization: ServerAuthorizationOutput;
-    transportConfig: HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
-        type: 'self';
-        id: string;
-    } | HostedTransportConfigOutput;
-    oauthClientConfiguration: null | ServerOAuthClientConfiguration;
-    oauthMetadata: null | ServerOAuthMetadata;
-    isEnabled: boolean;
-    lastToolRefreshAt: string | null;
-    createdAt: string;
-    updatedAt: string;
+    transportConfig: Schema79;
+    oauthClientConfiguration: Schema80;
+    oauthMetadata: Schema81;
+    isEnabled: Schema82;
+    lastToolRefreshAt: Schema83;
+    timeoutProtocol: Schema84;
+    timeoutTotal: Schema85;
+    resetTimeoutOnProgressNotification: Schema86;
+    createdAt: Schema87;
+    updatedAt: Schema88;
 };
 
 export type TeamClaimMapping = {
@@ -613,21 +1036,21 @@ export type SecretStoreListResponse = {
 };
 
 export type SecretStoreResponse = {
-    id: string;
-    name: string;
-    type: 'aws_secrets_manager' | 'gcp_secret_manager' | 'hashicorp_vault' | 'infisical' | 'azure_key_vault';
-    isEnabled: boolean;
-    createdAt: string;
-    updatedAt: string;
+    id: Schema118;
+    name: Schema119;
+    type: Schema120;
+    isEnabled: Schema121;
+    createdAt: Schema122;
+    updatedAt: Schema123;
 };
 
 export type SecretStoreDetailResponse = {
-    id: string;
-    name: string;
-    type: 'aws_secrets_manager' | 'gcp_secret_manager' | 'hashicorp_vault' | 'infisical' | 'azure_key_vault';
-    isEnabled: boolean;
-    createdAt: string;
-    updatedAt: string;
+    id: Schema118;
+    name: Schema119;
+    type: Schema120;
+    isEnabled: Schema121;
+    createdAt: Schema122;
+    updatedAt: Schema123;
     configuration: AwsSecretsManagerConfigurationOutput | GcpSecretManagerConfigurationOutput | HashiCorpVaultConfigurationOutput | InfisicalConfigurationOutput | AzureKeyVaultConfigurationOutput;
 };
 
@@ -649,33 +1072,33 @@ export type TestSecretResponse = {
 };
 
 export type Profile = {
-    tenantId: string;
-    id: string;
-    createdBy: number;
-    name: string;
-    description: string;
-    isOpenToAllUsers: boolean;
-    isRestrictive: boolean;
-    createdAt: string;
-    updatedAt: string;
+    tenantId: Schema124;
+    id: Schema125;
+    createdBy: Schema126;
+    name: Schema127;
+    description: Schema128;
+    isOpenToAllUsers: Schema129;
+    isRestrictive: Schema130;
+    createdAt: Schema131;
+    updatedAt: Schema132;
 };
 
 export type ProfileDetailsDto = {
-    tenantId: string;
-    id: string;
-    createdBy: number;
-    name: string;
-    description: string;
-    isOpenToAllUsers: boolean;
-    isRestrictive: boolean;
-    createdAt: string;
-    updatedAt: string;
+    tenantId: Schema124;
+    id: Schema125;
+    createdBy: Schema126;
+    name: Schema127;
+    description: Schema128;
+    isOpenToAllUsers: Schema129;
+    isRestrictive: Schema130;
+    createdAt: Schema131;
+    updatedAt: Schema132;
     servers: Array<{
         name: string;
         slug: string;
         authorization: ServerAuthorizationOutput;
         credentialsNumKeys: number | null;
-        credentialScope: 'server' | 'user' | 'profile';
+        credentialScope: Schema93;
         credentials: ServerCredentialsDto | null;
     }>;
 };
@@ -688,6 +1111,233 @@ export type ProfileClaimMapping = {
     claimValue: string;
     createdAt: string;
 };
+
+export type CreateSandboxResponse = {
+    sandbox: SandboxDto;
+};
+
+export type SandboxDto = {
+    id: string;
+    tenantId: string;
+    lastActivityAt: string;
+    isArchived: boolean;
+    createdAt: string;
+    updatedAt: string;
+    user: UserSmallDto;
+};
+
+export type UserSmallDto = {
+    id: string;
+    email: string;
+    name: string;
+};
+
+export type ListSandboxesResponse = {
+    sandboxes: Array<SandboxDto>;
+};
+
+export type PaginatedSandboxAuditLog = {
+    pagination: Schema62;
+    data: Array<SandboxAuditLog>;
+};
+
+export type SandboxAuditLog = {
+    id: number;
+    tenantId: string;
+    sandboxId: string;
+    eventName: string;
+    details: {
+        [key: string]: unknown;
+    };
+    createdAt: string;
+};
+
+export type SendVerificationCodeResponse = {
+    success: boolean;
+};
+
+export type Schema61 = 'member' | 'owner';
+
+export type Schema62 = {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+};
+
+export type Schema63 = number;
+
+export type Schema64 = string;
+
+export type Schema65 = string;
+
+export type Schema66 = string;
+
+export type Schema67 = string;
+
+export type Schema68 = boolean;
+
+export type Schema69 = boolean;
+
+export type Schema70 = string;
+
+export type Schema71 = string;
+
+export type Schema72 = {
+    user: User;
+};
+
+export type Schema73 = number;
+
+export type Schema74 = string;
+
+export type Schema75 = string;
+
+/**
+ * DEPRECATED. Field will be removed in future versions. Please use slug instead.
+ */
+export type Schema76 = string;
+
+export type Schema77 = string;
+
+export type Schema78 = string;
+
+export type Schema79 = HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
+    type: 'self';
+    id: string;
+} | HostedTransportConfigOutput;
+
+export type Schema80 = null | ServerOAuthClientConfiguration;
+
+export type Schema81 = null | ServerOAuthMetadataOutput;
+
+export type Schema82 = boolean;
+
+export type Schema83 = string | null;
+
+export type Schema84 = number;
+
+export type Schema85 = number;
+
+export type Schema86 = boolean;
+
+export type Schema87 = string;
+
+export type Schema88 = string;
+
+export type Schema89 = {
+    server: ServerDto;
+    files: Array<ServerFile>;
+};
+
+export type Schema90 = {
+    tools: Array<ServerToolDto>;
+};
+
+export type Schema91 = {
+    success: boolean;
+    message: string;
+};
+
+export type Schema92 = 'member' | 'admin' | 'maintainer';
+
+export type Schema93 = 'server' | 'user' | 'profile';
+
+export type Schema94 = {
+    server: PredefinedMcpServer;
+};
+
+export type Schema95 = string;
+
+export type Schema96 = string;
+
+export type Schema97 = boolean;
+
+export type Schema98 = boolean;
+
+export type Schema99 = boolean;
+
+export type Schema100 = boolean;
+
+export type Schema101 = boolean;
+
+export type Schema102 = TenantOidcConfiguration | null;
+
+export type Schema103 = TenantSamlConfiguration | null;
+
+export type Schema104 = boolean;
+
+export type Schema105 = boolean;
+
+export type Schema106 = boolean;
+
+export type Schema107 = boolean;
+
+export type Schema108 = Schema92 | 'none';
+
+export type Schema109 = {
+    tenant: TenantDto;
+};
+
+export type Schema110 = {
+    quota: number;
+    current: number;
+    remaining: number;
+};
+
+export type Schema111 = {
+    containerName: string;
+    exitCode?: number;
+    reason?: string;
+    message?: string;
+    finishedAt?: string;
+};
+
+export type Schema112 = {
+    team: TeamWithMemberCount;
+};
+
+export type Schema113 = 'member' | 'maintainer';
+
+export type Schema114 = string;
+
+export type Schema115 = number;
+
+export type Schema116 = string;
+
+export type Schema117 = string;
+
+export type Schema118 = string;
+
+export type Schema119 = string;
+
+export type Schema120 = 'aws_secrets_manager' | 'gcp_secret_manager' | 'hashicorp_vault' | 'infisical' | 'azure_key_vault';
+
+export type Schema121 = boolean;
+
+export type Schema122 = string;
+
+export type Schema123 = string;
+
+export type Schema124 = string;
+
+export type Schema125 = string;
+
+export type Schema126 = number;
+
+export type Schema127 = string;
+
+export type Schema128 = string;
+
+export type Schema129 = boolean;
+
+export type Schema130 = boolean;
+
+export type Schema131 = string;
+
+export type Schema132 = string;
 
 export type ServerAuthorizationOutput = {
     method: 'none' | 'oauth' | 'apikey';
@@ -733,6 +1383,30 @@ export type HostedTransportConfigOutput = {
         string,
         string
     ]>;
+};
+
+export type ServerOAuthMetadataOutput = {
+    requiresAuthorization: boolean;
+    resource?: {
+        id: string;
+        availableScopes: Array<string>;
+        metadataUrl: string;
+    };
+    as?: {
+        issuer: string;
+        authorizeEndpoint: string;
+        deviceAuthorizationEndpoint: string;
+        tokenEndpoint: string;
+        extraAuthorizationParameters: string;
+        registrationEndpoint?: string;
+        supportsPKCE: boolean;
+        supportedClientAuthMethods: Array<string>;
+        supportsDynamicClientRegistration: boolean;
+        noDynamicClientRegistrationReason?: string | null;
+        serviceDocumentation: string;
+        metadataUrl: string;
+        availableScopes: Array<string>;
+    };
 };
 
 export type AwsSecretsManagerConfigurationOutput = {
@@ -790,6 +1464,77 @@ export type AuditLogResponseWritable = {
     serverSlug: string | null;
 };
 
+export type GetAuthLoginData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/login';
+};
+
+export type GetAuthLoginResponses = {
+    /**
+     * Successful response
+     */
+    200: unknown;
+};
+
+export type GetAuthLoginCallbackData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/login-callback';
+};
+
+export type GetAuthLoginCallbackResponses = {
+    /**
+     * Successful response
+     */
+    200: unknown;
+};
+
+export type GetAuthLogoutData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/logout';
+};
+
+export type GetAuthLogoutResponses = {
+    /**
+     * Successful response
+     */
+    200: unknown;
+};
+
+export type PostAuthNativeLoginData = {
+    body?: {
+        email: string;
+        password: string;
+        [key: string]: unknown | string;
+    };
+    path?: never;
+    query?: never;
+    url: '/auth/native-login';
+};
+
+export type PostAuthNativeLoginResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+        user: {
+            id: number;
+            email: string;
+            name: string;
+            role: Schema61;
+            [key: string]: unknown | number | string | Schema61;
+        };
+    };
+};
+
+export type PostAuthNativeLoginResponse = PostAuthNativeLoginResponses[keyof PostAuthNativeLoginResponses];
+
 export type GetAuthMeData = {
     body?: never;
     path?: never;
@@ -845,10 +1590,49 @@ export type GetAuditLogsResponses = {
     /**
      * Successful response
      */
-    200: PaginatedAuditLogs;
+    200: PaginatedAuditLogResponse;
 };
 
 export type GetAuditLogsResponse = GetAuditLogsResponses[keyof GetAuditLogsResponses];
+
+export type PostUsersRequestSetPasswordData = {
+    body?: never;
+    path?: never;
+    query: {
+        email: string;
+    };
+    url: '/users/request-set-password';
+};
+
+export type PostUsersRequestSetPasswordResponses = {
+    /**
+     * Successful response
+     */
+    200: unknown;
+};
+
+export type PostUsersByUserSubSetPasswordData = {
+    body?: {
+        token: string;
+        password: string;
+    };
+    path: {
+        userSub: Schema0;
+    };
+    query?: never;
+    url: '/users/{userSub}/set-password';
+};
+
+export type PostUsersByUserSubSetPasswordResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        [key: string]: never;
+    };
+};
+
+export type PostUsersByUserSubSetPasswordResponse = PostUsersByUserSubSetPasswordResponses[keyof PostUsersByUserSubSetPasswordResponses];
 
 export type GetUsersMeData = {
     body?: never;
@@ -915,9 +1699,7 @@ export type PostUsersResponses = {
     /**
      * Successful response
      */
-    200: {
-        user: User;
-    };
+    200: Schema72;
 };
 
 export type PostUsersResponse = PostUsersResponses[keyof PostUsersResponses];
@@ -925,7 +1707,7 @@ export type PostUsersResponse = PostUsersResponses[keyof PostUsersResponses];
 export type DeleteUsersByUserSubData = {
     body?: never;
     path: {
-        userSub: string;
+        userSub: Schema0;
     };
     query?: never;
     url: '/users/{userSub}';
@@ -945,7 +1727,7 @@ export type DeleteUsersByUserSubResponse = DeleteUsersByUserSubResponses[keyof D
 export type GetUsersByUserSubData = {
     body?: never;
     path: {
-        userSub: string;
+        userSub: Schema0;
     };
     query?: never;
     url: '/users/{userSub}';
@@ -955,9 +1737,7 @@ export type GetUsersByUserSubResponses = {
     /**
      * Successful response
      */
-    200: {
-        user: User;
-    };
+    200: Schema72;
 };
 
 export type GetUsersByUserSubResponse = GetUsersByUserSubResponses[keyof GetUsersByUserSubResponses];
@@ -965,7 +1745,7 @@ export type GetUsersByUserSubResponse = GetUsersByUserSubResponses[keyof GetUser
 export type PutUsersByUserSubData = {
     body?: UpdateUserRequest;
     path: {
-        userSub: string;
+        userSub: Schema0;
     };
     query?: never;
     url: '/users/{userSub}';
@@ -975,9 +1755,7 @@ export type PutUsersByUserSubResponses = {
     /**
      * Successful response
      */
-    200: {
-        user: User;
-    };
+    200: Schema72;
 };
 
 export type PutUsersByUserSubResponse = PutUsersByUserSubResponses[keyof PutUsersByUserSubResponses];
@@ -985,7 +1763,7 @@ export type PutUsersByUserSubResponse = PutUsersByUserSubResponses[keyof PutUser
 export type GetUsersByUserSubPersonalAccessTokensData = {
     body?: never;
     path: {
-        userSub: string;
+        userSub: Schema0;
     };
     query?: never;
     url: '/users/{userSub}/personal-access-tokens';
@@ -1005,7 +1783,7 @@ export type GetUsersByUserSubPersonalAccessTokensResponse = GetUsersByUserSubPer
 export type PostUsersByUserSubPersonalAccessTokensData = {
     body?: CreatePersonalAccessTokenRequest;
     path: {
-        userSub: string;
+        userSub: Schema0;
     };
     query?: never;
     url: '/users/{userSub}/personal-access-tokens';
@@ -1025,8 +1803,8 @@ export type PostUsersByUserSubPersonalAccessTokensResponse = PostUsersByUserSubP
 export type DeleteUsersByUserSubPersonalAccessTokensByPatIdData = {
     body?: never;
     path: {
-        userSub: string;
-        patId: string;
+        userSub: Schema0;
+        patId: Schema2;
     };
     query?: never;
     url: '/users/{userSub}/personal-access-tokens/{patId}';
@@ -1046,8 +1824,8 @@ export type DeleteUsersByUserSubPersonalAccessTokensByPatIdResponse = DeleteUser
 export type PatchUsersByUserSubPersonalAccessTokensByPatIdData = {
     body?: UpdatePersonalAccessTokenRequest;
     path: {
-        userSub: string;
-        patId: string;
+        userSub: Schema0;
+        patId: Schema2;
     };
     query?: never;
     url: '/users/{userSub}/personal-access-tokens/{patId}';
@@ -1077,24 +1855,23 @@ export type GetMcpServersResponses = {
      */
     200: {
         servers: Array<{
-            id: number;
-            slug: string;
-            tenantId: string;
-            name: string;
-            description: string;
-            logoUrl?: string;
+            id: Schema73;
+            slug: Schema74;
+            tenantId: Schema75;
+            name: Schema76;
+            description: Schema77;
+            logoUrl?: Schema78;
             authorization: ServerAuthorizationOutput;
-            transportConfig: HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
-                type: 'self';
-                id: string;
-            } | HostedTransportConfigOutput;
-            oauthClientConfiguration: null | ServerOAuthClientConfiguration;
-            oauthMetadata: null | ServerOAuthMetadata;
-            isEnabled: boolean;
-            lastToolRefreshAt: string | null;
-            createdAt: string;
-            updatedAt: string;
-            serverCredentials: ServerCredentialsDto | null;
+            transportConfig: Schema79;
+            oauthClientConfiguration: Schema80;
+            oauthMetadata: Schema81;
+            isEnabled: Schema82;
+            lastToolRefreshAt: Schema83;
+            timeoutProtocol: Schema84;
+            timeoutTotal: Schema85;
+            resetTimeoutOnProgressNotification: Schema86;
+            createdAt: Schema87;
+            updatedAt: Schema88;
             usage: {
                 lastSevenDays: number;
             };
@@ -1115,11 +1892,7 @@ export type PostMcpServersResponses = {
     /**
      * Successful response
      */
-    200: {
-        server: ServerDto;
-        files: Array<ServerFile>;
-        currentUserCredentials: ServerCredentialsDto | null;
-    };
+    200: Schema89;
 };
 
 export type PostMcpServersResponse = PostMcpServersResponses[keyof PostMcpServersResponses];
@@ -1127,7 +1900,7 @@ export type PostMcpServersResponse = PostMcpServersResponses[keyof PostMcpServer
 export type DeleteMcpServersByServerSlugData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}';
@@ -1137,11 +1910,7 @@ export type DeleteMcpServersByServerSlugResponses = {
     /**
      * Successful response
      */
-    200: {
-        server: ServerDto;
-        files: Array<ServerFile>;
-        currentUserCredentials: ServerCredentialsDto | null;
-    };
+    200: Schema89;
 };
 
 export type DeleteMcpServersByServerSlugResponse = DeleteMcpServersByServerSlugResponses[keyof DeleteMcpServersByServerSlugResponses];
@@ -1149,7 +1918,7 @@ export type DeleteMcpServersByServerSlugResponse = DeleteMcpServersByServerSlugR
 export type GetMcpServersByServerSlugData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}';
@@ -1159,11 +1928,7 @@ export type GetMcpServersByServerSlugResponses = {
     /**
      * Successful response
      */
-    200: {
-        server: ServerDto;
-        files: Array<ServerFile>;
-        currentUserCredentials: ServerCredentialsDto | null;
-    };
+    200: Schema89;
 };
 
 export type GetMcpServersByServerSlugResponse = GetMcpServersByServerSlugResponses[keyof GetMcpServersByServerSlugResponses];
@@ -1171,7 +1936,7 @@ export type GetMcpServersByServerSlugResponse = GetMcpServersByServerSlugRespons
 export type PutMcpServersByServerSlugData = {
     body?: UpdateServerRequest;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}';
@@ -1181,11 +1946,7 @@ export type PutMcpServersByServerSlugResponses = {
     /**
      * Successful response
      */
-    200: {
-        server: ServerDto;
-        files: Array<ServerFile>;
-        currentUserCredentials: ServerCredentialsDto | null;
-    };
+    200: Schema89;
 };
 
 export type PutMcpServersByServerSlugResponse = PutMcpServersByServerSlugResponses[keyof PutMcpServersByServerSlugResponses];
@@ -1193,7 +1954,7 @@ export type PutMcpServersByServerSlugResponse = PutMcpServersByServerSlugRespons
 export type GetMcpServersByServerSlugRunningStatusData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/running-status';
@@ -1208,42 +1969,74 @@ export type GetMcpServersByServerSlugRunningStatusResponses = {
 
 export type GetMcpServersByServerSlugRunningStatusResponse = GetMcpServersByServerSlugRunningStatusResponses[keyof GetMcpServersByServerSlugRunningStatusResponses];
 
+export type PostMcpServersByServerSlugStartData = {
+    body?: never;
+    path: {
+        serverSlug: Schema3;
+    };
+    query?: never;
+    url: '/mcp-servers/{serverSlug}/start';
+};
+
+export type PostMcpServersByServerSlugStartResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+        /**
+         * Detailed information about why the server could not be started.
+         */
+        detail?: string;
+    };
+};
+
+export type PostMcpServersByServerSlugStartResponse = PostMcpServersByServerSlugStartResponses[keyof PostMcpServersByServerSlugStartResponses];
+
+export type PostMcpServersByServerSlugStopData = {
+    body?: never;
+    path: {
+        serverSlug: Schema3;
+    };
+    query?: never;
+    url: '/mcp-servers/{serverSlug}/stop';
+};
+
+export type PostMcpServersByServerSlugStopResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type PostMcpServersByServerSlugStopResponse = PostMcpServersByServerSlugStopResponses[keyof PostMcpServersByServerSlugStopResponses];
+
 export type PutMcpServersByServerSlugConfigData = {
     body?: {
-        type?: 'httpstreaming';
-        url?: string;
-        headers?: Array<[
-            string,
-            string
-        ]>;
+        type?: Schema7;
+        url?: Schema8;
+        headers?: Schema9;
     } | {
-        type?: 'hosted';
-        runtime?: 'node24';
-        env?: Array<[
-            string,
-            string
-        ]>;
+        type?: Schema10;
+        runtime?: Schema11;
+        env?: Schema12;
     } | {
-        type?: 'stdio';
-        command?: string;
-        dockerImage?: string;
-        env?: Array<[
-            string,
-            string
-        ]>;
-        transport?: 'sse' | 'httpstreaming' | 'stdio';
-        httpPort?: number | null;
-        urlPath?: string | null;
+        type?: Schema13;
+        command?: Schema14;
+        dockerImage?: Schema15;
+        env?: Schema16;
+        transport?: Schema17;
+        httpPort?: Schema18;
+        urlPath?: Schema19;
     } | {
-        type?: 'sse';
-        url?: string;
-        headers?: Array<[
-            string,
-            string
-        ]>;
+        type?: Schema20;
+        url?: Schema21;
+        headers?: Schema22;
     } | {
-        type?: 'self';
-        id?: string;
+        type?: Schema23;
+        id?: Schema24;
     };
     path: {
         serverSlug: string;
@@ -1264,7 +2057,7 @@ export type PutMcpServersByServerSlugIsEnabledData = {
         value: boolean;
     };
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/isEnabled';
@@ -1283,12 +2076,12 @@ export type PutMcpServersByServerSlugIsEnabledResponse = PutMcpServersByServerSl
 
 export type PutMcpServersByServerSlugAuthorizationData = {
     body?: {
-        method: 'none' | 'oauth' | 'apikey';
-        credentialsScope: 'server' | 'user';
-        apikeys?: Array<string>;
+        method: Schema4;
+        credentialsScope: Schema5;
+        apikeys?: Schema6;
     };
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/authorization';
@@ -1304,7 +2097,7 @@ export type PutMcpServersByServerSlugAuthorizationResponses = {
 export type GetMcpServersByServerSlugOauthDiscoverData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: {
         url?: string;
@@ -1317,16 +2110,39 @@ export type GetMcpServersByServerSlugOauthDiscoverResponses = {
      * Successful response
      */
     200: {
-        oauthMetadata: ServerOAuthMetadata | null;
+        oauthMetadata: ServerOAuthMetadataOutput | null;
     };
 };
 
 export type GetMcpServersByServerSlugOauthDiscoverResponse = GetMcpServersByServerSlugOauthDiscoverResponses[keyof GetMcpServersByServerSlugOauthDiscoverResponses];
 
+export type PostMcpServersByServerSlugOauthDynamicOauthClientNoSaveData = {
+    body?: {
+        oauthMetadata: ServerOAuthMetadata;
+        x?: DeviceAuthorizationJwtPayload;
+    };
+    path: {
+        serverSlug: Schema3;
+    };
+    query?: never;
+    url: '/mcp-servers/{serverSlug}/oauth/dynamic-oauth-client-no-save';
+};
+
+export type PostMcpServersByServerSlugOauthDynamicOauthClientNoSaveResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        clientConfiguration: ServerOAuthClientConfiguration;
+    };
+};
+
+export type PostMcpServersByServerSlugOauthDynamicOauthClientNoSaveResponse = PostMcpServersByServerSlugOauthDynamicOauthClientNoSaveResponses[keyof PostMcpServersByServerSlugOauthDynamicOauthClientNoSaveResponses];
+
 export type GetMcpServersByServerSlugToolsData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/tools';
@@ -1336,19 +2152,34 @@ export type GetMcpServersByServerSlugToolsResponses = {
     /**
      * Successful response
      */
-    200: {
-        tools: Array<McpServerTool>;
-    };
+    200: Schema90;
 };
 
 export type GetMcpServersByServerSlugToolsResponse = GetMcpServersByServerSlugToolsResponses[keyof GetMcpServersByServerSlugToolsResponses];
 
-export type PutMcpServersByServerSlugAllToolsIsEnabledData = {
-    body?: {
-        value: boolean;
-    };
+export type GetMcpServersByServerSlugToolsByToolNameData = {
+    body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema42;
+        toolName: Schema43;
+    };
+    query?: never;
+    url: '/mcp-servers/{serverSlug}/tools/{toolName}';
+};
+
+export type GetMcpServersByServerSlugToolsByToolNameResponses = {
+    /**
+     * Successful response
+     */
+    200: ServerToolDto;
+};
+
+export type GetMcpServersByServerSlugToolsByToolNameResponse = GetMcpServersByServerSlugToolsByToolNameResponses[keyof GetMcpServersByServerSlugToolsByToolNameResponses];
+
+export type PutMcpServersByServerSlugAllToolsIsEnabledData = {
+    body?: Schema44;
+    path: {
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/all-tools-isEnabled';
@@ -1358,21 +2189,16 @@ export type PutMcpServersByServerSlugAllToolsIsEnabledResponses = {
     /**
      * Successful response
      */
-    200: {
-        success: boolean;
-        message: string;
-    };
+    200: Schema91;
 };
 
 export type PutMcpServersByServerSlugAllToolsIsEnabledResponse = PutMcpServersByServerSlugAllToolsIsEnabledResponses[keyof PutMcpServersByServerSlugAllToolsIsEnabledResponses];
 
 export type PutMcpServersByServerSlugToolsByToolNameIsEnabledData = {
-    body?: {
-        value: boolean;
-    };
+    body?: Schema44;
     path: {
-        serverSlug: string;
-        toolName: string;
+        serverSlug: Schema42;
+        toolName: Schema43;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/tools/{toolName}/isEnabled';
@@ -1382,10 +2208,7 @@ export type PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses = {
     /**
      * Successful response
      */
-    200: {
-        success: boolean;
-        message: string;
-    };
+    200: Schema91;
 };
 
 export type PutMcpServersByServerSlugToolsByToolNameIsEnabledResponse = PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses[keyof PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses];
@@ -1397,8 +2220,8 @@ export type PostMcpServersByServerSlugToolsByToolNameCallData = {
         };
     };
     path: {
-        serverSlug: string;
-        toolName: string;
+        serverSlug: Schema42;
+        toolName: Schema43;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/tools/{toolName}/call';
@@ -1408,8 +2231,38 @@ export type PostMcpServersByServerSlugToolsByToolNameCallResponses = {
     /**
      * Successful response
      */
-    200: unknown;
+    200: {
+        result?: {
+            isError?: boolean;
+            errorCode?: string;
+            errorMessage?: string;
+            structuredContent?: {
+                [key: string]: unknown;
+            };
+            content?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+    };
 };
+
+export type PostMcpServersByServerSlugToolsByToolNameCallResponse = PostMcpServersByServerSlugToolsByToolNameCallResponses[keyof PostMcpServersByServerSlugToolsByToolNameCallResponses];
+
+export type GetToolsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/tools';
+};
+
+export type GetToolsResponses = {
+    /**
+     * Successful response
+     */
+    200: Schema90;
+};
+
+export type GetToolsResponse = GetToolsResponses[keyof GetToolsResponses];
 
 export type PostToolsRefreshData = {
     body?: never;
@@ -1430,7 +2283,7 @@ export type PostToolsRefreshResponses = {
 export type GetMcpServersByServerSlugMembersData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/members/';
@@ -1448,9 +2301,9 @@ export type GetMcpServersByServerSlugMembersResponse = GetMcpServersByServerSlug
 export type DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdData = {
     body?: never;
     path: {
-        serverSlug: string;
-        memberType: 'users' | 'teams';
-        memberId: string;
+        serverSlug: Schema45;
+        memberType: Schema46;
+        memberId: Schema47;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/members/{memberType}/{memberId}';
@@ -1469,12 +2322,12 @@ export type DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdResponse = 
 
 export type PutMcpServersByServerSlugMembersByMemberTypeByMemberIdData = {
     body?: {
-        role: 'member' | 'admin' | 'maintainer';
+        role: Schema48;
     };
     path: {
-        serverSlug: string;
-        memberType: 'users' | 'teams';
-        memberId: string;
+        serverSlug: Schema45;
+        memberType: Schema46;
+        memberId: Schema47;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/members/{memberType}/{memberId}';
@@ -1494,7 +2347,7 @@ export type PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponse = Put
 export type DeleteMcpServersByServerSlugCredentialsUserData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user';
@@ -1510,7 +2363,7 @@ export type DeleteMcpServersByServerSlugCredentialsUserResponses = {
 export type GetMcpServersByServerSlugCredentialsUserData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user';
@@ -1528,9 +2381,9 @@ export type GetMcpServersByServerSlugCredentialsUserResponses = {
 export type GetMcpServersByServerSlugCredentialsUserResponse = GetMcpServersByServerSlugCredentialsUserResponses[keyof GetMcpServersByServerSlugCredentialsUserResponses];
 
 export type PutMcpServersByServerSlugCredentialsUserData = {
-    body?: ServerCredentialsOuth | ServerCredentialsApiKeys;
+    body?: Schema49;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user';
@@ -1550,7 +2403,7 @@ export type PutMcpServersByServerSlugCredentialsUserResponse = PutMcpServersBySe
 export type DeleteMcpServersByServerSlugCredentialsServerData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server';
@@ -1566,7 +2419,7 @@ export type DeleteMcpServersByServerSlugCredentialsServerResponses = {
 export type GetMcpServersByServerSlugCredentialsServerData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server';
@@ -1584,9 +2437,9 @@ export type GetMcpServersByServerSlugCredentialsServerResponses = {
 export type GetMcpServersByServerSlugCredentialsServerResponse = GetMcpServersByServerSlugCredentialsServerResponses[keyof GetMcpServersByServerSlugCredentialsServerResponses];
 
 export type PutMcpServersByServerSlugCredentialsServerData = {
-    body?: ServerCredentialsOuth | ServerCredentialsApiKeys;
+    body?: Schema49;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server';
@@ -1606,7 +2459,7 @@ export type PutMcpServersByServerSlugCredentialsServerResponse = PutMcpServersBy
 export type GetMcpServersByServerSlugCredentialsProfileData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query: {
         profileId: string;
@@ -1628,7 +2481,7 @@ export type GetMcpServersByServerSlugCredentialsProfileResponse = GetMcpServersB
 export type GetMcpServersByServerSlugCredentialsUserApikeysData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user/apikeys';
@@ -1651,7 +2504,7 @@ export type GetMcpServersByServerSlugCredentialsUserApikeysResponse = GetMcpServ
 export type GetMcpServersByServerSlugCredentialsServerApikeysData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server/apikeys';
@@ -1674,7 +2527,7 @@ export type GetMcpServersByServerSlugCredentialsServerApikeysResponse = GetMcpSe
 export type GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         profileId: string;
     };
     query?: never;
@@ -1698,7 +2551,7 @@ export type GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysRespons
 export type DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         profileId: string;
     };
     query?: never;
@@ -1713,9 +2566,9 @@ export type DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses 
 };
 
 export type PutMcpServersByServerSlugCredentialsProfilesByProfileIdData = {
-    body?: ServerCredentialsOuth | ServerCredentialsApiKeys;
+    body?: Schema49;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         profileId: string;
     };
     query?: never;
@@ -1736,7 +2589,7 @@ export type PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponse = Pu
 export type PostMcpServersByServerSlugCredentialsCopyData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query: {
         /**
@@ -1746,7 +2599,7 @@ export type PostMcpServersByServerSlugCredentialsCopyData = {
         /**
          * The scope to copy the credentials to
          */
-        to: 'server' | 'user' | 'profile';
+        to: Schema41;
         /**
          * Target profile ID when copying to profile scope
          */
@@ -1773,10 +2626,10 @@ export type PostMcpServersByServerSlugCredentialsCopyResponse = PostMcpServersBy
 export type GetMcpServersByServerSlugCredentialsAuthorizeUrlData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: {
-        scope?: 'server' | 'user' | 'profile';
+        scope?: Schema41;
         redirect?: 'true' | 'false';
         returnTo?: 'details' | 'settings' | 'thank-you-page' | 'profile';
         profileId?: string;
@@ -1800,7 +2653,7 @@ export type GetMcpServersByServerSlugCredentialsAuthorizeUrlResponse = GetMcpSer
 export type DeleteMcpServersByServerSlugCredentialsData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials';
@@ -1821,7 +2674,7 @@ export type DeleteMcpServersByServerSlugCredentialsResponse = DeleteMcpServersBy
 export type GetMcpServersByServerSlugCredentialsData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: {
         /**
@@ -1846,7 +2699,7 @@ export type GetMcpServersByServerSlugCredentialsResponse = GetMcpServersByServer
 export type DeleteMcpServersByServerSlugCredentialsByCredentialsIdData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         credentialsId: string;
     };
     query?: never;
@@ -1860,10 +2713,33 @@ export type DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses = {
     200: unknown;
 };
 
+export type GetMcpServersByServerSlugCredentialsTokenData = {
+    body?: never;
+    path: {
+        serverSlug: Schema3;
+    };
+    query?: {
+        /**
+         * ID of a specific credential to retrieve the token for. If omitted, the effective credentials for the current user are resolved automatically.
+         */
+        credentialsId?: string;
+    };
+    url: '/mcp-servers/{serverSlug}/credentials/token';
+};
+
+export type GetMcpServersByServerSlugCredentialsTokenResponses = {
+    /**
+     * Successful response
+     */
+    200: GetCredentialTokenResponse;
+};
+
+export type GetMcpServersByServerSlugCredentialsTokenResponse = GetMcpServersByServerSlugCredentialsTokenResponses[keyof GetMcpServersByServerSlugCredentialsTokenResponses];
+
 export type GetMcpServersByServerSlugSourceCodeData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/source-code';
@@ -1881,7 +2757,7 @@ export type PutMcpServersByServerSlugSourceCodeData = {
         file: unknown;
     };
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/source-code';
@@ -1899,7 +2775,7 @@ export type PutMcpServersByServerSlugSourceCodeResponse = PutMcpServersByServerS
 export type GetMcpServersByServerSlugFilesData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/files';
@@ -1919,7 +2795,7 @@ export type GetMcpServersByServerSlugFilesResponse = GetMcpServersByServerSlugFi
 export type PostMcpServersByServerSlugFilesData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/files';
@@ -1941,7 +2817,7 @@ export type PutMcpServersByServerSlugFilesByFileIdNameData = {
         filename: string;
     };
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         fileId: string;
     };
     query?: never;
@@ -1962,7 +2838,7 @@ export type PutMcpServersByServerSlugFilesByFileIdNameResponse = PutMcpServersBy
 export type DeleteMcpServersByServerSlugFilesByFileIdData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         fileId: string;
     };
     query?: never;
@@ -1979,7 +2855,7 @@ export type DeleteMcpServersByServerSlugFilesByFileIdResponses = {
 export type GetMcpServersByServerSlugFilesByFileIdData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         fileId: string;
     };
     query?: never;
@@ -1996,7 +2872,7 @@ export type GetMcpServersByServerSlugFilesByFileIdResponses = {
 export type PutMcpServersByServerSlugFilesByFileIdData = {
     body?: never;
     path: {
-        serverSlug: string;
+        serverSlug: Schema3;
         fileId: string;
     };
     query?: never;
@@ -2014,10 +2890,424 @@ export type PutMcpServersByServerSlugFilesByFileIdResponses = {
 
 export type PutMcpServersByServerSlugFilesByFileIdResponse = PutMcpServersByServerSlugFilesByFileIdResponses[keyof PutMcpServersByServerSlugFilesByFileIdResponses];
 
+export type GetPredefinedMcpServersData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/predefined-mcp-servers';
+};
+
+export type GetPredefinedMcpServersResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        servers: Array<PredefinedMcpServer>;
+    };
+};
+
+export type GetPredefinedMcpServersResponse = GetPredefinedMcpServersResponses[keyof GetPredefinedMcpServersResponses];
+
+export type PostPredefinedMcpServersData = {
+    body?: {
+        type: 'self' | 'pulsemcp' | 'glama';
+        priority?: number;
+        meta?: {
+            [key: string]: unknown;
+        };
+        config: unknown;
+        isDisabled?: boolean;
+        isVerified?: boolean;
+        isOfficial?: boolean;
+    };
+    path?: never;
+    query?: never;
+    url: '/predefined-mcp-servers';
+};
+
+export type PostPredefinedMcpServersResponses = {
+    /**
+     * Successful response
+     */
+    200: Schema94;
+};
+
+export type PostPredefinedMcpServersResponse = PostPredefinedMcpServersResponses[keyof PostPredefinedMcpServersResponses];
+
+export type GetPredefinedMcpServersByIdData = {
+    body?: never;
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}';
+};
+
+export type GetPredefinedMcpServersByIdResponses = {
+    /**
+     * Successful response
+     */
+    200: Schema94;
+};
+
+export type GetPredefinedMcpServersByIdResponse = GetPredefinedMcpServersByIdResponses[keyof GetPredefinedMcpServersByIdResponses];
+
+export type PutPredefinedMcpServersByIdData = {
+    body?: {
+        type?: 'self' | 'pulsemcp' | 'glama';
+        priority?: number;
+        meta?: {
+            [key: string]: unknown;
+        };
+        config?: unknown;
+        isDisabled?: boolean;
+        isVerified?: boolean;
+        isOfficial?: boolean;
+    };
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}';
+};
+
+export type PutPredefinedMcpServersByIdResponses = {
+    /**
+     * Successful response
+     */
+    200: Schema94;
+};
+
+export type PutPredefinedMcpServersByIdResponse = PutPredefinedMcpServersByIdResponses[keyof PutPredefinedMcpServersByIdResponses];
+
+export type PutPredefinedMcpServersByIdIsDisabledData = {
+    body?: {
+        isDisabled: boolean;
+    };
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/isDisabled';
+};
+
+export type PutPredefinedMcpServersByIdIsDisabledResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type PutPredefinedMcpServersByIdIsDisabledResponse = PutPredefinedMcpServersByIdIsDisabledResponses[keyof PutPredefinedMcpServersByIdIsDisabledResponses];
+
+export type PutPredefinedMcpServersByIdIsVerifiedData = {
+    body?: {
+        isVerified: boolean;
+    };
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/isVerified';
+};
+
+export type PutPredefinedMcpServersByIdIsVerifiedResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type PutPredefinedMcpServersByIdIsVerifiedResponse = PutPredefinedMcpServersByIdIsVerifiedResponses[keyof PutPredefinedMcpServersByIdIsVerifiedResponses];
+
+export type PostPredefinedMcpServersByIdCopyData = {
+    body?: never;
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/copy';
+};
+
+export type PostPredefinedMcpServersByIdCopyResponses = {
+    /**
+     * Successful response
+     */
+    200: Schema94;
+};
+
+export type PostPredefinedMcpServersByIdCopyResponse = PostPredefinedMcpServersByIdCopyResponses[keyof PostPredefinedMcpServersByIdCopyResponses];
+
+export type PostPredefinedMcpServersCreateData = {
+    body?: {
+        id: number;
+        slug?: string;
+        description?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/predefined-mcp-servers/create';
+};
+
+export type PostPredefinedMcpServersCreateResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        serverSlug: string;
+    };
+};
+
+export type PostPredefinedMcpServersCreateResponse = PostPredefinedMcpServersCreateResponses[keyof PostPredefinedMcpServersCreateResponses];
+
+export type PostPredefinedMcpServersCreateCustomData = {
+    body?: {
+        id: number;
+        slug?: string;
+        description?: string;
+        parameters?: Array<Array<string>>;
+    };
+    path?: never;
+    query?: never;
+    url: '/predefined-mcp-servers/create-custom';
+};
+
+export type PostPredefinedMcpServersCreateCustomResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        serverSlug: string;
+    };
+};
+
+export type PostPredefinedMcpServersCreateCustomResponse = PostPredefinedMcpServersCreateCustomResponses[keyof PostPredefinedMcpServersCreateCustomResponses];
+
+export type PostPredefinedMcpServersPreviewData = {
+    body?: {
+        id: number;
+        parameters?: {
+            [key: string]: string;
+        };
+    };
+    path?: never;
+    query?: never;
+    url: '/predefined-mcp-servers/preview';
+};
+
+export type PostPredefinedMcpServersPreviewResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        preview: unknown;
+    };
+};
+
+export type PostPredefinedMcpServersPreviewResponse = PostPredefinedMcpServersPreviewResponses[keyof PostPredefinedMcpServersPreviewResponses];
+
+export type PostPredefinedMcpServersSyncPulseData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/predefined-mcp-servers/sync-pulse';
+};
+
+export type PostPredefinedMcpServersSyncPulseResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+        syncedCount?: number;
+    };
+};
+
+export type PostPredefinedMcpServersSyncPulseResponse = PostPredefinedMcpServersSyncPulseResponses[keyof PostPredefinedMcpServersSyncPulseResponses];
+
+export type PostPredefinedMcpServersByIdQuickConnectData = {
+    body?: never;
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/quick-connect';
+};
+
+export type PostPredefinedMcpServersByIdQuickConnectResponses = {
+    /**
+     * Successful response
+     */
+    200: unknown;
+};
+
+export type GetPredefinedMcpServersByIdCommentsData = {
+    body?: never;
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/comments';
+};
+
+export type GetPredefinedMcpServersByIdCommentsResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        comments: Array<{
+            id: number;
+            userId: number;
+            userName?: string;
+            comment: string;
+            createdAt: string;
+            updatedAt: string;
+        }>;
+    };
+};
+
+export type GetPredefinedMcpServersByIdCommentsResponse = GetPredefinedMcpServersByIdCommentsResponses[keyof GetPredefinedMcpServersByIdCommentsResponses];
+
+export type PostPredefinedMcpServersByIdCommentsData = {
+    body?: {
+        comment: string;
+    };
+    path: {
+        id: Schema50;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/comments';
+};
+
+export type PostPredefinedMcpServersByIdCommentsResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+        commentId?: number;
+    };
+};
+
+export type PostPredefinedMcpServersByIdCommentsResponse = PostPredefinedMcpServersByIdCommentsResponses[keyof PostPredefinedMcpServersByIdCommentsResponses];
+
+export type DeletePredefinedMcpServersByIdCommentsByCommentIdData = {
+    body?: never;
+    path: {
+        id: Schema51;
+        commentId: Schema52;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/comments/{commentId}';
+};
+
+export type DeletePredefinedMcpServersByIdCommentsByCommentIdResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type DeletePredefinedMcpServersByIdCommentsByCommentIdResponse = DeletePredefinedMcpServersByIdCommentsByCommentIdResponses[keyof DeletePredefinedMcpServersByIdCommentsByCommentIdResponses];
+
+export type PutPredefinedMcpServersByIdCommentsByCommentIdData = {
+    body?: {
+        comment: string;
+    };
+    path: {
+        id: Schema51;
+        commentId: Schema52;
+    };
+    query?: never;
+    url: '/predefined-mcp-servers/{id}/comments/{commentId}';
+};
+
+export type PutPredefinedMcpServersByIdCommentsByCommentIdResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type PutPredefinedMcpServersByIdCommentsByCommentIdResponse = PutPredefinedMcpServersByIdCommentsByCommentIdResponses[keyof PutPredefinedMcpServersByIdCommentsByCommentIdResponses];
+
+export type PostSignupData = {
+    body?: {
+        tenantDisplayName: string;
+        tenantSlug: string;
+        email: string;
+        turnstileToken?: string;
+        'cf-turnstile-response'?: string;
+        verificationCode?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/signup';
+};
+
+export type PostSignupResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        [key: string]: never;
+    };
+};
+
+export type PostSignupResponse = PostSignupResponses[keyof PostSignupResponses];
+
+export type GetTenantsByTenantIdSigninMethodsData = {
+    body?: never;
+    path: {
+        tenantId: Schema53;
+    };
+    query?: never;
+    url: '/tenants/{tenantId}/signin-methods';
+};
+
+export type GetTenantsByTenantIdSigninMethodsResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        displayName: string;
+        native: boolean;
+        external: boolean;
+    };
+};
+
+export type GetTenantsByTenantIdSigninMethodsResponse = GetTenantsByTenantIdSigninMethodsResponses[keyof GetTenantsByTenantIdSigninMethodsResponses];
+
+export type GetTenantsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/tenants/';
+};
+
+export type GetTenantsResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        tenants: Array<Tenant>;
+    };
+};
+
+export type GetTenantsResponse = GetTenantsResponses[keyof GetTenantsResponses];
+
 export type GetTenantsByTenantIdData = {
     body?: never;
     path: {
-        tenantId: string;
+        tenantId: Schema53;
     };
     query?: never;
     url: '/tenants/{tenantId}';
@@ -2027,17 +3317,33 @@ export type GetTenantsByTenantIdResponses = {
     /**
      * Successful response
      */
-    200: {
-        tenant: TenantDto;
-    };
+    200: Schema109;
 };
 
 export type GetTenantsByTenantIdResponse = GetTenantsByTenantIdResponses[keyof GetTenantsByTenantIdResponses];
 
+export type PutTenantsByTenantIdData = {
+    body?: UpdateTenantRequest;
+    path: {
+        tenantId: Schema53;
+    };
+    query?: never;
+    url: '/tenants/{tenantId}';
+};
+
+export type PutTenantsByTenantIdResponses = {
+    /**
+     * Successful response
+     */
+    200: Schema109;
+};
+
+export type PutTenantsByTenantIdResponse = PutTenantsByTenantIdResponses[keyof PutTenantsByTenantIdResponses];
+
 export type GetTenantsByTenantIdSubscriptionData = {
     body?: never;
     path: {
-        tenantId: string;
+        tenantId: Schema53;
     };
     query?: never;
     url: '/tenants/{tenantId}/subscription';
@@ -2051,6 +3357,320 @@ export type GetTenantsByTenantIdSubscriptionResponses = {
 };
 
 export type GetTenantsByTenantIdSubscriptionResponse = GetTenantsByTenantIdSubscriptionResponses[keyof GetTenantsByTenantIdSubscriptionResponses];
+
+export type PutTenantsByTenantIdIsMcpAuthorizationApiKeyEnabledData = {
+    body?: {
+        isEnabled: boolean;
+    };
+    path: {
+        tenantId: Schema53;
+    };
+    query?: never;
+    url: '/tenants/{tenantId}/is-mcp-authorization-api-key-enabled';
+};
+
+export type PutTenantsByTenantIdIsMcpAuthorizationApiKeyEnabledResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        isEnabled: boolean;
+    };
+};
+
+export type PutTenantsByTenantIdIsMcpAuthorizationApiKeyEnabledResponse = PutTenantsByTenantIdIsMcpAuthorizationApiKeyEnabledResponses[keyof PutTenantsByTenantIdIsMcpAuthorizationApiKeyEnabledResponses];
+
+export type GetTenantDiscoverOidcMetadataData = {
+    body?: never;
+    path?: never;
+    query: {
+        url: Schema54;
+    };
+    url: '/tenant-discover-oidc-metadata';
+};
+
+export type GetTenantDiscoverOidcMetadataResponses = {
+    /**
+     * Successful response
+     */
+    200: OidcDiscoveryResponse;
+};
+
+export type GetTenantDiscoverOidcMetadataResponse = GetTenantDiscoverOidcMetadataResponses[keyof GetTenantDiscoverOidcMetadataResponses];
+
+export type GetTenantsByTenantIdDiscoverSamlMetadataData = {
+    body?: never;
+    path: {
+        tenantId: Schema53;
+    };
+    query: {
+        url: Schema54;
+    };
+    url: '/tenants/{tenantId}/discover-saml-metadata';
+};
+
+export type GetTenantsByTenantIdDiscoverSamlMetadataResponses = {
+    /**
+     * Successful response
+     */
+    200: string;
+};
+
+export type GetTenantsByTenantIdDiscoverSamlMetadataResponse = GetTenantsByTenantIdDiscoverSamlMetadataResponses[keyof GetTenantsByTenantIdDiscoverSamlMetadataResponses];
+
+export type GetTenantSamlMetadataData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/tenant-saml-metadata';
+};
+
+export type GetTenantSamlMetadataResponses = {
+    /**
+     * Successful response
+     */
+    200: string;
+};
+
+export type GetTenantSamlMetadataResponse = GetTenantSamlMetadataResponses[keyof GetTenantSamlMetadataResponses];
+
+export type GetQuotaAndUsageData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/quota-and-usage';
+};
+
+export type GetQuotaAndUsageResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        quotas: {
+            accounts: Schema110;
+            mcpServers: Schema110;
+        };
+    };
+};
+
+export type GetQuotaAndUsageResponse = GetQuotaAndUsageResponses[keyof GetQuotaAndUsageResponses];
+
+export type PostPlaygroundConvertTokenData = {
+    body?: {
+        id: string;
+        displayName: string;
+        email: string;
+        verificationCode?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/playground/convert-token';
+};
+
+export type PostPlaygroundConvertTokenResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        token: string;
+    };
+};
+
+export type PostPlaygroundConvertTokenResponse = PostPlaygroundConvertTokenResponses[keyof PostPlaygroundConvertTokenResponses];
+
+export type GetGlobalSettingsApiLlmKeysData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/global-settings/api-llm-keys';
+};
+
+export type GetGlobalSettingsApiLlmKeysResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        keys: Array<{
+            llmApiId: string;
+            key: string;
+        }>;
+    };
+};
+
+export type GetGlobalSettingsApiLlmKeysResponse = GetGlobalSettingsApiLlmKeysResponses[keyof GetGlobalSettingsApiLlmKeysResponses];
+
+export type PutGlobalSettingsApiLlmKeysData = {
+    body?: {
+        keys: Array<{
+            llmApiId: string;
+            key: string;
+        }>;
+    };
+    path?: never;
+    query?: never;
+    url: '/global-settings/api-llm-keys';
+};
+
+export type PutGlobalSettingsApiLlmKeysResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type PutGlobalSettingsApiLlmKeysResponse = PutGlobalSettingsApiLlmKeysResponses[keyof PutGlobalSettingsApiLlmKeysResponses];
+
+export type GetUsageData = {
+    body?: never;
+    path?: never;
+    query?: {
+        page?: string;
+        limit?: string;
+        type?: 'AgentRun' | 'FreeCredit' | 'PaidCredit' | 'McpToolCall';
+        startDate?: string;
+        endDate?: string;
+        /**
+         * JSON encoded string of { [key: string]: string | boolean | number }. Only records whose meta object matches this structure will be returned.
+         */
+        meta?: string;
+    };
+    url: '/usage';
+};
+
+export type GetUsageResponses = {
+    /**
+     * Successful response
+     */
+    200: PaginatedTenantUsage;
+};
+
+export type GetUsageResponse = GetUsageResponses[keyof GetUsageResponses];
+
+export type GetUsageAggregationData = {
+    body?: never;
+    path?: never;
+    query: {
+        periodStart: string;
+        periodEnd: string;
+    };
+    url: '/usage/aggregation';
+};
+
+export type GetUsageAggregationResponses = {
+    /**
+     * Successful response
+     */
+    200: UsageAggregationResponse;
+};
+
+export type GetUsageAggregationResponse = GetUsageAggregationResponses[keyof GetUsageAggregationResponses];
+
+export type GetUsageByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/usage/{id}';
+};
+
+export type GetUsageByIdResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        usage: TenantUsage;
+    };
+};
+
+export type GetUsageByIdResponse = GetUsageByIdResponses[keyof GetUsageByIdResponses];
+
+export type GetDeploymentsStatusData = {
+    body?: never;
+    path?: never;
+    query?: {
+        sandboxId?: string;
+        serverSlug?: string;
+    };
+    url: '/deployments/status';
+};
+
+export type GetDeploymentsStatusResponses = {
+    /**
+     * Successful response
+     */
+    200: DeploymentStatusResponse;
+};
+
+export type GetDeploymentsStatusResponse = GetDeploymentsStatusResponses[keyof GetDeploymentsStatusResponses];
+
+export type GetDeploymentsLogsData = {
+    body?: never;
+    path?: never;
+    query: {
+        podName: string;
+        previous?: 'true' | 'false';
+    };
+    url: '/deployments/logs';
+};
+
+export type GetDeploymentsLogsResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        logs: {
+            stdout: string;
+            stderr: string;
+        };
+    };
+};
+
+export type GetDeploymentsLogsResponse = GetDeploymentsLogsResponses[keyof GetDeploymentsLogsResponses];
+
+export type GetDeploymentsToolsData = {
+    body?: never;
+    path?: never;
+    query: {
+        podName?: string;
+        serverSlug: string;
+    };
+    url: '/deployments/tools';
+};
+
+export type GetDeploymentsToolsResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        tools: Array<{
+            name: string;
+        }>;
+    };
+};
+
+export type GetDeploymentsToolsResponse = GetDeploymentsToolsResponses[keyof GetDeploymentsToolsResponses];
+
+export type GetDeploymentsDeploymentLogsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        hostedFunctionId?: string;
+        serverSlug?: string;
+    };
+    url: '/deployments/deployment-logs';
+};
+
+export type GetDeploymentsDeploymentLogsResponses = {
+    /**
+     * Event content stream from sandbox
+     */
+    200: DeploymentLogPayload;
+};
+
+export type GetDeploymentsDeploymentLogsResponse = GetDeploymentsDeploymentLogsResponses[keyof GetDeploymentsDeploymentLogsResponses];
 
 export type GetTeamsData = {
     body?: never;
@@ -2086,9 +3706,7 @@ export type PostTeamsResponses = {
     /**
      * Successful response
      */
-    200: {
-        team: TeamWithMemberCount;
-    };
+    200: Schema112;
 };
 
 export type PostTeamsResponse = PostTeamsResponses[keyof PostTeamsResponses];
@@ -2096,7 +3714,7 @@ export type PostTeamsResponse = PostTeamsResponses[keyof PostTeamsResponses];
 export type DeleteTeamsByTeamIdData = {
     body?: never;
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}';
@@ -2116,7 +3734,7 @@ export type DeleteTeamsByTeamIdResponse = DeleteTeamsByTeamIdResponses[keyof Del
 export type GetTeamsByTeamIdData = {
     body?: never;
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}';
@@ -2126,9 +3744,7 @@ export type GetTeamsByTeamIdResponses = {
     /**
      * Successful response
      */
-    200: {
-        team: TeamWithMemberCount;
-    };
+    200: Schema112;
 };
 
 export type GetTeamsByTeamIdResponse = GetTeamsByTeamIdResponses[keyof GetTeamsByTeamIdResponses];
@@ -2139,7 +3755,7 @@ export type PutTeamsByTeamIdData = {
         description: string;
     };
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}';
@@ -2149,9 +3765,7 @@ export type PutTeamsByTeamIdResponses = {
     /**
      * Successful response
      */
-    200: {
-        team: TeamWithMemberCount;
-    };
+    200: Schema112;
 };
 
 export type PutTeamsByTeamIdResponse = PutTeamsByTeamIdResponses[keyof PutTeamsByTeamIdResponses];
@@ -2159,7 +3773,7 @@ export type PutTeamsByTeamIdResponse = PutTeamsByTeamIdResponses[keyof PutTeamsB
 export type GetTeamsByTeamIdMembersData = {
     body?: never;
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}/members';
@@ -2182,10 +3796,10 @@ export type GetTeamsByTeamIdMembersResponse = GetTeamsByTeamIdMembersResponses[k
 export type PostTeamsByTeamIdMembersData = {
     body?: {
         userId: string;
-        role: 'member' | 'maintainer';
+        role: Schema56;
     };
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}/members';
@@ -2205,8 +3819,8 @@ export type PostTeamsByTeamIdMembersResponse = PostTeamsByTeamIdMembersResponses
 export type DeleteTeamsByTeamIdMembersByUserIdData = {
     body?: never;
     path: {
-        teamId: string;
-        userId: string;
+        teamId: Schema57;
+        userId: Schema58;
     };
     query?: never;
     url: '/teams/{teamId}/members/{userId}';
@@ -2225,11 +3839,11 @@ export type DeleteTeamsByTeamIdMembersByUserIdResponse = DeleteTeamsByTeamIdMemb
 
 export type PutTeamsByTeamIdMembersByUserIdData = {
     body?: {
-        role: 'member' | 'maintainer';
+        role: Schema56;
     };
     path: {
-        teamId: string;
-        userId: string;
+        teamId: Schema57;
+        userId: Schema58;
     };
     query?: never;
     url: '/teams/{teamId}/members/{userId}';
@@ -2249,7 +3863,7 @@ export type PutTeamsByTeamIdMembersByUserIdResponse = PutTeamsByTeamIdMembersByU
 export type GetTeamsByTeamIdInvitationsData = {
     body?: never;
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}/invitations';
@@ -2269,10 +3883,10 @@ export type GetTeamsByTeamIdInvitationsResponse = GetTeamsByTeamIdInvitationsRes
 export type PostTeamsByTeamIdInvitationsData = {
     body?: {
         email: string;
-        role: 'member' | 'maintainer';
+        role: Schema56;
     };
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}/invitations';
@@ -2313,7 +3927,7 @@ export type DeleteTeamsByTeamIdInvitationsByInvitationIdResponse = DeleteTeamsBy
 export type GetTeamsByTeamIdServersData = {
     body?: never;
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}/servers';
@@ -2336,7 +3950,7 @@ export type GetTeamsByTeamIdServersResponse = GetTeamsByTeamIdServersResponses[k
 export type GetTeamsByTeamIdClaimMappingsData = {
     body?: never;
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}/claim-mappings';
@@ -2359,7 +3973,7 @@ export type PostTeamsByTeamIdClaimMappingsData = {
         claimValue: string;
     };
     path: {
-        teamId: string;
+        teamId: Schema55;
     };
     query?: never;
     url: '/teams/{teamId}/claim-mappings';
@@ -2417,7 +4031,7 @@ export type PostSecretStoresData = {
     body?: {
         name: string;
         type: 'aws_secrets_manager' | 'gcp_secret_manager' | 'hashicorp_vault' | 'infisical' | 'azure_key_vault';
-        configuration: AwsSecretsManagerConfiguration | GcpSecretManagerConfiguration | HashiCorpVaultConfiguration | InfisicalConfiguration | AzureKeyVaultConfiguration;
+        configuration: Schema59;
     };
     path?: never;
     query?: never;
@@ -2470,7 +4084,7 @@ export type GetSecretStoresByIdResponse = GetSecretStoresByIdResponses[keyof Get
 export type PatchSecretStoresByIdData = {
     body?: {
         name?: string;
-        configuration?: AwsSecretsManagerConfiguration | GcpSecretManagerConfiguration | HashiCorpVaultConfiguration | InfisicalConfiguration | AzureKeyVaultConfiguration;
+        configuration?: Schema59;
         isEnabled?: boolean;
     };
     path: {
@@ -2803,6 +4417,198 @@ export type PutProfilesByProfileIdServersByServerSlugToolsResponses = {
 
 export type PutProfilesByProfileIdServersByServerSlugToolsResponse = PutProfilesByProfileIdServersByServerSlugToolsResponses[keyof PutProfilesByProfileIdServersByServerSlugToolsResponses];
 
+export type GetSandboxesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        all?: string;
+    };
+    url: '/sandboxes';
+};
+
+export type GetSandboxesResponses = {
+    /**
+     * Successful response
+     */
+    200: ListSandboxesResponse;
+};
+
+export type GetSandboxesResponse = GetSandboxesResponses[keyof GetSandboxesResponses];
+
+export type PostSandboxesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/sandboxes';
+};
+
+export type PostSandboxesResponses = {
+    /**
+     * Successful response
+     */
+    200: CreateSandboxResponse;
+};
+
+export type PostSandboxesResponse = PostSandboxesResponses[keyof PostSandboxesResponses];
+
+export type DeleteSandboxesBySandboxIdData = {
+    body?: never;
+    path: {
+        sandboxId: string;
+    };
+    query?: never;
+    url: '/sandboxes/{sandboxId}';
+};
+
+export type DeleteSandboxesBySandboxIdResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        [key: string]: never;
+    };
+};
+
+export type DeleteSandboxesBySandboxIdResponse = DeleteSandboxesBySandboxIdResponses[keyof DeleteSandboxesBySandboxIdResponses];
+
+export type GetSandboxesBySandboxIdData = {
+    body?: never;
+    path: {
+        sandboxId: string;
+    };
+    query?: never;
+    url: '/sandboxes/{sandboxId}';
+};
+
+export type GetSandboxesBySandboxIdResponses = {
+    /**
+     * Successful response
+     */
+    200: SandboxDto;
+};
+
+export type GetSandboxesBySandboxIdResponse = GetSandboxesBySandboxIdResponses[keyof GetSandboxesBySandboxIdResponses];
+
+export type PostSandboxesBySandboxIdExecData = {
+    body?: ExecCommandBody;
+    path: {
+        sandboxId: string;
+    };
+    query?: never;
+    url: '/sandboxes/{sandboxId}/exec';
+};
+
+export type PostSandboxesBySandboxIdExecResponses = {
+    /**
+     * NDJSON stream of exec output. Each line is a JSON object (ExecNdjsonLine) followed by a newline.
+     */
+    200: Blob | File;
+};
+
+export type PostSandboxesBySandboxIdExecResponse = PostSandboxesBySandboxIdExecResponses[keyof PostSandboxesBySandboxIdExecResponses];
+
+export type PostSandboxesBySandboxIdWriteFileData = {
+    /**
+     * Raw file content to write
+     */
+    body?: unknown;
+    path: {
+        sandboxId: string;
+    };
+    query: {
+        path: Schema60;
+    };
+    url: '/sandboxes/{sandboxId}/write-file';
+};
+
+export type PostSandboxesBySandboxIdWriteFileResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type PostSandboxesBySandboxIdWriteFileResponse = PostSandboxesBySandboxIdWriteFileResponses[keyof PostSandboxesBySandboxIdWriteFileResponses];
+
+export type PostSandboxesBySandboxIdReadFileData = {
+    body?: never;
+    path: {
+        sandboxId: string;
+    };
+    query: {
+        path: Schema60;
+    };
+    url: '/sandboxes/{sandboxId}/read-file';
+};
+
+export type PostSandboxesBySandboxIdReadFileResponses = {
+    /**
+     * File content stream from sandbox
+     */
+    200: unknown;
+};
+
+export type GetBySandboxIdAuditLogsData = {
+    body?: never;
+    path: {
+        sandboxId: string;
+    };
+    query?: {
+        page?: string;
+        limit?: string;
+        eventName?: string;
+        startDate?: string;
+        endDate?: string;
+    };
+    url: '/{sandboxId}/audit-logs';
+};
+
+export type GetBySandboxIdAuditLogsResponses = {
+    /**
+     * Successful response
+     */
+    200: PaginatedSandboxAuditLog;
+};
+
+export type GetBySandboxIdAuditLogsResponse = GetBySandboxIdAuditLogsResponses[keyof GetBySandboxIdAuditLogsResponses];
+
+export type GetBySandboxIdAuditLogsByIdData = {
+    body?: never;
+    path: {
+        sandboxId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/{sandboxId}/audit-logs/{id}';
+};
+
+export type GetBySandboxIdAuditLogsByIdResponses = {
+    /**
+     * Successful response
+     */
+    200: SandboxAuditLog;
+};
+
+export type GetBySandboxIdAuditLogsByIdResponse = GetBySandboxIdAuditLogsByIdResponses[keyof GetBySandboxIdAuditLogsByIdResponses];
+
+export type PostEmailVerificationSendCodeData = {
+    body?: SendVerificationCodeRequest;
+    path?: never;
+    query?: never;
+    url: '/email-verification/send-code';
+};
+
+export type PostEmailVerificationSendCodeResponses = {
+    /**
+     * Successful response
+     */
+    200: SendVerificationCodeResponse;
+};
+
+export type PostEmailVerificationSendCodeResponse = PostEmailVerificationSendCodeResponses[keyof PostEmailVerificationSendCodeResponses];
+
 export type ClientOptions = {
-    baseUrl: 'https://{YOUR_ORG_ID}.gatana.ai/api/v1' | (string & {});
+    baseUrl: `${string}://${string}/api/v1` | (string & {});
 };

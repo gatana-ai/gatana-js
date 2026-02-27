@@ -1,7 +1,7 @@
 <div align="center">
   <img alt="Gatana Logo" height="86" src="https://gatana.gatana.ai/favicon-prod.png" width="86">
-  <h1 align="center"><b>gatana-js</b></h1>
-  <p align="center">🚀 CLI and JavaScript SDK</p>
+  <h1 align="center"><b>gatana</b></h1>
+  <p align="center">🚀 CLI and JavaScript SDK for managing MCP servers</p>
 </div>
 <br/>
 
@@ -19,75 +19,387 @@
 
 <br/>
 
+Gatana provides a CLI tool for communicating with the [Gatana platform](https://gatana.ai), using the Gatana API.
+
+For configuration, `gatana` looks for a file at `~/.gatana.config`. You can override configuration using environment variables or by passing options directly in the SDK.
+
+---
+
 ## Install
 
 ```bash
+# SDK
 npm install gatana
+
+# CLI (global)
+npm install -g gatana
 ```
 
-## Quick Start SDK
+## Syntax
 
-```typescript
-import { Gatana } from 'gatana';
-const client = new Gatana();
+Use the following syntax to run `gatana` commands from your terminal:
 
-// List MCP Servers
-await client.api.getMcpServers();
+```
+gatana [command] [resource] [name] [flags]
 ```
 
-## Quick Start CLI
+where `command`, `resource`, `name`, and `flags` are:
+
+- `command`: The operation to perform — `get`, `create`, `describe`, `delete`, `patch`.
+- `resource`: The target resource type — `server`, `tool`, `creds` (credentials).
+- `name`: The name or identifier of the resource. If omitted, all resources of that type are listed.
+- `flags`: Optional flags such as `-o json`, `-f file.json`, `-s server-slug`. Flags are specific to each command.
+
+> **Example:** The following commands are equivalent ways to list servers:
+>
+> ```bash
+> gatana get server
+> gatana get servers
+> ```
+
+## Global Options
+
+| Flag                    | Description              | Values                            |
+| ----------------------- | ------------------------ | --------------------------------- |
+| `-o, --output <format>` | Output format            | `json`, `yaml`, `table` (default) |
+| `-V, --version`         | Print version            |                                   |
+| `-h, --help`            | Display help for command |                                   |
+
+The default table format uses kubectl-style rendering: uppercase headers, no borders, and auto-width columns.
+
+---
+
+## Commands
+
+### Basic Commands
+
+Operations on core resources (servers, tools, credentials).
+
+| Command             | Syntax                                                        | Description                                                |
+| ------------------- | ------------------------------------------------------------- | ---------------------------------------------------------- |
+| **get server**      | `gatana get server [name]`                                    | List all servers or get a specific server by slug          |
+| **get tool**        | `gatana get tool [name] [--enabled]`                          | List all tools or get a specific tool's schema             |
+| **get creds**       | `gatana get creds [id] -s <slug>`                             | List credentials for a server, or get one by ID            |
+| **describe server** | `gatana describe server <name>`                               | Show deployment status, tools, audit logs, and credentials |
+| **create server**   | `gatana create server [-n name] [-t type]`                    | Create a new server (interactive prompts if flags omitted) |
+| **create creds**    | `gatana create creds <slug> [-f file] [--scope user\|server]` | Create or replace credentials for a server                 |
+| **delete server**   | `gatana delete server <name>`                                 | Delete a server                                            |
+| **delete creds**    | `gatana delete creds [id] -s <slug> [--all]`                  | Delete one or all credentials for a server                 |
+| **patch server**    | `gatana patch server <slug> [-p kv...] [-f file]`             | JSON Merge Patch (RFC 7396) a server                       |
+
+> **Transport types** for `create server -t`: `hosted`, `stdio`, `httpstreaming`, `sse`
+
+### Server Management
+
+Commands for deployments, tools, hosted server lifecycle, and credentials.
+
+| Command                 | Syntax                                                               | Description                                                    |
+| ----------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **tool**                | `gatana tool <name> [-a kv...] [-f file]`                            | Call a tool by its universal name (`serverSlug_toolName`)      |
+| **deploy get**          | `gatana deploy get <name>`                                           | Get deployment status of a server                              |
+| **deploy logs**         | `gatana deploy logs <name> [--id <deploymentId>]`                    | Get logs of a running server deployment                        |
+| **deploy wait**         | `gatana deploy wait <name> [--timeout 10m]`                          | Wait for deployment to finish                                  |
+| **deploy stop**         | `gatana deploy stop <name>`                                          | Stop a server deployment                                       |
+| **deploy start**        | `gatana deploy start <name> [--wait]`                                | Start a server deployment                                      |
+| **hosted init**         | `gatana hosted init [path]`                                          | Scaffold a new hosted server from a template                   |
+| **hosted local-verify** | `gatana hosted local-verify <path>`                                  | Verify local source code (checks `index.js` + `schema` export) |
+| **hosted local-run**    | `gatana hosted local-run <path> <tool> [-i json] [-f file] [-p k=v]` | Test a tool locally without deploying                          |
+| **hosted upload**       | `gatana hosted upload <name> [path] [--create] [--force]`            | Upload source code, deploy, and wait for stabilization         |
+| **hosted download**     | `gatana hosted download <name> [-o path]`                            | Download deployed source code as a zip                         |
+| **creds**               | `gatana creds <slug> [--cred-id <id>]`                               | Get the effective (resolved) credentials/token for a server    |
+
+### Utility Commands
+
+Configuration, authentication, and introspection.
+
+| Command                | Syntax                                                       | Description                                          |
+| ---------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| **config show**        | `gatana config show`                                         | Show current configuration (base URL, token)         |
+| **config token**       | `gatana config token`                                        | Print the token that would be used for requests      |
+| **config login**       | `gatana config login <org-id> [-b base-url]`                 | Login via OIDC device authorization flow             |
+| **config set-api-key** | `gatana config set-api-key -t <key> -o <org-id> [--default]` | Set an API key for an organization                   |
+| **config ls**          | `gatana config ls`                                           | List all configured organizations                    |
+| **config set-default** | `gatana config set-default <org-id>`                         | Set the default organization                         |
+| **config remove**      | `gatana config remove <org-id>`                              | Remove an organization from config                   |
+| **auth-info**          | `gatana auth-info`                                           | Display authenticated user and organization info     |
+| **schema server**      | `gatana schema server`                                       | Print the resolved OpenAPI schema for the Server DTO |
+
+---
+
+## Resource Types
+
+| Resource      | Aliases   | Description                            |
+| ------------- | --------- | -------------------------------------- |
+| `server`      | `servers` | MCP server registrations               |
+| `tool`        | `tools`   | Tools exposed by servers               |
+| `credentials` | `creds`   | Authentication credentials for servers |
+
+---
+
+## Examples
+
+### Getting Started
 
 ```bash
-npm i -g gatana
-gatana config login # login
-gatana server ls # list servers
+# Install and log in
+npm install -g gatana
+gatana config login my-org
+
+# Verify your identity
+gatana auth-info
+
+# List your servers
+gatana get servers
 ```
 
-### Package & Upload Hosted Server
+### Managing Servers
 
 ```bash
-mkdir pkg
-echo 'export const schema = {}' > pkg/index.js
-gatana server deploy pgk
+# Create a new hosted server (interactive)
+gatana create server
+
+# Create with flags
+gatana create server -n my-server -t hosted
+
+# View server details
+gatana describe server my-server
+
+# Patch a server using dot-notation
+gatana patch server my-server -p description="Updated description"
+gatana patch server my-server -p isEnabled=false -p oauthMetadata.as.deviceAuthorizationEndpoint="https://auth.example.com/device"
+
+# Patch from a JSON file
+gatana patch server my-server -f patch.json
+
+# Patch from stdin
+echo '{"description": "Piped"}' | gatana patch server my-server
+
+# Delete a server
+gatana delete server my-server
 ```
+
+### Hosted Server Lifecycle
+
+```bash
+# Scaffold a new server directory
+gatana hosted init ./my-server
+
+# Verify the source code locally
+gatana hosted local-verify ./my-server
+
+# Test a tool locally before deploying
+gatana hosted local-run ./my-server my_tool -p input="hello"
+
+# Upload, deploy, and wait for stabilization
+gatana hosted upload my-server ./my-server --create
+
+# View deployment logs
+gatana deploy logs my-server
+
+# Wait for deployment to finish (with timeout)
+gatana deploy wait my-server --timeout 5m
+
+# Download the deployed source code
+gatana hosted download my-server -o my-server.zip
+
+# Stop and start deployments
+gatana deploy stop my-server
+gatana deploy start my-server --wait
+```
+
+### Calling Tools
+
+```bash
+# List all tools
+gatana get tools
+
+# List only enabled tools
+gatana get tools --enabled
+
+# View a specific tool's schema
+gatana get tool serverSlug_toolName
+
+# Call a tool with dot-notation arguments
+gatana tool my_server_search -a query="hello world" -a limit=10
+
+# Call a tool with inline JSON
+gatana tool my_server_search -a '{"query": "hello world", "limit": 10}'
+
+# Call a tool from a JSON file
+gatana tool my_server_search -f args.json
+
+# Call a tool from stdin
+echo '{"query": "hello"}' | gatana tool my_server_search
+```
+
+### Credentials
+
+```bash
+# Create credentials for a server (auto-detects OAuth vs API key)
+gatana create creds my-server
+
+# Create credentials from a file
+gatana create creds my-server -f creds.json
+
+# List credentials for a server
+gatana get creds -s my-server
+
+# Get effective (resolved) credentials
+gatana creds my-server
+
+# Delete all credentials for a server
+gatana delete creds -s my-server --all
+```
+
+### Multi-Org Configuration
+
+```bash
+# Log in to multiple organizations
+gatana config login org-one
+gatana config login org-two
+
+# List configured organizations
+gatana config ls
+
+# Switch default organization
+gatana config set-default org-two
+
+# Set an API key for an organization
+gatana config set-api-key -t sk-abc123 -o my-org --default
+
+# Remove an organization
+gatana config remove org-one
+```
+
+### Output Formats
+
+```bash
+# Default table output
+gatana get servers
+
+# JSON output
+gatana get servers -o json
+
+# YAML output
+gatana describe server my-server -o yaml
+```
+
+---
 
 ## Configuration
 
-This is the default configuration lookup strategy:
+`gatana` resolves authentication in the following order:
 
-1. Passed options (only SDK)
-2. Environment variables `GATANA_ORG_ID` and `GATANA_API_KEY`
-3. Configurations from `~/.gatana.config` in the following order
-   1. `GATANA_ORG_ID`
-   2. The default organization
+1. **Passed options** (SDK only) — `apiKey` + `orgId` or `baseUrl`
+2. **Environment variables** — `GATANA_API_KEY` + `GATANA_ORG_ID` (or `GATANA_BASE_URL`)
+3. **Config file** `~/.gatana.config` — API key or OIDC tokens per organization
 
-## SDK
+### Environment Variables
 
-Authentication can be controlled in the constructor by providing a custom `ConfigLoader`:
+| Variable          | Description                                            |
+| ----------------- | ------------------------------------------------------ |
+| `GATANA_API_KEY`  | API key for authentication                             |
+| `GATANA_ORG_ID`   | Organization ID (derives `https://<org-id>.gatana.ai`) |
+| `GATANA_BASE_URL` | Override the base URL directly                         |
 
-```typescript
-const client = new Gatana({ configLoader: ConfigLoader });
-```
+### Config File
 
-The configLoader must follow this shape:
+The config file at `~/.gatana.config` supports multiple organizations:
 
-```typescript
+```json
 {
-  getConfig(): { baseUrl: string; token: () => Promise<string> } | null;
+  "orgs": {
+    "my-org": {
+      "baseUrl": "https://my-org.gatana.ai",
+      "apiKey": "sk-...",
+      "tokens": {
+        "access_token": "...",
+        "refresh_token": "...",
+        "expires_at": 1234567890
+      }
+    }
+  },
+  "defaultOrgId": "my-org"
 }
 ```
 
+Authentication methods per organization:
+
+- **API key** — set via `gatana config set-api-key` or directly in the config file
+- **OIDC tokens** — set via `gatana config login`, automatically refreshed when expired
+
+---
+
+## SDK
+
+The package also exports a JavaScript/TypeScript SDK:
+
+```typescript
+import { Gatana } from 'gatana';
+
+const client = new Gatana();
+const servers = await client.api.getMcpServers();
+```
+
+### Custom Authentication
+
+Provide a `ConfigLoader` or explicit options:
+
+```typescript
+// Using options
+const client = new Gatana({
+  configLoader: new ConfigLoader([
+    new OptionsConfigStrategy({ apiKey: 'sk-...', orgId: 'my-org' })
+  ])
+});
+
+// Using a custom config loader
+const client = new Gatana({
+  configLoader: {
+    getConfig(): { baseUrl: string; token: () => Promise<string> }
+  }
+});
+```
+
+### V2 API Client
+
+A `Gatana2` client is also exported for the newer REST-style API (v2):
+
+```typescript
+import { Gatana2 } from 'gatana';
+```
+
+### Exports
+
+| Export                  | Description                                           |
+| ----------------------- | ----------------------------------------------------- |
+| `Gatana`                | V1 API client — wraps the generated SDK at `/api/v1/` |
+| `Gatana2`               | V2 API client — REST-style API at `/api/v2/`          |
+| `ConfigLoader`          | Chains config strategies in priority order            |
+| `ConfigStrategy`        | Abstract base class for auth strategies               |
+| `OptionsConfigStrategy` | Auth from explicit `{ apiKey, orgId }` options        |
+| `EnvConfigStrategy`     | Auth from environment variables                       |
+| `FileConfigStrategy`    | Auth from `~/.gatana.config` (supports token refresh) |
+
+---
+
 ## Debugging
 
-The SDK uses the `debug` package for logging. Enable debug output with:
+The SDK and CLI use the `debug` package for logging. Enable debug output with:
 
 ```bash
+# General debug output
 DEBUG=gatana node your-script.js
+
+# HTTP request/response traces
+DEBUG=gatana:http node your-script.js
 ```
+
+---
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT License — see [LICENSE](LICENSE) for details.
 
 ## Contributing
 

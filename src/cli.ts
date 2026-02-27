@@ -1,60 +1,63 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { setOutputOptions, OutputFormat } from './output.js';
-import { createQueryCommand, createAgentsCommand, createHostedCommand, createConfigCommand } from './commands/index.js';
 import { ConfigLoader, EnvConfigStrategy, FileConfigStrategy, Gatana } from '../lib/index.js';
+import { styleText } from 'util';
+import { Gatana2 } from '../lib/v2.js';
+import { registerRootCommands } from './commands/addCommands.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Read package.json for version - go up two levels from dist/bin to root
-const packageJson = JSON.parse(readFileSync(join(__dirname, '../../package.json'), 'utf8'));
+// Find package.json — works both from src/ (dev) and dist/bin/ (built)
+function findPackageJson(): string {
+  for (const candidate of [
+    join(__dirname, '../package.json'), // from src/
+    join(__dirname, '../../package.json'), // from dist/bin/
+  ]) {
+    if (existsSync(candidate)) return candidate;
+  }
+  throw new Error('Could not find package.json');
+}
+
+const packageJson = JSON.parse(readFileSync(findPackageJson(), 'utf8'));
 
 const program = new Command();
 
 interface GlobalOptions {
-  format?: OutputFormat;
+  output?: OutputFormat;
   nonInteractive?: boolean;
 }
 
 const configLoader = new ConfigLoader([new EnvConfigStrategy(), new FileConfigStrategy()]);
 const gatana = new Gatana({ configLoader, isCli: true });
+const gatana2 = new Gatana2({ configLoader, isCli: true });
 
 program
   .name('gatana')
   .description('CLI tool for Gatana - AI agent management and querying')
   .version(packageJson.version)
-  .option('-f, --format <format>', 'Output format (json, yaml, table)', 'table')
-  .option('--non-interactive', 'Non-interactive mode (errors to stderr, no prompts)')
+  .option('-o, --output <format>', 'Output format (json, yaml, table)')
 
   .hook('preAction', thisCommand => {
     // Set output options based on global flags
     const opts = thisCommand.opts<GlobalOptions>();
 
-    // Auto-detect interactive mode if not explicitly set
-    let interactive = true;
-    if (opts.nonInteractive !== undefined) {
-      // Explicitly set via --non-interactive flag
-      interactive = !opts.nonInteractive;
-    } else {
-      // Auto-detect: interactive if we have a TTY and stdout is not being piped
-      interactive = process.stdout.isTTY && process.stdin.isTTY && !process.env.CI;
-    }
-
+    const formatExplicit = opts.output !== undefined;
     setOutputOptions({
-      format: (opts.format as OutputFormat) || 'table',
-      interactive,
+      format: (opts.output as OutputFormat) || 'table',
+      formatExplicit,
     });
   });
 
-// Register all commands
-program.addCommand(createQueryCommand(gatana));
-program.addCommand(createAgentsCommand(gatana));
-program.addCommand(createHostedCommand(gatana));
-program.addCommand(createConfigCommand(configLoader));
+// Register verb commands (get, describe, create, delete, edit, deploy, logs)
+registerRootCommands(program, configLoader, gatana, gatana2);
 
+program.configureHelp({
+  styleTitle: str => styleText(['whiteBright', 'bold'], str),
+});
 program.parse();

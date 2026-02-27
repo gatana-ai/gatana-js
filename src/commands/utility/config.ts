@@ -8,11 +8,11 @@ import {
   removeOrganization,
   setDefaultOrganization,
   setOrganizationConfig,
-} from '../config.js';
+} from '../../config.js';
 import * as openidClient from 'openid-client';
 import open from 'open';
-import { output } from '../output.js';
-import { ConfigLoader, Gatana } from '../../lib/index.js';
+import { output } from '../../output.js';
+import { ConfigLoader, Gatana } from '../../../lib/index.js';
 
 export function createConfigCommand(configLoader: ConfigLoader): Command {
   const configCommand = new Command('config').description('Show configuration requirements and current status');
@@ -72,7 +72,7 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
             console.log(`${orgId} is now the default organization since it's the only one configured.`);
           } else if (orgId !== currentDefault) {
             console.log(`Current default organization: ${getDefaultOrganization()}`);
-            console.log(`Run "gatana config org set-default ${orgId}" to set this as default.`);
+            console.log(`Run "gatana config set-default ${orgId}" to set this as default.`);
           }
         } catch (error) {
           let didPrintCause = false;
