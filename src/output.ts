@@ -1,21 +1,27 @@
 export type OutputFormat = 'json' | 'yaml' | 'table';
 
-import { Table } from 'console-table-printer';
+import yaml from 'js-yaml';
+import chalk from 'chalk';
 import _ from 'lodash';
 
 export interface TableColumn {
-  name: string;
-  title?: string;
+  title: string;
+  /** Dot-path key to pluck from the row (e.g. 'slug' or 'transport.type') */
+  name?: string;
+  /** Function that receives the full row and returns the cell value. Takes precedence over `name`. */
+  valueGet?: (row: any) => any;
   alignment?: 'left' | 'center' | 'right';
 }
 
 interface OutputOptions {
   format: OutputFormat;
+  formatExplicit: boolean;
   interactive: boolean;
 }
 
 let globalOptions: OutputOptions = {
   format: 'table',
+  formatExplicit: false,
   interactive: true,
 };
 
@@ -27,15 +33,68 @@ export function getOutputOptions(): OutputOptions {
   return globalOptions;
 }
 
+/**
+ * kubectl-style column formatter: uppercase headers, no borders, padded columns.
+ * Example:
+ *   NAME     SLUG     AGE
+ *   github   github   3d
+ */
+function printKubectlTable(
+  rows: Record<string, any>[],
+  { tableColumns: columns, noHeaders }: { tableColumns?: TableColumn[]; noHeaders?: boolean } = {},
+  writeFn: (...args: any[]) => void = console.log
+): void {
+  if (rows.length === 0) return;
+
+  // Build resolvers: each column becomes { header, resolve(row) → string }
+  const cols = columns
+    ? columns.map(c => ({
+        header: c.title.toUpperCase(),
+        resolve: c.valueGet
+          ? (row: any) => stringify(c.valueGet!(row))
+          : (row: any) => stringify(c.name ? _.get(row, c.name) : row),
+      }))
+    : Object.keys(rows[0]).map(k => ({
+        header: k.toUpperCase(),
+        resolve: (row: any) => stringify(row[k]),
+      }));
+
+  const stringRows = rows.map(row => cols.map(c => c.resolve(row)));
+
+  // Compute column widths (min = header length)
+  const widths = cols.map((c, i) => Math.max(c.header.length, ...stringRows.map(r => r[i].length)));
+
+  const GAP = '   '; // 3-space gap between columns (kubectl default)
+
+  // Header
+  if (!noHeaders) {
+    writeFn(cols.map((c, i) => c.header.padEnd(widths[i])).join(GAP));
+  }
+  // Rows
+  for (const row of stringRows) {
+    writeFn(row.map((cell, i) => cell.padEnd(widths[i])).join(GAP));
+  }
+}
+
+function stringify(v: any): string {
+  if (v === null || v === undefined) return '<none>';
+  if (typeof v === 'object') return JSON.stringify(v);
+  return String(v);
+}
+
 export function output(
   data: any,
   options?: {
     error?: boolean;
     headers?: string[];
+    noHeaders?: boolean;
     tableColumns?: TableColumn[];
+    /** Used as the format when the user hasn't explicitly passed -f */
+    defaultFormat?: OutputFormat;
   }
 ) {
-  const { format, interactive } = globalOptions;
+  const format = !globalOptions.formatExplicit && options?.defaultFormat ? options.defaultFormat : globalOptions.format;
+  const { interactive } = globalOptions;
   const isError = options?.error ?? false;
 
   // For errors in non-interactive mode, always use stderr
@@ -51,215 +110,96 @@ export function output(
       }
       break;
 
-    case 'yaml':
-      try {
-        // Import js-yaml dynamically to handle cases where it's not installed
-        const yaml = require('js-yaml');
-        if (isError && !interactive) {
-          console.error(yaml.dump({ error: data }));
-        } else {
-          writeFn(yaml.dump(data));
-        }
-      } catch (error) {
-        // Fallback to JSON if js-yaml is not available
-        console.error('YAML output requires js-yaml package. Install with: npm install js-yaml');
-        if (isError && !interactive) {
-          console.error(JSON.stringify({ error: data }, null, 2));
-        } else {
-          writeFn(JSON.stringify(data, null, 2));
-        }
+    case 'yaml': {
+      const raw = yaml.dump(data);
+      if (isError && !interactive) {
+        console.error(raw);
+      } else {
+        writeFn(raw);
       }
       break;
+    }
 
     case 'table':
     default:
-      try {
-        if (Array.isArray(data) && data.length > 0) {
-          // Use console-table-printer for arrays of objects
-          const table = options?.tableColumns ? new Table({ columns: options.tableColumns }) : new Table();
-          data.forEach(item => table.addRow(item));
-          table.printTable();
-        } else if (typeof data === 'object' && data !== null) {
-          // For single objects or objects with nested arrays
-          if (options?.tableColumns) {
-            const table = new Table({ columns: options.tableColumns });
-
-            // Extract the array data if it's nested (e.g., data.agents, data.functions)
-            const arrayData = Object.values(data).find(val => Array.isArray(val));
-            if (arrayData && Array.isArray(arrayData)) {
-              if (arrayData.length === 0) {
-                writeFn(`No ${Object.keys(data)[0]} found.`);
-              } else {
-                if (options.tableColumns) {
-                  arrayData.forEach(item =>
-                    table.addRow(
-                      _.pick(
-                        item,
-                        options.tableColumns!.map(col => col.name)
-                      )
-                    )
-                  );
-                } else {
-                  arrayData.forEach(item => table.addRow(item));
-                }
-
-                table.printTable();
-              }
+      if (Array.isArray(data) && data.length > 0) {
+        printKubectlTable(data, options, writeFn);
+      } else if (typeof data === 'object' && data !== null) {
+        if (options?.tableColumns) {
+          // Extract the array data if nested (e.g., { servers: [...] })
+          const arrayData = Object.values(data).find(val => Array.isArray(val));
+          if (arrayData && Array.isArray(arrayData)) {
+            if (arrayData.length === 0) {
+              writeFn(`No ${Object.keys(data)[0]} found.`);
             } else {
-              // Single object
-              table.addRow(data);
-              table.printTable();
+              printKubectlTable(arrayData, options, writeFn);
             }
           } else {
-            // Fallback: create a simple table without column configuration
-            // For single objects, show properties as rows
-            if (Object.keys(data).length > 0) {
-              const table = new Table({
-                columns: [
-                  { name: 'property', title: 'Property', alignment: 'left' },
-                  { name: 'value', title: 'Value', alignment: 'left' },
-                ],
-              });
-
-              let hasRows = false;
-              // Convert object properties to rows, but skip only non-empty nested objects and arrays
-              Object.entries(data).forEach(([key, value]) => {
-                if (value === null || typeof value !== 'object') {
-                  // Include primitives and null
-                  table.addRow({
-                    property: key,
-                    value: value,
-                  });
-                  hasRows = true;
-                } else if (Array.isArray(value) && value.length === 0) {
-                  // Include empty arrays
-                  table.addRow({
-                    property: key,
-                    value: '[]',
-                  });
-                  hasRows = true;
-                } else if (!Array.isArray(value) && Object.keys(value).length === 0) {
-                  // Include empty objects
-                  table.addRow({
-                    property: key,
-                    value: '{}',
-                  });
-                  hasRows = true;
-                }
-              });
-
-              // Only print the main table if it has rows
-              if (hasRows) {
-                table.printTable();
-              }
-            }
-
-            // Recursive function to handle nested structures
-            const displayNestedData = (obj: any, prefix = '') => {
-              for (const [key, value] of Object.entries(obj)) {
-                const fullKey = prefix ? `${prefix}.${key}` : key;
-
-                // Check for nested arrays, create one new table per array
-                if (Array.isArray(value)) {
-                  if (value.length > 0) {
-                    writeFn(`\n${fullKey}:`);
-                    const nestedTable = new Table();
-                    value.forEach((item: any) => {
-                      if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
-                        nestedTable.addRow(item);
-                      } else {
-                        nestedTable.addRow({ value: item });
-                      }
-                    });
-                    nestedTable.printTable();
-
-                    // Recursively process objects within the array
-                    value.forEach((item: any, index: number) => {
-                      if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
-                        displayNestedData(item, `${fullKey}[${index}]`);
-                      }
-                    });
-                  }
-                }
-                // Check for nested objects, create one new table per object
-                else if (
-                  typeof value === 'object' &&
-                  value !== null &&
-                  !Array.isArray(value) &&
-                  Object.keys(value).length > 0
-                ) {
-                  writeFn(`\n${fullKey}:`);
-                  const nestedTable = new Table({
-                    columns: [
-                      { name: 'property', title: 'Property', alignment: 'left' },
-                      { name: 'value', title: 'Value', alignment: 'left' },
-                    ],
-                  });
-
-                  // Convert object properties to rows (only primitive values)
-                  Object.entries(value).forEach(([propKey, propValue]) => {
-                    if (propValue === null || typeof propValue !== 'object') {
-                      nestedTable.addRow({
-                        property: propKey,
-                        value: propValue,
-                      });
-                    } else if (Array.isArray(propValue) && propValue.length === 0) {
-                      nestedTable.addRow({
-                        property: propKey,
-                        value: '[]',
-                      });
-                    } else if (!Array.isArray(propValue) && Object.keys(propValue).length === 0) {
-                      nestedTable.addRow({
-                        property: propKey,
-                        value: '{}',
-                      });
-                    }
-                  });
-
-                  nestedTable.printTable();
-
-                  // Recursively process nested structures
-                  displayNestedData(value, fullKey);
-                }
-              }
-            };
-
-            displayNestedData(data);
+            // Single object with explicit columns
+            printKubectlTable([data], options, writeFn);
           }
         } else {
-          // Fallback to text for non-tabular data
-          writeFn(data);
+          // No explicit columns — show key/value pairs kubectl-style
+          const kvRows: Record<string, any>[] = [];
+          const nestedEntries: [string, any][] = [];
+
+          for (const [key, value] of Object.entries(data)) {
+            if (value === null || typeof value !== 'object') {
+              kvRows.push({ property: key, value: value ?? '<none>' });
+            } else if (Array.isArray(value) && value.length === 0) {
+              kvRows.push({ property: key, value: '[]' });
+            } else if (!Array.isArray(value) && Object.keys(value).length === 0) {
+              kvRows.push({ property: key, value: '{}' });
+            } else {
+              nestedEntries.push([key, value]);
+            }
+          }
+
+          if (kvRows.length > 0) {
+            printKubectlTable(
+              kvRows,
+              {
+                tableColumns: [
+                  { name: 'property', title: 'Property' },
+                  { name: 'value', title: 'Value' },
+                ],
+              },
+              writeFn
+            );
+          }
+
+          // Print nested objects/arrays as separate sections
+          for (const [key, value] of nestedEntries) {
+            if (Array.isArray(value) && value.length > 0) {
+              writeFn(`\n${key}:`);
+              const items = value.map((item: any) =>
+                typeof item === 'object' && item !== null ? item : { value: item }
+              );
+              printKubectlTable(items, undefined, writeFn);
+            } else if (typeof value === 'object' && value !== null) {
+              writeFn(`\n${key}:`);
+              const nestedKvRows = Object.entries(value).map(([k, v]) => ({
+                property: k,
+                value: v === null || typeof v !== 'object' ? String(v ?? '<none>') : JSON.stringify(v),
+              }));
+              printKubectlTable(
+                nestedKvRows,
+                {
+                  tableColumns: [
+                    { name: 'property', title: 'Property' },
+                    { name: 'value', title: 'Value' },
+                  ],
+                },
+                writeFn
+              );
+            }
+          }
         }
-      } catch (error) {
-        // Fallback to console.table if console-table-printer fails
-        console.error('Table formatting error, falling back to console.table');
-        if (Array.isArray(data) && data.length > 0) {
-          console.table(data, options?.headers);
-        } else if (typeof data === 'object' && data !== null) {
-          console.table([data], options?.headers);
-        } else {
-          writeFn(data);
-        }
+      } else {
+        writeFn(data);
       }
       break;
   }
-}
-
-function formatObject(obj: any, indent = ''): string {
-  const lines: string[] = [];
-  for (const [key, value] of Object.entries(obj)) {
-    if (value === null || value === undefined) continue;
-
-    if (typeof value === 'object' && !Array.isArray(value)) {
-      lines.push(`${indent}${key}:`);
-      lines.push(formatObject(value, indent + '  '));
-    } else if (Array.isArray(value)) {
-      lines.push(`${indent}${key}: [${value.join(', ')}]`);
-    } else {
-      lines.push(`${indent}${key}: ${value}`);
-    }
-  }
-  return lines.join('\n');
 }
 
 // Helper functions for common output patterns
@@ -268,23 +208,7 @@ export function outputSuccess(message: string, data?: any) {
   if (format === 'json' || format === 'yaml') {
     output({ success: true, message, ...(data && { data }) });
   } else {
-    output(`✅ ${message}`);
-    if (data) {
-      // Handle special data formatting for text mode
-      if (data.functionId) {
-        output(`Function ID: ${data.functionId}`);
-      }
-      if (data.functionName) {
-        output(`Function Name: ${data.functionName}`);
-      }
-      if (data.nextSteps && Array.isArray(data.nextSteps)) {
-        output('');
-        output('Next steps:');
-        data.nextSteps.forEach((step: string) => {
-          output(`• ${step}`);
-        });
-      }
-    }
+    output(`${message}`);
   }
 }
 
@@ -321,5 +245,15 @@ export function outputProgress(message: string) {
     console.log(message);
   } else {
     console.error(message);
+  }
+}
+
+/**
+ * Clear the last `count` lines written to stdout.
+ * Moves cursor up `count` lines, clears them, and resets the cursor to the start.
+ */
+export function clearLines(count: number = 1) {
+  for (let i = 0; i < count; i++) {
+    process.stdout.write('\x1b[1A\x1b[2K');
   }
 }

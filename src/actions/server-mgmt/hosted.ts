@@ -1,16 +1,23 @@
 import { confirm, input } from '@inquirer/prompts';
-import { existsSync, createReadStream, readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import archiver from 'archiver';
 import { createWriteStream } from 'fs';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
-import { Gatana, GatanaConfig } from '../lib/index.js';
-import { DeploymentLogPayload, ServerDto } from '../lib/api/types.gen.js';
+import { Gatana } from '../../../lib/index.js';
+import { DeploymentLogPayload, ServerDto } from '../../../lib/api/types.gen.js';
 import { EventSource } from 'eventsource';
-import { formDataBodySerializer } from '../lib/api/core/bodySerializer.gen.js';
-import { output, outputError, outputInfo } from './output.js';
-import { OrganizationConfig } from './config.js';
+import { clearLines, output, outputError, outputInfo } from '../../output.js';
+import createDebug from 'debug';
+import { dirname, resolve } from 'node:path';
+import { cp, mkdir, readdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import z from 'zod';
+import _ from 'lodash';
+
+const debug = createDebug('gatana:http');
+const _require = createRequire(import.meta.url);
 
 export interface HostedServerInfo {
   name: string;
@@ -140,22 +147,15 @@ export async function createZipFromDirectory(sourceDir: string = process.cwd()):
   });
 }
 
-export async function createHostedServer(
+export async function createServer(
   gatana: Gatana,
-  name: string,
-  description?: string
+  slug: string,
+  transportType: 'hosted' | 'stdio' | 'httpstreaming' | 'sse'
 ): Promise<HostedServerInfo> {
   const { data, error } = await gatana.api.postMcpServers({
     body: {
-      name,
-      description: description || '',
-      authorization: { method: 'none', credentialsScope: 'server' },
-      slug: name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-      transportConfig: {
-        type: 'hosted',
-        runtime: 'node24',
-        env: [],
-      },
+      slug: slug.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+      transportType,
     },
   });
 
@@ -182,7 +182,10 @@ export async function uploadZipToFunction(gatana: Gatana, serverSlug: string, zi
   const formData = new FormData();
   formData.append('file', new Blob([new Uint8Array(fileBuffer)]), 'function.zip');
 
-  const uploadResponse = await fetch(`${gatana.config.baseUrl}/api/v1/mcp-servers/${serverSlug}/source-code`, {
+  const uploadUrl = `${gatana.config.baseUrl}/api/v1/mcp-servers/${serverSlug}/source-code`;
+  debug(`→ PUT ${uploadUrl}`);
+
+  const uploadResponse = await fetch(uploadUrl, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${await gatana.config.token()}`,
@@ -190,8 +193,16 @@ export async function uploadZipToFunction(gatana: Gatana, serverSlug: string, zi
     body: formData,
   });
 
+  debug(`← ${uploadResponse.status} ${uploadResponse.statusText} PUT ${uploadUrl}`);
+
   if (!uploadResponse.ok || uploadResponse.status !== 200) {
-    throw new Error(`Failed to upload ZIP file: ${getErrorMessage(await uploadResponse.json())}`);
+    let errorBody: string;
+    try {
+      errorBody = await uploadResponse.text();
+    } catch {
+      errorBody = `HTTP ${uploadResponse.status} ${uploadResponse.statusText}`;
+    }
+    throw new Error(`Failed to upload ZIP file (${uploadResponse.status}): ${errorBody}`);
   }
 }
 
@@ -203,6 +214,43 @@ export async function startServer(gatana: Gatana, serverSlug: string): Promise<v
   if (error) {
     throw new Error(`Failed to start server: ${getErrorMessage(error)}`);
   }
+}
+
+export async function downloadSourceCode(
+  gatana: Gatana,
+  serverSlug: string,
+  options: { output?: string }
+): Promise<void> {
+  const fs = await import('fs/promises');
+  const { resolve } = await import('path');
+
+  const downloadUrl = `${gatana.config.baseUrl}/api/v1/mcp-servers/${serverSlug}/source-code`;
+  debug(`→ GET ${downloadUrl}`);
+
+  const response = await fetch(downloadUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${await gatana.config.token()}`,
+    },
+  });
+
+  debug(`← ${response.status} ${response.statusText} GET ${downloadUrl}`);
+
+  if (!response.ok) {
+    let errorBody: string;
+    try {
+      errorBody = await response.text();
+    } catch {
+      errorBody = `HTTP ${response.status} ${response.statusText}`;
+    }
+    throw new Error(`Failed to download source code (${response.status}): ${errorBody}`);
+  }
+
+  const outputPath = resolve(options.output ?? `${serverSlug}.zip`);
+  const buffer = Buffer.from(await response.arrayBuffer());
+  await fs.writeFile(outputPath, buffer);
+
+  outputInfo(`Downloaded source code to ${outputPath}`);
 }
 
 export async function fetchCrashLogs(
@@ -274,10 +322,10 @@ interface DeploymentState {
   hasCrashed: boolean;
 }
 
-export async function showDeploymentProgress(
+export function waitForDeploymentDone(
   gatana: Gatana,
   functionId: string,
-  follow: boolean
+  timeoutInMs = 10 * 60 * 1000
 ): Promise<{
   deployed: boolean;
   stabilized: boolean;
@@ -295,8 +343,6 @@ export async function showDeploymentProgress(
     // Create EventSource URL with query parameter
     const eventSourceUrl = `${gatana.config.baseUrl}/api/v1/deployments/deployment-logs?serverSlug=${functionId}`;
 
-    outputInfo('Deployment progress');
-
     const eventSource = new EventSource(eventSourceUrl, {
       fetch: async (input, init) =>
         fetch(input, {
@@ -308,61 +354,45 @@ export async function showDeploymentProgress(
         }),
     });
 
+    let lastLog: Record<string, any> = {};
+    let firstLog = true;
     const printCurrentState = () => {
-      console.clear();
-      outputInfo('Deployment progress @ ' + eventSourceUrl);
       let toLog: Record<string, any> = {};
       if (deploymentState.podInfo) {
         toLog.deploymentId = deploymentState.podInfo.pod;
-
-        toLog.init = [];
-        if (deploymentState.podInfo.initContainers.length > 0) {
-          deploymentState.podInfo.initContainers.forEach(name => {
-            if (deploymentState.containers[name]) {
-              const container = deploymentState.containers[name];
-              const logEntry: any = {
-                name: container.name,
-                status: container.status,
-              };
-              if (container.exitCode !== undefined) logEntry.exitCode = container.exitCode;
-              if (container.reason) logEntry.reason = container.reason;
-              if (container.restarts !== undefined && container.restarts > 0) logEntry.restarts = container.restarts;
-              toLog.init.push(logEntry);
-            }
-          });
-        }
-
-        toLog.app = [];
-        if (deploymentState.podInfo.containers.length > 0) {
-          deploymentState.podInfo.containers.forEach(name => {
-            if (deploymentState.containers[name]) {
-              const container = deploymentState.containers[name];
-              const logEntry: any = {
-                name: container.name,
-                status: container.status,
-              };
-              if (container.exitCode !== undefined) logEntry.exitCode = container.exitCode;
-              if (container.reason) logEntry.reason = container.reason;
-              if (container.restarts !== undefined && container.restarts > 0) logEntry.restarts = container.restarts;
-              toLog.app.push(logEntry);
-            }
-          });
+        const containers = [...deploymentState.podInfo.initContainers, ...deploymentState.podInfo.containers];
+        for (const name of containers) {
+          toLog[name] = deploymentState.containers[name]?.status || 'pending';
         }
       }
 
       if (deploymentState.errors.length > 0) {
-        deploymentState.errors.forEach(error => {
-          outputError(error);
-        });
+        toLog['errors'] = deploymentState.errors.join(', ');
       }
 
-      output(toLog);
+      if (!_.isEqual(toLog, lastLog)) {
+        output([toLog], { defaultFormat: 'table', noHeaders: !firstLog });
+        firstLog = false;
+      }
+
+      lastLog = toLog;
     };
+
+    // Timeout
+    const timeout = setTimeout(() => {
+      if (!deploymentState.isComplete) {
+        eventSource.close();
+        resolve({
+          deployed: false,
+          stabilized: false,
+          podName: deploymentState.podInfo?.pod,
+        });
+      }
+    }, timeoutInMs);
 
     eventSource.addEventListener('DeploymentLogPayload', (event: any) => {
       try {
         const newLog = JSON.parse(event.data) as DeploymentLogPayload;
-
         if (newLog.type === 'done') {
           deploymentState.isComplete = true;
           eventSource.close();
@@ -370,12 +400,14 @@ export async function showDeploymentProgress(
 
           // Check if deployment crashed before resolving
           if (deploymentState.hasCrashed) {
+            clearTimeout(timeout);
             resolve({
               deployed: true,
               stabilized: false,
               podName: deploymentState.podInfo?.pod,
             });
           } else {
+            clearTimeout(timeout);
             resolve({
               deployed: true,
               stabilized: true,
@@ -458,18 +490,6 @@ export async function showDeploymentProgress(
               }
             });
             deploymentState.isReady = true;
-
-            // If not following, close the connection and resolve immediately
-            if (!follow) {
-              eventSource.close();
-              printCurrentState();
-              resolve({
-                deployed: true,
-                stabilized: true,
-                podName: deploymentState.podInfo?.pod,
-              });
-              return;
-            }
             break;
 
           case 'mainContainerCrashed':
@@ -487,18 +507,6 @@ export async function showDeploymentProgress(
               }
             });
             deploymentState.hasCrashed = true;
-
-            // If not following, close and return failed status immediately
-            if (!follow) {
-              eventSource.close();
-              printCurrentState();
-              resolve({
-                deployed: true,
-                stabilized: false,
-                podName: deploymentState.podInfo?.pod,
-              });
-              return;
-            }
             break;
 
           case 'error':
@@ -522,13 +530,12 @@ export async function showDeploymentProgress(
             }
             break;
         }
-
         printCurrentState();
 
-        // If ready and following, resolve successfully
-        // If ready and not following, we already resolved in the mainContainerReady case
-        if (deploymentState.isReady && follow) {
+        // If ready, resolve successfully
+        if (deploymentState.isReady) {
           eventSource.close();
+          clearTimeout(timeout);
           resolve({
             deployed: true,
             stabilized: true,
@@ -536,10 +543,10 @@ export async function showDeploymentProgress(
           });
         }
 
-        // If crashed and following, return failed status instead of rejecting
-        // If crashed and not following, we already handled this in the mainContainerCrashed case
-        if (deploymentState.hasCrashed && follow) {
+        // If crashed, return failed status instead of rejecting
+        if (deploymentState.hasCrashed) {
           eventSource.close();
+          clearTimeout(timeout);
           resolve({
             deployed: true,
             stabilized: false,
@@ -551,6 +558,7 @@ export async function showDeploymentProgress(
         deploymentState.errors.push('Failed to parse deployment log');
         printCurrentState();
         eventSource.close();
+        clearTimeout(timeout);
         resolve({
           deployed: false,
           stabilized: false,
@@ -564,27 +572,13 @@ export async function showDeploymentProgress(
       printCurrentState();
       eventSource.close();
       console.error('EventSource error:', error);
+      clearTimeout(timeout);
       resolve({
         deployed: false,
         stabilized: false,
         podName: deploymentState.podInfo?.pod,
       });
     };
-
-    // Timeout after 5 minutes
-    setTimeout(
-      () => {
-        if (!deploymentState.isComplete) {
-          eventSource.close();
-          resolve({
-            deployed: false,
-            stabilized: false,
-            podName: deploymentState.podInfo?.pod,
-          });
-        }
-      },
-      5 * 60 * 1000
-    );
   });
 }
 
@@ -620,5 +614,362 @@ export async function cleanupZipFile(zipPath: string): Promise<void> {
     await fs.unlink(zipPath);
   } catch (error) {
     console.warn(`Warning: Could not clean up temporary ZIP file: ${zipPath}`);
+  }
+}
+
+export async function initLocalSourceCode(targetPath: string): Promise<void> {
+  const resolvedPath = resolve(targetPath);
+
+  if (existsSync(resolvedPath)) {
+    const files = await readdir(resolvedPath);
+    if (files.length > 0) {
+      const proceed = await confirm({
+        message: `The directory ${resolvedPath} is not empty. Do you want to initialize the source code template here?`,
+        default: false,
+      });
+      if (!proceed) {
+        outputInfo('Initialization cancelled.');
+        return;
+      }
+    }
+  } else {
+    await mkdir(resolvedPath, { recursive: true });
+  }
+
+  const template = `import z from 'zod';
+
+export const schema = {
+    whoami: {
+        description: 'returns HTTP headers',
+    },
+    add: {
+        description: 'adds two numbers',
+        input: z.object({
+            a: z.number(),
+            b: z.number(),
+        })
+    },
+};
+export function whoami(args, credentials) {
+    return JSON.stringify(credentials)
+}
+export function add({ a, b } = params) {
+    return String(Number(a) + Number(b))
+}\n`;
+  await writeFile(join(resolvedPath, 'index.js'), template, 'utf-8');
+
+  outputInfo(`Initialized hosted server source code template at ${resolvedPath}`);
+}
+/**
+ * Dynamically import a local source-code module and return the implementation.
+ * The module must export a `schema` object and matching functions for each tool.
+ */
+// Dependencies that are pre-installed in the hosted runtime environment.
+// When running locally, we temporarily symlink them from the CLI's own
+// node_modules so the user doesn't need to install them in the source dir.
+const RUNTIME_DEPS = ['zod'];
+
+/**
+ * Convert a potentially complex object (e.g. a Zod schema) into a
+ * plain, YAML/JSON-serializable representation.
+ */
+function serializableInput(input: any): any {
+  if (input == null) return null;
+
+  // Zod v4: toJSONSchema lives on the `z` namespace
+  try {
+    if (typeof z.toJSONSchema === 'function') {
+      return z.toJSONSchema(input);
+    }
+  } catch {
+    // toJSONSchema not available or failed
+  }
+
+  // Zod-like: extract shape keys with type hints
+  if (typeof input === 'object' && input.shape && typeof input.shape === 'object') {
+    const shape: Record<string, string> = {};
+    for (const [key, value] of Object.entries(input.shape)) {
+      const v = value as any;
+      shape[key] = v?._zpiType || v?._def?.typeName || typeof value;
+    }
+    return shape;
+  }
+
+  return String(input);
+}
+
+async function importLocalModule(resolvedPath: string): Promise<{ impl: any; entrypoint: string }> {
+  const { pathToFileURL } = await import('node:url');
+  const entrypoint = join(resolvedPath, 'index.js');
+
+  if (!existsSync(entrypoint)) {
+    throw new Error(`index.js not found in ${resolvedPath}`);
+  }
+
+  // Temporarily symlink runtime deps so they resolve from the source directory
+  const sourceNodeModules = join(resolvedPath, 'node_modules');
+  const linkedPaths: string[] = [];
+
+  for (const dep of RUNTIME_DEPS) {
+    const linkPath = join(sourceNodeModules, dep);
+    if (!existsSync(linkPath)) {
+      try {
+        const depPkg = _require.resolve(`${dep}/package.json`);
+        const depDir = dirname(depPkg);
+        await mkdir(sourceNodeModules, { recursive: true });
+        await symlink(depDir, linkPath, 'dir');
+        linkedPaths.push(linkPath);
+      } catch {
+        // If the dep isn't installed in the CLI either, let the import fail naturally
+      }
+    }
+  }
+
+  try {
+    const fileUrl = pathToFileURL(entrypoint).href;
+    const impl = await import(fileUrl);
+
+    if (!impl.schema || typeof impl.schema !== 'object') {
+      throw new Error('Module does not export a valid "schema" object.');
+    }
+
+    return { impl, entrypoint };
+  } finally {
+    // Clean up symlinks we created
+    for (const linkPath of linkedPaths) {
+      try {
+        await rm(linkPath, { recursive: true });
+      } catch {
+        // ignore cleanup errors
+      }
+    }
+    // Remove node_modules dir if we created it and it's now empty
+    if (linkedPaths.length > 0 && existsSync(sourceNodeModules)) {
+      try {
+        const remaining = await readdir(sourceNodeModules);
+        if (remaining.length === 0) {
+          await rm(sourceNodeModules, { recursive: true });
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
+}
+
+export async function runLocalVerifySourceCode(sourcePath: string): Promise<void> {
+  try {
+    const result = await localVerifySourceCode(sourcePath);
+    output(result);
+
+    if (!result.valid) {
+      process.exit(1);
+    }
+  } catch (err) {
+    outputError(`Error verifying source code: ${getErrorMessage(err)}`);
+    process.exit(1);
+  }
+}
+
+/**
+ * Verify local source-code: checks that index.js exists, exports a schema,
+ * and each tool in the schema has a matching exported function.
+ * `gatana hosted local-verify <path>`
+ */
+export async function localVerifySourceCode(sourcePath: string) {
+  const { resolve } = await import('path');
+  const resolvedPath = resolve(sourcePath);
+
+  // Static check first
+  const indexCheck = checkIndexJsExists(resolvedPath);
+  if (!indexCheck.exists) {
+    outputError(`index.js not found in ${resolvedPath}`);
+    process.exit(1);
+  }
+
+  if (!indexCheck.hasSchema) {
+    outputError(
+      `index.js does not contain a schema export. ` +
+        `Make sure your file exports a schema:\n` +
+        `  \u2022 ES modules: export const schema = { ... }\n` +
+        `  \u2022 CommonJS: module.exports.schema = { ... }`
+    );
+    process.exit(1);
+  }
+
+  // Dynamic import to validate at runtime
+  let impl: any;
+  try {
+    ({ impl } = await importLocalModule(resolvedPath));
+  } catch (err) {
+    outputError(`Failed to import module: ${getErrorMessage(err)}`);
+    process.exit(1);
+  }
+
+  const schemaEntries = Object.entries(impl.schema);
+  if (schemaEntries.length === 0) {
+    outputInfo('Warning: schema is empty \u2014 no tools defined.');
+  }
+
+  // Collect all exported functions (excluding schema and default export)
+  const exportedFunctions = Object.keys(impl).filter(k => typeof impl[k] === 'function' && k !== 'default');
+  const schemaNames = new Set(schemaEntries.map(([name]) => name));
+
+  const results: {
+    name: string;
+    valid: boolean;
+    hasExport: boolean;
+    schema: Record<string, any> | null;
+    issues: string[];
+  }[] = [];
+
+  // Check each schema entry
+  for (const [name, func] of schemaEntries) {
+    const issues: string[] = [];
+    const descriptor = func as Record<string, any>;
+
+    if (!descriptor.description) {
+      issues.push('missing description');
+    }
+
+    const hasExport = typeof impl[name] === 'function';
+    if (!hasExport) {
+      issues.push(`no exported function "${name}" found`);
+    }
+
+    results.push({
+      name,
+      valid: issues.length === 0,
+      hasExport,
+      schema: {
+        description: descriptor.description || null,
+        input: serializableInput(descriptor.input),
+      },
+      issues,
+    });
+  }
+
+  // Check for exported functions that have no matching schema entry
+  const orphanedExports = exportedFunctions.filter(name => !schemaNames.has(name));
+  for (const name of orphanedExports) {
+    results.push({
+      name,
+      valid: false,
+      hasExport: true,
+      schema: null,
+      issues: [`exported function "${name}" has no matching schema entry`],
+    });
+  }
+
+  const allValid = results.every(r => r.valid);
+
+  return {
+    path: resolvedPath,
+    toolCount: schemaEntries.length,
+    exportedFunctions: exportedFunctions.length,
+    tools: results,
+    valid: allValid,
+  };
+}
+
+/**
+ * Run a single tool from local source-code.
+ * `gatana hosted local-run <path> <tool> [-i <json>] [-f <file>]`
+ */
+export async function localRunTool(
+  sourcePath: string,
+  toolName: string,
+  options: { input?: string; file?: string; param?: string[] }
+): Promise<void> {
+  const { resolve } = await import('path');
+  const resolvedPath = resolve(sourcePath);
+
+  let impl: any;
+  try {
+    ({ impl } = await importLocalModule(resolvedPath));
+  } catch (err) {
+    outputError(`Failed to import module: ${getErrorMessage(err)}`);
+    process.exit(1);
+  }
+
+  if (!impl.schema[toolName]) {
+    const available = Object.keys(impl.schema).join(', ');
+    outputError(`Tool "${toolName}" not found in schema. Available tools: ${available}`);
+    process.exit(1);
+  }
+
+  if (typeof impl[toolName] !== 'function') {
+    outputError(`Tool "${toolName}" is defined in schema but has no exported function.`);
+    process.exit(1);
+  }
+
+  // Parse input from --input flag, --file flag, or -p params
+  let inputData: unknown = {};
+  if (options.input) {
+    try {
+      inputData = JSON.parse(options.input);
+    } catch (err) {
+      outputError(`Failed to parse inline JSON: ${getErrorMessage(err)}`);
+      process.exit(1);
+    }
+  } else if (options.file) {
+    try {
+      const fileContent = readFileSync(resolve(options.file), 'utf-8');
+      inputData = JSON.parse(fileContent);
+    } catch (err) {
+      outputError(`Failed to read/parse input file: ${getErrorMessage(err)}`);
+      process.exit(1);
+    }
+  }
+
+  // Merge -p key=value params (applied on top of --input/--file)
+  if (options.param && options.param.length > 0) {
+    const obj = (typeof inputData === 'object' && inputData !== null ? { ...(inputData as any) } : {}) as Record<
+      string,
+      unknown
+    >;
+    for (const p of options.param) {
+      const eqIdx = p.indexOf('=');
+      if (eqIdx === -1) {
+        outputError(`Invalid param format: "${p}". Expected key=value`);
+        process.exit(1);
+      }
+      const key = p.slice(0, eqIdx);
+      let value: unknown = p.slice(eqIdx + 1);
+      // Try to parse as JSON for numbers, booleans, arrays, objects
+      try {
+        value = JSON.parse(value as string);
+      } catch {
+        // keep as string
+      }
+      _.set(obj, key, value);
+    }
+    inputData = obj;
+  }
+
+  // Validate input against the tool's Zod schema (if defined)
+  const inputSchema = impl.schema[toolName].input;
+  if (inputSchema && typeof inputSchema.safeParse === 'function') {
+    const result = inputSchema.safeParse(inputData);
+    if (!result.success) {
+      outputError(`Input validation failed for tool "${toolName}":`);
+      for (const issue of result.error?.issues ?? result.error?.errors ?? []) {
+        outputError(`  - ${issue.path?.join('.') || '(root)'}: ${issue.message}`);
+      }
+      output({ expected: serializableInput(inputSchema) });
+      process.exit(1);
+    }
+    // Use the parsed (coerced/defaulted) value
+    inputData = result.data;
+  }
+
+  // Execute the tool with a mock session (no real auth headers locally)
+  try {
+    outputInfo(`Running tool "${toolName}"...`);
+    const result = await impl[toolName](inputData, { headers: {} });
+    output(result);
+  } catch (err) {
+    outputError(`Tool execution failed: ${getErrorMessage(err)}`);
+    process.exit(1);
   }
 }
