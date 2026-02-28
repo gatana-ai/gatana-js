@@ -7,5 +7,4 @@ export default defineConfig({
   },
   platform: 'node',
   dts: {},
-  external: ['commander'], // Keep commander as external dependency
 });

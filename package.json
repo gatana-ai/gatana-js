@@ -17,13 +17,22 @@
     "dist"
   ],
   "bin": {
-    "gatana": "./dist/bin/gatana.js"
+    "gatana": "./dist/bin/gatana.mjs"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -59,9 +68,9 @@
     "@types/node": "^24.3.1",
     "msw": "^2.11.2",
     "node-mock-extended": "^1.0.0",
-    "np": "^10.2.0",
+    "np": "^11.0.2",
     "prettier": "^3.6.2",
-    "tsdown": "^0.19.0-beta.3",
+    "tsdown": "^0.21.0-beta.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.2"
   }
