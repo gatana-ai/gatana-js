@@ -25,7 +25,7 @@ This monorepo contains two packages:
 | Package                             | npm                      | Description                                  |
 | ----------------------------------- | ------------------------ | -------------------------------------------- |
 | [`gatana-sdk`](packages/gatana-sdk) | `npm install gatana-sdk` | JavaScript/TypeScript SDK for the Gatana API |
-| [`gatana`](packages/gatana)         | `npm install -g gatana`  | CLI tool for managing MCP servers            |
+| [`gatana`](packages/gatana)         | `npm install -g gatana`  | CLI tool for managing Gatana                 |
 
 For configuration, you can prepare a file at `~/.gatana.config`, see [Config File](#config-file) for details. You can override configuration using environment variables or by passing options directly in the SDK.
 
