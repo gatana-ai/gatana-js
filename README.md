@@ -1,7 +1,7 @@
 <div align="center">
   <img alt="Gatana Logo" height="86" src="https://gatana.gatana.ai/favicon-prod.png" width="86">
   <h1 align="center"><b>gatana</b></h1>
-  <p align="center">🚀 CLI and JavaScript SDK for managing MCP servers</p>
+  <p align="center">🚀 CLI and JavaScript SDK for managing Gatana</p>
 </div>
 <br/>
 
