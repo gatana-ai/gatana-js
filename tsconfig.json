@@ -1,16 +1,4 @@
 {
-  "extends": "@tsconfig/recommended/tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "target": "ES2022",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedDeclarations": false
-  },
-  "include": ["src/**/*", "test/**/*"]
+  "files": [],
+  "references": [{ "path": "packages/gatana-sdk" }, { "path": "packages/gatana" }]
 }
