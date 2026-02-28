@@ -12,10 +12,13 @@
 </p>
 
 <p align="center">
-  <a href="https://gatana.ai">Homepage</a><span>&nbsp;•&nbsp;</span>
+  <a href="https://gatana.ai">Homepage</a>
+  <span>&nbsp;•&nbsp;</span>
   <a href="https://docs.gatana.ai/">Documentation</a>
   <span>&nbsp;•&nbsp;</span>
   <a href="https://discord.gg/6TvjvmSP">Discord</a>
+  <span>&nbsp;•&nbsp;</span>
+  <a href="https://github.com/gatana-ai/gatana-python">Python SDK & LangChain Sandbox</a>
 </p>
 
 <br/>
