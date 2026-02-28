@@ -1,6 +1,7 @@
 import { Command, Option } from 'commander';
 import { Gatana, Gatana2 } from 'gatana-sdk';
 import { createCredentialsResource } from '../../actions/resources/credentials.js';
+import { createSandboxResource } from '../../actions/resources/sandbox.js';
 import { createServerResource } from '../../actions/resources/server.js';
 
 export function createCreateCommand(gatana: Gatana, gatana2: Gatana2): Command {
@@ -36,6 +37,12 @@ export function createCreateCommand(gatana: Gatana, gatana2: Gatana2): Command {
         await createCredentialsResource(gatana, serverSlug, options.file, options.scope);
       })
       .showHelpAfterError(true)
+  );
+
+  cmd.addCommand(
+    new Command('sandbox').description('Create a new sandbox').action(async () => {
+      await createSandboxResource(gatana);
+    })
   );
 
   return cmd;

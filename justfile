@@ -30,9 +30,10 @@ test-sdk:
 test-cli:
     pnpm --filter gatana test
 
-# Regenerate API clients from OpenAPI specs
+# Regenerate API clients from OpenAPI specs and rebuild the SDK
 generate:
     pnpm --filter gatana-sdk generate
+    pnpm --filter gatana-sdk build
 
 # Install all dependencies
 install:

@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import { Gatana, Gatana2 } from 'gatana-sdk';
 import { deleteCredentialsResource } from '../../actions/resources/credentials.js';
+import { deleteSandboxResource } from '../../actions/resources/sandbox.js';
 import { deleteServerResource } from '../../actions/resources/server.js';
 
 export function createDeleteCommand(gatana: Gatana, gatana2: Gatana2): Command {
@@ -28,6 +29,15 @@ export function createDeleteCommand(gatana: Gatana, gatana2: Gatana2): Command {
           process.exit(1);
         }
         await deleteCredentialsResource(gatana, options.server, options.all ? undefined : id);
+      })
+  );
+
+  cmd.addCommand(
+    new Command('sandbox')
+      .description('Delete a sandbox')
+      .argument('<id>', 'Sandbox ID')
+      .action(async (id: string) => {
+        await deleteSandboxResource(gatana, id);
       })
   );
 

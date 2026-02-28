@@ -88,7 +88,11 @@ export class FileConfigStrategy extends ConfigStrategy {
       token: async () => {
         if (tenantConfig?.apiKey) {
           return tenantConfig.apiKey;
-        } else if (tenantConfig?.tokens?.access_token) {
+        } else if (
+          tenantConfig?.tokens?.access_token &&
+          tenantConfig.tokens.expires_at &&
+          tenantConfig.tokens.expires_at > Math.floor(Date.now() / 1000) + 60
+        ) {
           return tenantConfig.tokens.access_token;
         } else if (tenantConfig.tokens?.refresh_token) {
           debug('Access token expired or about to expire, attempting to refresh');
@@ -97,17 +101,22 @@ export class FileConfigStrategy extends ConfigStrategy {
             new URL(`/.well-known/openid-configuration`, tenantConfig.baseUrl),
             `${orgId}-cli`
           );
-          const token = await openidClient.refreshTokenGrant(config, tenantConfig.tokens.refresh_token);
-          if (token) {
-            setOrganizationConfig(orgId, {
-              tokens: {
-                access_token: token.access_token,
-                refresh_token: token.refresh_token || tenantConfig.tokens.refresh_token,
-                expires_at: token.expires_in ? Math.floor(Date.now() / 1000) + token.expires_in : 0,
-              },
-            });
-            debug('Token refreshed successfully');
-            return token.access_token;
+          try {
+            const token = await openidClient.refreshTokenGrant(config, tenantConfig.tokens.refresh_token);
+            if (token) {
+              setOrganizationConfig(orgId, {
+                tokens: {
+                  access_token: token.access_token,
+                  refresh_token: token.refresh_token || tenantConfig.tokens.refresh_token,
+                  expires_at: token.expires_in ? Math.floor(Date.now() / 1000) + token.expires_in : 0,
+                },
+              });
+              debug('Token refreshed successfully');
+              return token.access_token;
+            }
+          } catch (error) {
+            debug('Failed to refresh token', error);
+            throw new Error('Failed to refresh access token. Please log in again.');
           }
         }
         throw new Error('No valid API key, access token or refresh token available.');

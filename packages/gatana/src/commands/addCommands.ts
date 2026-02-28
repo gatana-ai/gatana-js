@@ -11,6 +11,7 @@ import { createPatchCommand } from './basic/patch.js';
 import { createConfigCommand } from './utility/config.js';
 import { createSchemaCommand } from './utility/schema.js';
 import { createCredsCommand } from './server/creds.js';
+import { createSandboxCommand } from './server/sandbox.js';
 import { createToolsCommand } from './server/tool.js';
 
 /**
@@ -35,6 +36,7 @@ export function registerRootCommands(
   program.addCommand(createDeployCommand(gatana));
   program.addCommand(createCredsCommand(gatana));
   program.addCommand(createHostedCommand(gatana));
+  program.addCommand(createSandboxCommand(gatana));
 
   program.commandsGroup('Utility Commands:');
   program.addCommand(createConfigCommand(configLoader));
