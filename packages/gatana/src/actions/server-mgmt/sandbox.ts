@@ -1,7 +1,7 @@
 import { Gatana } from 'gatana-sdk';
 import { postSandboxesBySandboxIdSshSession } from 'gatana-sdk/api';
 import { outputError, outputInfo } from '../../output.js';
-import { spawn, execSync } from 'child_process';
+import { spawn } from 'child_process';
 
 interface SshSessionResponse {
   token: string;
@@ -40,27 +40,7 @@ export async function sandboxShell(gatana: Gatana, sandboxId: string): Promise<v
       `${session.token}@${session.host}`,
     ];
 
-    // Use sshpass to supply a dummy password automatically (any password is accepted).
-    // Fall back to plain ssh if sshpass is not installed.
-    let cmd: string;
-    let args: string[];
-    const hasSshpass = (() => {
-      try {
-        execSync('which sshpass', { stdio: 'ignore' });
-        return true;
-      } catch {
-        return false;
-      }
-    })();
-    if (hasSshpass) {
-      cmd = 'sshpass';
-      args = ['-p', '', 'ssh', ...sshArgs];
-    } else {
-      cmd = 'ssh';
-      args = sshArgs;
-    }
-
-    const ssh = spawn(cmd, args, { stdio: 'inherit' });
+    const ssh = spawn('ssh', sshArgs, { stdio: 'inherit' });
 
     const exitCode = await new Promise<number>(resolve => {
       ssh.on('close', code => resolve(code ?? 1));
