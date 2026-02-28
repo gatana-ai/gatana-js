@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import { Gatana, Gatana2 } from 'gatana-sdk';
 import { getCredentialsResource } from '../../actions/resources/credentials.js';
+import { getSandboxResource } from '../../actions/resources/sandbox.js';
 import { getServerResource } from '../../actions/resources/server.js';
 import { getToolResource } from '../../actions/resources/tool.js';
 
@@ -36,6 +37,17 @@ export function createGetCommand(gatana: Gatana, gatana2: Gatana2): Command {
       .requiredOption('-s, --server <slug>', 'Server slug')
       .action(async (id: string | undefined, options: { server: string }) => {
         await getCredentialsResource(gatana, options.server, id);
+      })
+  );
+
+  cmd.addCommand(
+    new Command('sandbox')
+      .alias('sandboxes')
+      .description('Get sandbox(es)')
+      .argument('[id]', 'Sandbox ID (omit to list all)')
+      .option('--all', 'Also include archived sandboxes')
+      .action(async (id?: string, options?: { all?: boolean }) => {
+        await getSandboxResource(gatana, id, options?.all);
       })
   );
 

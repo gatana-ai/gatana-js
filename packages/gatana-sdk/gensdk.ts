@@ -9,7 +9,7 @@ createClient({
   plugins: [
     {
       baseUrl: false,
-      throwOnError: false,
+      throwOnError: true,
       name: '@hey-api/client-fetch',
     },
   ],
@@ -24,7 +24,7 @@ createClient({
   plugins: [
     {
       baseUrl: false,
-      throwOnError: false,
+      throwOnError: true,
       name: '@hey-api/client-fetch',
     },
   ],
