@@ -60,6 +60,10 @@ pack:
     cd packages/gatana-sdk && pnpm pack
     cd packages/gatana && pnpm pack
 
+# Run the CLI directly via tsx (no build needed)
+cli *ARGS:
+    npx tsx packages/gatana/src/cli.ts {{ARGS}}
+
 # Clean all build artifacts
 clean:
     rm -rf packages/gatana-sdk/dist packages/gatana/dist

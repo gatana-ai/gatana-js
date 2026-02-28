@@ -6,8 +6,9 @@
 <br/>
 
 <p align="center">
-  <a href="https://opensource.org/license/mit" rel="nofollow"><img src="https://img.shields.io/github/license/hey-api/openapi-ts" alt="MIT License"></a>
-  <a href="https://badge.fury.io/js/gatana" rel="nofollow"><img src="https://badge.fury.io/js/gatana.svg" alt="npm package" /></a>
+  <a href="https://opensource.org/license/mit" rel="nofollow"><img src="https://img.shields.io/github/license/gatana-ai/gatana-js" alt="MIT License"></a>
+  <a href="https://www.npmjs.com/package/gatana-sdk" rel="nofollow"><img src="https://img.shields.io/npm/v/gatana-sdk?label=gatana-sdk" alt="gatana-sdk on npm" /></a>
+  <a href="https://www.npmjs.com/package/gatana" rel="nofollow"><img src="https://img.shields.io/npm/v/gatana?label=gatana%20(cli)" alt="gatana CLI on npm" /></a>
 </p>
 
 <p align="center">
@@ -19,20 +20,71 @@
 
 <br/>
 
-Gatana provides a CLI tool for communicating with the [Gatana platform](https://gatana.ai), using the Gatana API.
+This monorepo contains two packages:
 
-For configuration, `gatana` looks for a file at `~/.gatana.config`. You can override configuration using environment variables or by passing options directly in the SDK.
+| Package                             | npm                      | Description                                  |
+| ----------------------------------- | ------------------------ | -------------------------------------------- |
+| [`gatana-sdk`](packages/gatana-sdk) | `npm install gatana-sdk` | JavaScript/TypeScript SDK for the Gatana API |
+| [`gatana`](packages/gatana)         | `npm install -g gatana`  | CLI tool for managing MCP servers            |
+
+For configuration, you can prepare a file at `~/.gatana.config`, see [Config File](#config-file) for details. You can override configuration using environment variables or by passing options directly in the SDK.
+
+---
+
+## Table of Contents
+
+- [Install](#install)
+- [CLI Tool Example](#cli-tool-example)
+- [SDK Example](#sdk-example)
+- [Syntax](#syntax)
+- [Global Options](#global-options)
+- [Commands](#commands)
+  - [Basic Commands](#basic-commands)
+  - [Server Management](#server-management)
+  - [Utility Commands](#utility-commands)
+- [Resource Types](#resource-types)
+- [Examples](#examples)
+- [Configuration](#configuration)
+  - [Environment Variables](#environment-variables)
+  - [Config File](#config-file)
+- [SDK](#sdk)
+  - [Custom Authentication](#custom-authentication)
+  - [V2 API Client](#v2-api-client)
+  - [Exports](#exports)
+- [Development](#development)
+- [Debugging](#debugging)
+- [License](#license)
+- [Contributing](#contributing)
 
 ---
 
 ## Install
 
 ```bash
-# SDK
-npm install gatana
+# SDK (for use in your own projects)
+npm install gatana-sdk
 
 # CLI (global)
 npm install -g gatana
+```
+
+## CLI Tool Example
+
+```bash
+gatana config login ORG_ID
+gatana get servers
+```
+
+## SDK Example
+
+```typescript
+import { Gatana } from 'gatana-sdk';
+
+// Env varaibles: GATANA_API_KEY and GATATA_ORG_ID
+// Or, ~/.gatana.config
+
+const client = new Gatana();
+const servers = await client.api.getMcpServers();
 ```
 
 ## Syntax
@@ -332,10 +384,14 @@ Authentication methods per organization:
 
 ## SDK
 
-The package also exports a JavaScript/TypeScript SDK:
+The SDK is published as a separate package, [`gatana-sdk`](https://www.npmjs.com/package/gatana-sdk):
+
+```bash
+npm install gatana-sdk
+```
 
 ```typescript
-import { Gatana } from 'gatana';
+import { Gatana } from 'gatana-sdk';
 
 const client = new Gatana();
 const servers = await client.api.getMcpServers();
@@ -346,6 +402,8 @@ const servers = await client.api.getMcpServers();
 Provide a `ConfigLoader` or explicit options:
 
 ```typescript
+import { Gatana, ConfigLoader, OptionsConfigStrategy } from 'gatana-sdk';
+
 // Using options
 const client = new Gatana({
   configLoader: new ConfigLoader([
@@ -366,7 +424,7 @@ const client = new Gatana({
 A `Gatana2` client is also exported for the newer REST-style API (v2):
 
 ```typescript
-import { Gatana2 } from 'gatana';
+import { Gatana2 } from 'gatana-sdk';
 ```
 
 ### Exports
@@ -380,6 +438,33 @@ import { Gatana2 } from 'gatana';
 | `OptionsConfigStrategy` | Auth from explicit `{ apiKey, orgId }` options        |
 | `EnvConfigStrategy`     | Auth from environment variables                       |
 | `FileConfigStrategy`    | Auth from `~/.gatana.config` (supports token refresh) |
+
+---
+
+## Development
+
+This is a pnpm monorepo. Use [just](https://github.com/casey/just) to run common tasks:
+
+```bash
+just build          # Build all packages (SDK first, then CLI)
+just build-sdk      # Build only the SDK
+just build-cli      # Build only the CLI
+just dev            # Watch both packages for changes
+just test           # Run all tests
+just generate       # Regenerate API clients from OpenAPI specs
+just fmt            # Format code with prettier
+just release        # Interactive release with change detection
+```
+
+### Project Structure
+
+```
+packages/
+  gatana-sdk/   # JavaScript/TypeScript SDK (npm: gatana-sdk)
+  gatana/       # CLI tool (npm: gatana)
+scripts/
+  release.sh    # Interactive release script
+```
 
 ---
 
