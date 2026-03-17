@@ -25,7 +25,7 @@ export function createHostedCommand(gatana: Gatana): Command {
       })
   );
   cmd.addCommand(
-    new Command('local-verify')
+    new Command('verify')
       .description('Verify local source-code')
       .argument('<path>', 'Path to the source-code directory')
       .action(async (path: string) => {
@@ -34,7 +34,7 @@ export function createHostedCommand(gatana: Gatana): Command {
   );
 
   cmd.addCommand(
-    new Command('local-run')
+    new Command('run')
       .description('Call a tool in the local source-code for testing')
       .argument('<path>', 'Path to the source-code directory. Use . for current directory')
       .argument('<tool name>', 'Name of the tool to run')
