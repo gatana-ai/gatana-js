@@ -17,12 +17,12 @@ interface SshSessionResponse {
  */
 export async function sandboxShell(gatana: Gatana, sandboxId: string): Promise<void> {
   try {
-    const { data, error } = await postSandboxesBySandboxIdSshSession({
+    const { data } = await postSandboxesBySandboxIdSshSession({
       path: { sandboxId },
     });
 
-    if (error || !data) {
-      outputError(error || 'Failed to create SSH session.');
+    if (!data) {
+      outputError('Failed to create SSH session.');
       return;
     }
 

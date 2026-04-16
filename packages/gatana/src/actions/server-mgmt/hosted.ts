@@ -20,7 +20,6 @@ const debug = createDebug('gatana:http');
 const _require = createRequire(import.meta.url);
 
 export interface HostedServerInfo {
-  name: string;
   slug: string;
 }
 
@@ -152,23 +151,18 @@ export async function createServer(
   slug: string,
   transportType: 'hosted' | 'stdio' | 'httpstreaming' | 'sse'
 ): Promise<HostedServerInfo> {
-  const { data, error } = await gatana.api.postMcpServers({
+  const { data } = await gatana.api.postMcpServers({
     body: {
       slug: slug.toLowerCase().replace(/[^a-z0-9]/g, '-'),
       transportType,
     },
   });
 
-  if (error) {
-    throw new Error(`Failed to create hosted server: ${getErrorMessage(error)}`);
-  }
-
   if (!data?.server) {
     throw new Error('Failed to create hosted server: No server data returned');
   }
 
   return {
-    name: data.server.name,
     slug: data.server.slug,
   };
 }
@@ -207,13 +201,9 @@ export async function uploadZipToFunction(gatana: Gatana, serverSlug: string, zi
 }
 
 export async function startServer(gatana: Gatana, serverSlug: string): Promise<void> {
-  const { error } = await gatana.api.postMcpServersByServerSlugStart({
+  await gatana.api.postMcpServersByServerSlugStart({
     path: { serverSlug },
   });
-
-  if (error) {
-    throw new Error(`Failed to start server: ${getErrorMessage(error)}`);
-  }
 }
 
 export async function downloadSourceCode(
@@ -263,14 +253,9 @@ export async function fetchCrashLogs(
   const attemptFetch = async (): Promise<{ stdout: string; stderr: string } | null> => {
     try {
       await new Promise(resolve => setTimeout(resolve, 200));
-      const { data, error } = await gatana.api.getDeploymentsLogs({
+      const { data } = await gatana.api.getDeploymentsLogs({
         query: { podName, previous: 'true' },
       });
-
-      if (error) {
-        console.error(`Failed to fetch crash logs: ${getErrorMessage(error)}`);
-        return null;
-      }
 
       if (data && data.logs) {
         const { stdout, stderr } = data.logs;
@@ -583,23 +568,15 @@ export function waitForDeploymentDone(
 }
 
 export async function listServers(gatana: Gatana): Promise<HostedServerInfo[]> {
-  const { data, error } = await gatana.api.getMcpServers();
+  const { data } = await gatana.api.getMcpServers();
 
-  if (error) {
-    throw new Error(`Failed to list servers: ${getErrorMessage(error)}`);
-  }
-
-  return data?.servers || [];
+  return (data?.servers || []).map(s => ({ slug: s.slug }));
 }
 
 export async function getServer(gatana: Gatana, serverSlug: string): Promise<ServerDto> {
-  const { data, error } = await gatana.api.getMcpServersByServerSlug({
+  const { data } = await gatana.api.getMcpServersByServerSlug({
     path: { serverSlug },
   });
-
-  if (error) {
-    throw new Error(`Failed to get server: ${getErrorMessage(error)}`);
-  }
 
   if (!data?.server) {
     throw new Error(`Server with ID ${serverSlug} not found`);

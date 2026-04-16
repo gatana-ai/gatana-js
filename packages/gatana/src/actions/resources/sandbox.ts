@@ -18,18 +18,10 @@ const sandboxTableColumns: TableColumn[] = [
 export async function getSandboxResource(gatana: Gatana, id?: string, all?: boolean): Promise<void> {
   try {
     if (id) {
-      const { data, error } = await getSandboxesBySandboxId({ path: { sandboxId: id } });
-      if (error || !data) {
-        outputError(error || `Sandbox '${id}' not found.`);
-        return;
-      }
+      const { data } = await getSandboxesBySandboxId({ path: { sandboxId: id } });
       output(data, { defaultFormat: 'yaml' });
     } else {
-      const { data, error } = await getSandboxes({ query: { all: all ? 'true' : 'false' } });
-      if (error || !data) {
-        outputError(error || 'Failed to list sandboxes.');
-        return;
-      }
+      const { data } = await getSandboxes({ query: { all: all ? 'true' : 'false' } });
       output({ sandboxes: data.sandboxes || [] }, { tableColumns: sandboxTableColumns, defaultFormat: 'table' });
     }
   } catch (error) {
@@ -43,9 +35,9 @@ export async function getSandboxResource(gatana: Gatana, id?: string, all?: bool
  */
 export async function createSandboxResource(gatana: Gatana): Promise<void> {
   try {
-    const { data, error } = await postSandboxes();
-    if (error || !data) {
-      outputError(error || 'Failed to create sandbox.');
+    const { data } = await postSandboxes();
+    if (!data) {
+      outputError('Failed to create sandbox.');
       return;
     }
     output(data.sandbox, { defaultFormat: 'yaml' });
@@ -60,11 +52,7 @@ export async function createSandboxResource(gatana: Gatana): Promise<void> {
  */
 export async function deleteSandboxResource(gatana: Gatana, sandboxId: string): Promise<void> {
   try {
-    const { error } = await deleteSandboxesBySandboxId({ path: { sandboxId } });
-    if (error) {
-      outputError(error);
-      return;
-    }
+    await deleteSandboxesBySandboxId({ path: { sandboxId } });
     outputSuccess(`Sandbox '${sandboxId}' deleted successfully.`);
   } catch (error) {
     outputError(error);

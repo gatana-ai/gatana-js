@@ -128,14 +128,9 @@ export async function createServerResource(
  */
 export async function deleteServerResource(gatana: Gatana, gatana2: Gatana2, serverSlug: string): Promise<void> {
   try {
-    const { error } = await gatana.api.deleteMcpServersByServerSlug({
+    await gatana.api.deleteMcpServersByServerSlug({
       path: { serverSlug },
     });
-
-    if (error) {
-      outputError(`Failed to delete server: ${getErrorMessage(error)}`);
-      process.exit(1);
-    }
 
     outputSuccess(`Server '${serverSlug}' deleted successfully.`);
   } catch (error) {
@@ -240,8 +235,8 @@ export async function getServerLogs(
       },
       headers: { accept: 'application/json' },
     });
-    if (logs.error || !logs.data) {
-      outputError(logs.error || 'Failed to fetch logs');
+    if (!logs.data) {
+      outputError('No logs returned');
       return;
     }
     const logData = logs.data;

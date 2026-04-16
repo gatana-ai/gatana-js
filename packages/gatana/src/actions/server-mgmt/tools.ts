@@ -9,20 +9,27 @@ export async function callTool(
   part?: 'unstructured' | 'structured'
 ): Promise<void> {
   const splitIndex = toolName.indexOf('_');
+  if (splitIndex === -1) {
+    outputError(`Invalid tool name: "${toolName}". Expected format: <server>_<tool_name>`);
+    process.exit(1);
+  }
   const slug = toolName.substring(0, splitIndex);
   const name = toolName.substring(splitIndex + 1);
-  const { data, error } = await gatana.api.postMcpServersByServerSlugToolsByToolNameCall({
-    path: {
-      serverSlug: slug,
-      toolName: name,
-    },
-    body: {
-      args,
-    },
-  });
 
-  if (error) {
-    outputError(error);
+  let data;
+  try {
+    ({ data } = await gatana.api.postMcpServersByServerSlugToolsByToolNameCall({
+      path: {
+        serverSlug: slug,
+        toolName: name,
+      },
+      body: {
+        args,
+      },
+    }));
+  } catch (err: any) {
+    const message = err?.detail || err?.message || err?.statusText || 'Unknown error calling tool';
+    outputError(message);
     process.exit(1);
   }
 

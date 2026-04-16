@@ -86,15 +86,10 @@ Examples:
             return;
           }
 
-          const { data, error } = await gatana.api.patchServersBySlug({
+          const { data } = await gatana.api.patchServersBySlug({
             path: { slug: serverSlug },
             body,
           });
-
-          if (error) {
-            outputError(error);
-            return;
-          }
 
           outputSuccess(`Server '${serverSlug}' patched successfully.`);
         } catch (error) {

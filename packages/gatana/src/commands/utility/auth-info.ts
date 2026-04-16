@@ -6,16 +6,11 @@ import { timeEnd } from 'console';
 export function createAuthInfoCommand(gatana: Gatana): Command {
   return new Command('auth-info').description('Display info about the authenticated user').action(async () => {
     try {
-      const { data, error } = await gatana.api.getAuthMe();
-
-      if (error) {
-        outputError(error);
-        return;
-      }
+      const { data } = await gatana.api.getAuthMe();
 
       const formattedData = {
         user: {
-          sub: data?.user.sub,
+          id: data?.user.id,
           email: data?.user.email,
           name: data?.user.name,
         },

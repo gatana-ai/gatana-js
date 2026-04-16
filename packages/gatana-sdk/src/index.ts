@@ -1,6 +1,5 @@
 import { client } from './api/client.gen.js';
 import * as sdk from './api/sdk.gen.js';
-import type { Agent } from './api/types.gen.js';
 import createDebug from 'debug';
 import { getOrganization, getDefaultOrganization, setOrganizationConfig } from './config.js';
 import * as openidClient from 'openid-client';
@@ -127,7 +126,7 @@ export class FileConfigStrategy extends ConfigStrategy {
 
 export class Gatana {
   public api = sdk;
-  public readonly config: GatanaConfig;
+  public config: GatanaConfig;
   constructor(arg?: { options?: GatanaOptions; configLoader?: ConfigLoader; isCli?: boolean }) {
     // Try to get config from file if not provided via options or env vars
     const configLoader =

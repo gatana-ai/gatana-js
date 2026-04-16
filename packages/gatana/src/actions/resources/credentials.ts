@@ -1,10 +1,11 @@
 import { readFileSync } from 'fs';
-import { Gatana } from 'gatana-sdk';
+import { Gatana, Gatana2 } from 'gatana-sdk';
 import { output, outputError, outputSuccess, TableColumn } from '../../output.js';
 import { formatAge } from '../../utils/utils.js';
 
 const credentialsTableColumns: TableColumn[] = [
   { name: 'id', title: 'ID', alignment: 'left' },
+  { name: 'serverSlug', title: 'Server', alignment: 'left' },
   { name: 'scope', title: 'Scope', alignment: 'left' },
   { name: 'type', title: 'Type', alignment: 'left' },
   { title: 'Owner Type', valueGet: row => (row.userEmail ? 'User' : 'Profile'), alignment: 'left' },
@@ -17,27 +18,39 @@ const credentialsTableColumns: TableColumn[] = [
  * List credentials for a server, or get a single credential by ID.
  * `gatana get credentials --server <slug> [id]`
  */
-export async function getCredentialsResource(gatana: Gatana, serverSlug: string, id?: string): Promise<void> {
+export async function getCredentialsResource(
+  gatana: Gatana,
+  gatana2: Gatana2,
+  serverSlug?: string,
+  id?: string,
+  withEffectiveCredentials?: boolean
+): Promise<void> {
   try {
-    const { data, error } = await gatana.api.getMcpServersByServerSlugCredentials({
-      path: { serverSlug },
-      query: { all: 'true' },
-    });
-
-    if (error) {
-      outputError(error);
-      return;
-    }
+    const { data } = await gatana2.api.getCredentials({ query: { serverSlug } });
 
     const credentials = (data as any)?.credentials ?? [];
 
     if (id) {
       const cred = credentials.find((c: any) => c.id === id);
       if (!cred) {
-        outputError(`Credential '${id}' not found on server '${serverSlug}'.`);
+        outputError(`Credential '${id}' not found${serverSlug ? ` on server '${serverSlug}'` : ''}.`);
         return;
       }
-      output(cred, { defaultFormat: 'yaml' });
+      let secretRes: any = undefined;
+      let effectiveRes: any = undefined;
+      try {
+        secretRes = await gatana2.api.getCredentialsByIdSecret({ path: { id } });
+        if (withEffectiveCredentials) {
+          effectiveRes = await gatana.api.getMcpServersByServerSlugCredentialsToken({
+            path: { serverSlug: cred.serverSlug },
+            query: { credentialsId: cred.id },
+          });
+        }
+      } catch (error) {
+        // ignore
+      }
+
+      output({ ...cred, secret: secretRes?.data, effective: effectiveRes?.data }, { defaultFormat: 'yaml' });
     } else {
       if (credentials.length === 0) {
         output({ credentials: [] }, { tableColumns: credentialsTableColumns });
@@ -71,12 +84,13 @@ export async function createCredentialsResource(
 ): Promise<void> {
   try {
     // Look up the server to determine auth method
-    const { data: server, error: serverError } = await gatana.api.getMcpServersByServerSlug({
+    const { data: server } = await gatana.api.getMcpServersByServerSlug({
       path: { serverSlug },
     });
 
-    if (serverError || !server) {
-      outputError(serverError ?? `Server '${serverSlug}' not found.`);
+    if (!server) {
+      outputError(`Server '${serverSlug}' not found.`);
+
       return;
     }
 
@@ -115,34 +129,23 @@ export async function createCredentialsResource(
           return;
         }
 
-        const { error } =
-          scope === 'server'
-            ? await gatana.api.putMcpServersByServerSlugCredentialsServer({
-                path: { serverSlug },
-                body: { type: 'oauth', tokenSet },
-              })
-            : await gatana.api.putMcpServersByServerSlugCredentialsUser({
-                path: { serverSlug },
-                body: { type: 'oauth', tokenSet },
-              });
-
-        if (error) {
-          outputError(error);
-          return;
-        }
+        scope === 'server'
+          ? await gatana.api.putMcpServersByServerSlugCredentialsServer({
+              path: { serverSlug },
+              body: { type: 'oauth', tokenSet },
+            })
+          : await gatana.api.putMcpServersByServerSlugCredentialsUser({
+              path: { serverSlug },
+              body: { type: 'oauth', tokenSet },
+            });
 
         outputSuccess(`OAuth credentials set for server '${serverSlug}'.`);
       } else {
         // No file/stdin — return the authorize URL
-        const { data, error } = await gatana.api.getMcpServersByServerSlugCredentialsAuthorizeUrl({
+        const { data } = await gatana.api.getMcpServersByServerSlugCredentialsAuthorizeUrl({
           path: { serverSlug },
           query: { scope: scope },
         });
-
-        if (error) {
-          outputError(error);
-          return;
-        }
 
         if (data?.url) {
           outputSuccess(
@@ -174,21 +177,15 @@ export async function createCredentialsResource(
       return;
     }
 
-    const { error } =
-      scope === 'server'
-        ? await gatana.api.putMcpServersByServerSlugCredentialsServer({
-            path: { serverSlug },
-            body: { type: 'apikey', apikeys },
-          })
-        : await gatana.api.putMcpServersByServerSlugCredentialsUser({
-            path: { serverSlug },
-            body: { type: 'apikey', apikeys },
-          });
-
-    if (error) {
-      outputError(error);
-      return;
-    }
+    scope === 'server'
+      ? await gatana.api.putMcpServersByServerSlugCredentialsServer({
+          path: { serverSlug },
+          body: { type: 'apikey', apikeys },
+        })
+      : await gatana.api.putMcpServersByServerSlugCredentialsUser({
+          path: { serverSlug },
+          body: { type: 'apikey', apikeys },
+        });
 
     outputSuccess(`API key credentials set for server '${serverSlug}'.`);
   } catch (error) {
@@ -203,25 +200,15 @@ export async function createCredentialsResource(
 export async function deleteCredentialsResource(gatana: Gatana, serverSlug: string, id?: string): Promise<void> {
   try {
     if (id) {
-      const { error } = await gatana.api.deleteMcpServersByServerSlugCredentialsByCredentialsId({
+      await gatana.api.deleteMcpServersByServerSlugCredentialsByCredentialsId({
         path: { serverSlug, credentialsId: id },
       });
 
-      if (error) {
-        outputError(error);
-        return;
-      }
-
       outputSuccess(`Credential '${id}' deleted from server '${serverSlug}'.`);
     } else {
-      const { data, error } = await gatana.api.deleteMcpServersByServerSlugCredentials({
+      const { data } = await gatana.api.deleteMcpServersByServerSlugCredentials({
         path: { serverSlug },
       });
-
-      if (error) {
-        outputError(error);
-        return;
-      }
 
       outputSuccess(`Deleted ${data?.deletedCount ?? 0} credentials from server '${serverSlug}'.`);
     }

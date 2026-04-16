@@ -11,11 +11,6 @@ export async function getDeploymentStatus(gatana: Gatana, serverSlug: string): P
   try {
     const state = await getDeploymentsStatus({ query: { serverSlug } });
 
-    if (state.error) {
-      outputError(`Failed to get deployment status: ${getErrorMessage(state.error)}`);
-      process.exit(1);
-    }
-
     output(state.data);
   } catch (error) {
     outputError(error);
@@ -72,14 +67,9 @@ export async function getDeploymentLogs(gatana: Gatana, serverSlug: string, opti
  */
 export async function turnOffServer(gatana: Gatana, serverSlug: string): Promise<void> {
   try {
-    const { error } = await gatana.api.postMcpServersByServerSlugStop({
+    await gatana.api.postMcpServersByServerSlugStop({
       path: { serverSlug },
     });
-
-    if (error) {
-      outputError(`Failed to stop server: ${getErrorMessage(error)}`);
-      process.exit(1);
-    }
 
     outputSuccess(`Server '${serverSlug}' stopped.`);
   } catch (error) {
@@ -93,16 +83,11 @@ export async function turnOffServer(gatana: Gatana, serverSlug: string): Promise
  */
 export async function turnOnServer(gatana: Gatana, serverSlug: string, options: { wait?: boolean }): Promise<void> {
   try {
-    const { data, error } = await gatana.api.postMcpServersByServerSlugStart({
+    const { data } = await gatana.api.postMcpServersByServerSlugStart({
       path: { serverSlug },
     });
 
-    if (error) {
-      outputError(`Failed to start server: ${getErrorMessage(error)}`);
-      process.exit(1);
-    }
-
-    if (data && !data.success) {
+    if (!data.success) {
       outputError(`Failed to start server: ${data.detail ?? 'unknown reason'}`);
       process.exit(1);
     }

@@ -17,9 +17,9 @@ const toolTableColumns: TableColumn[] = [
 export async function getToolResource(gatana: Gatana, toolName?: string, onlyEnabled?: boolean): Promise<void> {
   try {
     if (!toolName) {
-      const { data, error } = await gatana.api.getTools();
-      if (!data || error) {
-        outputError(error || 'No data returned');
+      const { data } = await gatana.api.getTools();
+      if (!data) {
+        outputError('No data returned');
         process.exit(1);
       }
       const tools = data?.tools?.filter(t => !onlyEnabled || t.isEnabled);
@@ -28,14 +28,14 @@ export async function getToolResource(gatana: Gatana, toolName?: string, onlyEna
       const splitIndex = toolName.indexOf('_');
       const serverSlug = toolName.substring(0, splitIndex);
       const name = toolName.substring(splitIndex + 1);
-      const { data, error } = await gatana.api.getMcpServersByServerSlugToolsByToolName({
+      const { data } = await gatana.api.getMcpServersByServerSlugToolsByToolName({
         path: {
           serverSlug: serverSlug,
           toolName: name,
         },
       });
-      if (!data || error) {
-        outputError(error || 'No data returned');
+      if (!data) {
+        outputError('No data returned');
         process.exit(1);
       }
       output(data, { defaultFormat: 'yaml' });

@@ -34,9 +34,10 @@ export function createGetCommand(gatana: Gatana, gatana2: Gatana2): Command {
       .alias('credentials')
       .description('Get credentials for a server')
       .argument('[id]', 'Credential ID (omit to list all)')
-      .requiredOption('-s, --server <slug>', 'Server slug')
-      .action(async (id: string | undefined, options: { server: string }) => {
-        await getCredentialsResource(gatana, options.server, id);
+      .option('-s, --server <slug>', 'Server slug')
+      .option('-e, --with-effective', 'Resolve effective credentials (e.g. using refresh token)')
+      .action(async (id: string | undefined, options: { server?: string; withEffective?: boolean }) => {
+        await getCredentialsResource(gatana, gatana2, options.server, id, options.withEffective);
       })
   );
 
