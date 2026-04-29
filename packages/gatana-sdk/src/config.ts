@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 export interface OrganizationConfig {
   baseUrl: string;
-  apiKey?: string;
+  pat?: string;
   tokens?: {
     access_token: string;
     refresh_token: string;
@@ -13,9 +13,11 @@ export interface OrganizationConfig {
   };
 }
 
+type OrgId = string;
+
 export interface GatanaFileConfig {
-  orgs?: Record<string, OrganizationConfig>;
-  defaultOrgId?: string;
+  orgs?: Record<OrgId, OrganizationConfig>;
+  defaultOrgId?: OrgId;
 }
 
 const CONFIG_FILE_PATH = join(homedir(), '.gatana.config');
@@ -32,17 +34,6 @@ export function readConfig(): GatanaFileConfig {
 
     const configData = readFileSync(CONFIG_FILE_PATH, 'utf8');
     const config = JSON.parse(configData);
-
-    // Migrate legacy config to new structure if needed
-    if (config.orgId && !config.orgs) {
-      const baseUrl = config.baseUrl || `https://${config.orgId}.gatana.ai`;
-      config.orgs = {
-        [baseUrl]: {
-          apiKey: config.apiKey,
-        },
-      };
-      config.defaultOrgId = baseUrl;
-    }
 
     return config;
   } catch (error) {

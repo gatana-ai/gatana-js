@@ -10,7 +10,8 @@
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "isolatedDeclarations": false
+    "isolatedDeclarations": false,
+    "types": ["node"]
   },
   "include": ["src/**/*", "test/**/*"]
 }

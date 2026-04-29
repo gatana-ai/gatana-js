@@ -20,7 +20,7 @@
     "gatana": "dist/bin/gatana.mjs"
   },
   "scripts": {
-    "build": "tsdown --format esm",
+    "build": "npx tsc && tsdown --format esm",
     "dev": "tsdown --watch",
     "test": "npx tsx --test 'test/**/*.test.ts'"
   },

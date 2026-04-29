@@ -1,7 +1,7 @@
 import { client } from './api/client.gen.js';
 import * as sdk from './api/sdk.gen.js';
 import createDebug from 'debug';
-import { getOrganization, getDefaultOrganization, setOrganizationConfig } from './config.js';
+import { getOrganization, getDefaultOrganization, setOrganizationConfig, extractTenantFromUrl } from './config.js';
 import * as openidClient from 'openid-client';
 import { Config } from './api/client/types.gen.js';
 const debug = createDebug('gatana');
@@ -28,7 +28,7 @@ export class ConfigLoader {
 }
 
 export abstract class ConfigStrategy {
-  abstract getConfig(): { baseUrl: string; token: () => Promise<string> } | null;
+  abstract getConfig(): { orgId: string; baseUrl: string; token: () => Promise<string> } | null;
 }
 
 export class OptionsConfigStrategy extends ConfigStrategy {
@@ -44,6 +44,7 @@ export class OptionsConfigStrategy extends ConfigStrategy {
       const key = this.options.apiKey;
       const baseUrl = this.options.baseUrl || `https://${this.options.orgId}.gatana.ai`;
       return {
+        orgId: this.options.orgId!,
         baseUrl,
         token: async () => key,
       };
@@ -59,6 +60,7 @@ export class EnvConfigStrategy extends ConfigStrategy {
     const overrideBaseUrl = process.env.GATANA_BASE_URL;
     if (apiKey && (orgId || overrideBaseUrl)) {
       return {
+        orgId: orgId || extractTenantFromUrl(overrideBaseUrl!),
         baseUrl: overrideBaseUrl || `https://${orgId}.gatana.ai`,
         token: async () => apiKey,
       };
@@ -79,14 +81,16 @@ export class FileConfigStrategy extends ConfigStrategy {
     }
     debug(`FileConfigLoader loading config for orgId=${orgId}`);
     const tenantConfig = getOrganization(orgId);
+    debug(tenantConfig);
     if (!tenantConfig) {
       return null;
     }
     return {
+      orgId,
       baseUrl: tenantConfig.baseUrl,
       token: async () => {
-        if (tenantConfig?.apiKey) {
-          return tenantConfig.apiKey;
+        if (tenantConfig?.pat) {
+          return tenantConfig.pat;
         } else if (
           tenantConfig?.tokens?.access_token &&
           tenantConfig.tokens.expires_at &&
@@ -115,7 +119,7 @@ export class FileConfigStrategy extends ConfigStrategy {
             }
           } catch (error) {
             debug('Failed to refresh token', error);
-            throw new Error('Failed to refresh access token. Please log in again.');
+            throw new Error(`Failed to refresh access token. Please log in again. (${(error as Error).message})`);
           }
         }
         throw new Error('No valid API key, access token or refresh token available.');

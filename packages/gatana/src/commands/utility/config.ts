@@ -18,62 +18,66 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
   const configCommand = new Command('config').description('Show configuration requirements and current status');
 
   configCommand.addCommand(
-    new Command('show').description('Show current configuration').action(() => {
+    new Command('current').description('Show resolved organization and configuration').action(() => {
       const config = configLoader.getConfig();
-      output({ config: JSON.parse(JSON.stringify(config)) });
+      output(JSON.parse(JSON.stringify(config)));
+      console.log(
+        'Note: This is the resolved configuration after applying all strategies (env vars, config file, etc). For more info, run with DEBUG=gatana'
+      );
     })
   );
 
   configCommand.addCommand(
     new Command('token').description('Prints the token which would be used for any request').action(async () => {
       const config = configLoader.getConfig();
-      output({ token: await config.token() });
+      output(await config.token());
     })
   );
 
   configCommand.addCommand(
     new Command('login')
-      .description(`Login using OIDC authentication flow. Example: gatana login my-organization`)
+      .description(`Login using PAT or OIDC authentication flow. Example: gatana login my-organization`)
       .argument('<org-id>', 'Organization ID (e.g., org123)')
+      .option('-p, --pat <pat>', 'Personal Access Token (PAT) for authentication')
       .option(
         '-b, --base-url <base-url>',
         'Base URL (default: none) - experimental - hardcodes the base URL for development purposes only'
       )
-      .action(async (orgId: string, options: { baseUrl?: string }) => {
+      .action(async (orgId: string, options: { baseUrl?: string; pat?: string }) => {
         try {
           const baseUrl = options.baseUrl || `https://${orgId}.gatana.ai`;
-          const config = await openidClient.discovery(new URL(baseUrl), `${orgId}-cli`);
+          if (options.pat) {
+            setOrganizationConfig(orgId, {
+              baseUrl,
+              pat: options.pat,
+            });
+          } else {
+            const config = await openidClient.discovery(new URL(baseUrl), `${orgId}-cli`);
 
-          const scope = 'openid profile email offline_access gatana.selfservice';
-          const response = await openidClient.initiateDeviceAuthorization(config, { scope });
+            const scope = 'openid profile email offline_access gatana.selfservice';
+            const response = await openidClient.initiateDeviceAuthorization(config, { scope });
 
-          console.log(
-            `Please open ${response.verification_uri_complete || response.verification_uri} to complete the login. If required enter ${response.user_code}`
-          );
-          open(response.verification_uri_complete || response.verification_uri);
+            console.log(
+              `Please open ${response.verification_uri_complete || response.verification_uri} to complete the login. If required enter ${response.user_code}`
+            );
+            open(response.verification_uri_complete || response.verification_uri);
 
-          const result = await openidClient.pollDeviceAuthorizationGrant(config, response);
+            const result = await openidClient.pollDeviceAuthorizationGrant(config, response);
 
-          setOrganizationConfig(orgId, {
-            baseUrl,
-            tokens: {
-              access_token: result.access_token,
-              refresh_token: result.refresh_token!,
-              expires_at: result.expires_in ? Date.now() / 1000 + result.expires_in : 0,
-            },
-          });
+            setOrganizationConfig(orgId, {
+              baseUrl,
+              tokens: {
+                access_token: result.access_token,
+                refresh_token: result.refresh_token!,
+                expires_at: result.expires_in ? Date.now() / 1000 + result.expires_in : 0,
+              },
+            });
+          }
 
           console.log('Login successful! You can now use the CLI commands.');
 
-          const currentDefault = getDefaultOrganization();
-
-          if (!currentDefault) {
-            setDefaultOrganization(baseUrl);
-            console.log(`${orgId} is now the default organization since it's the only one configured.`);
-          } else if (orgId !== currentDefault) {
-            console.log(`Current default organization: ${getDefaultOrganization()}`);
-            console.log(`Run "gatana config set-default ${orgId}" to set this as default.`);
-          }
+          setDefaultOrganization(orgId);
+          console.log(`${orgId} is now the active organization.`);
         } catch (error) {
           let didPrintCause = false;
           if (error instanceof openidClient.ClientError && error.cause) {
@@ -112,35 +116,6 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
       })
   );
 
-  configCommand.addCommand(
-    new Command('set-api-key')
-      .description('Set API key for an organization')
-      .requiredOption('-t, --key <key>', 'API key')
-      .requiredOption('-o, --org-id <org-id>', 'Organization ID (legacy, will be converted to baseUrl)')
-      .option('--default', 'Set this organization as the default')
-      .action(async ({ apiKey, orgId, default: isDefault }: { apiKey: string; orgId: string; default?: boolean }) => {
-        try {
-          const baseUrl = `https://${orgId}.gatana.ai`;
-
-          setOrganizationConfig(orgId, {
-            baseUrl,
-            apiKey,
-          });
-
-          // Set as default if requested or if it's the first organization
-          if (isDefault || listOrganizations().length === 1) {
-            setDefaultOrganization(orgId);
-            console.log(`${orgId} is now the default organization.`);
-          }
-
-          console.log('Authentication credentials saved successfully!');
-        } catch (error) {
-          console.error('❌ Error saving credentials:', (error as Error).message);
-          process.exit(1);
-        }
-      })
-  );
-
   configCommand
     .addCommand(
       new Command('ls').description('List all configured organizations').action(() => {
@@ -156,13 +131,14 @@ export function createConfigCommand(configLoader: ConfigLoader): Command {
         orgs.forEach(organization => {
           const config = getOrganization(organization);
           const isDefault = organization === defaultOrgId;
-          console.log(`  ${isDefault ? '* ' : '  '}${organization}`);
+          console.log(`  ${isDefault ? '* ' : '  '}Org ID: ${organization}`);
           if (config?.baseUrl) console.log(`    Base URL: ${config.baseUrl}`);
-          if (config?.apiKey) console.log(`    API Key: [SAVED]`);
+          if (config?.pat) console.log(`    Personal Access Token: [SAVED]`);
           if (config?.tokens?.access_token) console.log(`    Access Token: [SAVED]`);
           if (config?.tokens?.expires_at)
             console.log(`    Access Token Expiry: ${new Date(config.tokens.expires_at * 1000).toISOString()}`);
           if (config?.tokens?.refresh_token) console.log(`    Refresh Token: [SAVED]`);
+          console.log('');
         });
 
         if (defaultOrgId) {
