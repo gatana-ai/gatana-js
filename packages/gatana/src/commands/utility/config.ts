@@ -15,7 +15,9 @@ import { output } from '../../output.js';
 import { ConfigLoader, Gatana } from 'gatana-sdk';
 
 export function createConfigCommand(configLoader: ConfigLoader): Command {
-  const configCommand = new Command('config').description('Show configuration requirements and current status');
+  const configCommand = new Command('config').description(
+    `Show configuration requirements and current status. Available configuration strategies:\n\n${configLoader.strategies.map(s => `* ` + s.help).join('\n')}`
+  );
 
   configCommand.addCommand(
     new Command('current').description('Show resolved organization and configuration').action(() => {

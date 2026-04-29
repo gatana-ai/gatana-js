@@ -14,7 +14,7 @@ export interface GatanaOptions {
 
 export type GatanaConfig = { baseUrl: string; token: () => Promise<string> };
 export class ConfigLoader {
-  constructor(private strategies: ConfigStrategy[]) {}
+  constructor(public readonly strategies: ConfigStrategy[]) {}
 
   getConfig(): GatanaConfig {
     for (const strategy of this.strategies) {
@@ -29,12 +29,17 @@ export class ConfigLoader {
 
 export abstract class ConfigStrategy {
   abstract getConfig(): { orgId: string; baseUrl: string; token: () => Promise<string> } | null;
+  abstract help: string;
 }
 
 export class OptionsConfigStrategy extends ConfigStrategy {
   constructor(private options?: GatanaOptions) {
     super();
   }
+
+  public help =
+    `OptionsConfigStrategy: Provide configuration via Gatana constructor options. ` +
+    `Example: new Gatana({ options }) where options includes apiKey and orgId or baseUrl.`;
 
   getConfig() {
     if (!this.options) {
@@ -54,6 +59,11 @@ export class OptionsConfigStrategy extends ConfigStrategy {
 }
 
 export class EnvConfigStrategy extends ConfigStrategy {
+  public help =
+    `EnvConfigStrategy: Provide configuration via environment variables. ` +
+    `Required: GATANA_API_KEY and either GATANA_ORG_ID or GATANA_BASE_URL. ` +
+    `Example: export GATANA_API_KEY=your_api_key; export GATANA_ORG_ID=your_org_id`;
+
   getConfig() {
     const apiKey = process.env.GATANA_API_KEY;
     const orgId = process.env.GATANA_ORG_ID;
@@ -73,6 +83,11 @@ export class FileConfigStrategy extends ConfigStrategy {
   constructor(private orgId?: string) {
     super();
   }
+
+  public help =
+    `FileConfigStrategy: Provide configuration via a local config file. Use the ` +
+    `"gatana config" commands to manage this configuration. The CLI will look for the default ` +
+    `organization in the config file or use the org specified by GATANA_ORG_ID env var.`;
 
   getConfig() {
     let orgId = this.orgId || process.env.GATANA_ORG_ID || getDefaultOrganization();
