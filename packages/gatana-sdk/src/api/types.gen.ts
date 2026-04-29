@@ -27,42 +27,44 @@ export type UpdateUserRequest = {
     name?: Schema11;
     role?: Schema7;
     isDisabled?: Schema13;
+    isScimManaged?: Schema14;
+    scimExternalId?: Schema15;
 };
 
 export type CreateUserProfileAssignmentRequest = {
-    profileId: Schema14;
-    isLockedByOrgOwner?: Schema15;
+    profileId: Schema16;
+    isLockedByOrgOwner?: Schema17;
 };
 
 export type UpdateUserProfileAssignmentRequest = {
-    isLockedByOrgOwner: Schema17;
+    isLockedByOrgOwner: Schema19;
 };
 
 export type CreatePersonalAccessTokenRequest = {
-    name: Schema18;
-    profileIds?: Schema19;
+    name: Schema20;
+    profileIds?: Schema21;
 };
 
 export type UpdatePersonalAccessTokenRequest = {
-    name?: Schema21;
-    profileIds?: Schema22;
+    name?: Schema23;
+    profileIds?: Schema24;
 };
 
 export type CreateServerRequest = {
-    transportType: Schema23;
-    slug: Schema24;
-    isOutputCompressionEnabled?: Schema25;
-    visibility?: Schema27;
+    transportType: Schema25;
+    slug: Schema26;
+    isOutputCompressionEnabled?: Schema27;
+    visibility?: Schema29;
 };
 
 export type ServerVisibility = 'private' | 'organization';
 
 export type UpdateServerRequest = {
-    slug?: Schema29;
-    description?: Schema30;
-    url?: Schema31;
+    slug?: Schema31;
+    description?: Schema32;
+    url?: Schema33;
     authorization?: ServerAuthorization;
-    transportConfig?: Schema37;
+    transportConfig?: Schema39;
     oauthMetadata?: Schema60;
     oauthClientConfiguration?: Schema61;
     timeoutProtocol?: Schema62;
@@ -76,39 +78,39 @@ export type UpdateServerRequest = {
 };
 
 export type ServerAuthorization = {
-    method: Schema34;
-    credentialsScope: Schema35;
-    apikeys?: Schema36;
+    method: Schema36;
+    credentialsScope: Schema37;
+    apikeys?: Schema38;
 };
 
 export type HttpStreamingTransportConfig = {
-    type: Schema38;
-    url: Schema39;
-    headers?: Schema40;
+    type: Schema40;
+    url: Schema41;
+    headers?: Schema42;
 };
 
 export type HostedTransportConfig = {
-    type: Schema41;
-    runtime: Schema42;
-    env?: Schema43;
-    limits?: Schema44;
+    type: Schema43;
+    runtime: Schema44;
+    env?: Schema45;
+    limits?: Schema46;
 };
 
 export type StdioTransportConfig = {
-    type: Schema47;
-    command: Schema48;
-    dockerImage?: Schema49;
-    env?: Schema50;
-    transport: Schema51;
-    httpPort?: Schema52;
-    urlPath?: Schema53;
-    limits?: Schema54;
+    type: Schema49;
+    command: Schema50;
+    dockerImage?: Schema51;
+    env?: Schema52;
+    transport: Schema53;
+    httpPort?: Schema54;
+    urlPath?: Schema55;
+    limits?: Schema56;
 };
 
 export type SseTransportConfig = {
-    type: Schema55;
-    url: Schema56;
-    headers?: Schema57;
+    type: Schema57;
+    url: Schema58;
+    headers?: Schema59;
 };
 
 export type ServerCredentialsOuth = {
@@ -122,78 +124,61 @@ export type ServerCredentialsApiKeys = {
 };
 
 export type AwsSecretsManagerConfiguration = {
-    type: Schema92;
-    region: Schema93;
-    accessKeyId: Schema94;
-    secretAccessKey: Schema95;
+    type: Schema91;
+    region: Schema92;
+    accessKeyId: Schema93;
+    secretAccessKey: Schema94;
 };
 
 export type GcpSecretManagerConfiguration = {
-    type: Schema96;
-    projectId: Schema97;
-    serviceAccountKey: Schema98;
+    type: Schema95;
+    projectId: Schema96;
+    serviceAccountKey: Schema97;
 };
 
 export type HashiCorpVaultConfiguration = {
-    type: Schema99;
-    address: Schema100;
-    token: Schema101;
-    namespace?: Schema102;
-    mountPath?: Schema103;
+    type: Schema98;
+    address: Schema99;
+    token: Schema100;
+    namespace?: Schema101;
+    mountPath?: Schema102;
 };
 
 export type InfisicalConfiguration = {
-    type: Schema104;
-    siteUrl: Schema105;
-    accessToken: Schema106;
-    projectId: Schema107;
-    environment: Schema108;
-    secretPath: Schema109;
+    type: Schema103;
+    siteUrl: Schema104;
+    accessToken: Schema105;
+    projectId: Schema106;
+    environment: Schema107;
+    secretPath: Schema108;
 };
 
 export type AzureKeyVaultConfiguration = {
-    type: Schema110;
-    vaultUrl: Schema111;
-    tenantId: Schema112;
-    clientId: Schema113;
-    clientSecret: Schema114;
+    type: Schema109;
+    vaultUrl: Schema110;
+    tenantId: Schema111;
+    clientId: Schema112;
+    clientSecret: Schema113;
 };
 
 export type TestSecretRequest = {
-    secretIdentifier: Schema115;
+    secretIdentifier: Schema114;
 };
 
 export type ExecCommandBody = {
-    command: Schema116;
-    workdir?: Schema117;
-    timeout?: Schema118;
-};
-
-export type UpdateGroupBody = {
-    name?: Schema121;
-    systemPrompt?: Schema122;
-    triggerPattern?: Schema123;
-    requiresTrigger?: Schema124;
-    containerConfig?: Schema125;
-};
-
-export type CreateScheduledTaskBody = {
-    prompt: Schema126;
-    scheduleType: Schema127;
-    scheduleValue: Schema128;
-    contextMode?: Schema129;
-};
-
-export type UpdateScheduledTaskBody = {
-    prompt?: Schema130;
-    scheduleValue?: Schema131;
-    status?: Schema132;
+    command: Schema115;
+    workdir?: Schema116;
+    timeout?: Schema117;
 };
 
 export type SendVerificationCodeRequest = {
-    email: Schema133;
-    purpose: Schema134;
-    turnstileToken?: Schema135;
+    email: Schema119;
+    purpose: Schema120;
+    turnstileToken?: Schema121;
+};
+
+export type CreateScimTokenRequest = {
+    name?: Schema122;
 };
 
 export type Schema0 = string;
@@ -224,9 +209,9 @@ export type Schema12 = Schema7;
 
 export type Schema13 = boolean;
 
-export type Schema14 = string;
+export type Schema14 = boolean;
 
-export type Schema15 = boolean;
+export type Schema15 = string;
 
 export type Schema16 = string;
 
@@ -234,123 +219,123 @@ export type Schema17 = boolean;
 
 export type Schema18 = string;
 
-export type Schema19 = Array<string>;
+export type Schema19 = boolean;
 
 export type Schema20 = string;
 
-export type Schema21 = string;
+export type Schema21 = Array<string>;
 
-export type Schema22 = Array<string>;
+export type Schema22 = string;
+
+export type Schema23 = string;
+
+export type Schema24 = Array<string>;
 
 /**
  * Transport type: httpstreaming, sse, stdio, or hosted
  */
-export type Schema23 = 'hosted' | 'stdio' | 'httpstreaming' | 'sse';
+export type Schema25 = 'hosted' | 'stdio' | 'httpstreaming' | 'sse';
 
 /**
  * Technical identifier.
  */
-export type Schema24 = string;
+export type Schema26 = string;
 
 /**
  * Whether to enable text output compression for this server. Default is true.
  */
-export type Schema25 = Schema26;
+export type Schema27 = Schema28;
 
-export type Schema26 = boolean;
+export type Schema28 = boolean;
 
 /**
  * Server visibility. "private" (default) restricts access to members only. "public" makes the server visible and usable by all organization members.
  */
-export type Schema27 = ServerVisibility;
-
-export type Schema28 = string;
-
-export type Schema29 = string;
+export type Schema29 = ServerVisibility;
 
 export type Schema30 = string;
+
+export type Schema31 = string;
+
+export type Schema32 = string;
 
 /**
  * The URL of the remote MCP server
  */
-export type Schema31 = Schema32;
+export type Schema33 = Schema34;
 
-export type Schema32 = string;
+export type Schema34 = string;
 
-export type Schema33 = ServerAuthorization;
+export type Schema35 = ServerAuthorization;
 
-export type Schema34 = 'none' | 'oauth' | 'apikey';
+export type Schema36 = 'none' | 'oauth' | 'apikey';
 
-export type Schema35 = 'server' | 'user';
+export type Schema37 = 'server' | 'user';
 
-export type Schema36 = Array<string>;
+export type Schema38 = Array<string>;
 
-export type Schema37 = HttpStreamingTransportConfig | HostedTransportConfig | StdioTransportConfig | SseTransportConfig | {
-    type: Schema58;
-    id: Schema59;
+export type Schema39 = HttpStreamingTransportConfig | HostedTransportConfig | StdioTransportConfig | SseTransportConfig | {
+    type: 'self';
+    id: string;
 };
 
-export type Schema38 = 'httpstreaming';
+export type Schema40 = 'httpstreaming';
 
-export type Schema39 = string;
+export type Schema41 = string;
 
-export type Schema40 = Array<[
+export type Schema42 = Array<[
     string,
     string
 ]>;
 
-export type Schema41 = 'hosted';
+export type Schema43 = 'hosted';
 
-export type Schema42 = 'node24';
+export type Schema44 = 'node24';
 
-export type Schema43 = Array<[
+export type Schema45 = Array<[
     string,
     string
 ]>;
 
-export type Schema44 = {
-    cpu?: Schema45;
-    memory?: Schema46;
+export type Schema46 = {
+    cpu?: Schema47;
+    memory?: Schema48;
 } | null;
 
-export type Schema45 = string;
-
-export type Schema46 = string;
-
-export type Schema47 = 'stdio';
+export type Schema47 = string;
 
 export type Schema48 = string;
 
-export type Schema49 = string;
+export type Schema49 = 'stdio';
 
-export type Schema50 = Array<[
+export type Schema50 = string;
+
+export type Schema51 = string;
+
+export type Schema52 = Array<[
     string,
     string
 ]>;
 
-export type Schema51 = 'sse' | 'httpstreaming' | 'stdio';
+export type Schema53 = 'sse' | 'httpstreaming' | 'stdio';
 
-export type Schema52 = number | null;
+export type Schema54 = number | null;
 
-export type Schema53 = string | null;
+export type Schema55 = string | null;
 
-export type Schema54 = {
-    cpu?: Schema45;
-    memory?: Schema46;
+export type Schema56 = {
+    cpu?: Schema47;
+    memory?: Schema48;
 } | null;
 
-export type Schema55 = 'sse';
+export type Schema57 = 'sse';
 
-export type Schema56 = string;
+export type Schema58 = string;
 
-export type Schema57 = Array<[
+export type Schema59 = Array<[
     string,
     string
 ]>;
-
-export type Schema58 = 'self';
-
-export type Schema59 = string;
 
 export type Schema60 = {
     requiresAuthorization?: boolean;
@@ -450,31 +435,31 @@ export type Schema85 = string;
 
 export type Schema86 = string;
 
-export type Schema87 = string;
+export type Schema87 = 'member' | 'maintainer';
 
-export type Schema88 = 'member' | 'maintainer';
+export type Schema88 = string;
 
 export type Schema89 = string;
 
-export type Schema90 = string;
+export type Schema90 = AwsSecretsManagerConfiguration | GcpSecretManagerConfiguration | HashiCorpVaultConfiguration | InfisicalConfiguration | AzureKeyVaultConfiguration;
 
-export type Schema91 = AwsSecretsManagerConfiguration | GcpSecretManagerConfiguration | HashiCorpVaultConfiguration | InfisicalConfiguration | AzureKeyVaultConfiguration;
+export type Schema91 = 'aws_secrets_manager';
 
-export type Schema92 = 'aws_secrets_manager';
+export type Schema92 = string;
 
 export type Schema93 = string;
 
 export type Schema94 = string;
 
-export type Schema95 = string;
+export type Schema95 = 'gcp_secret_manager';
 
-export type Schema96 = 'gcp_secret_manager';
+export type Schema96 = string;
 
 export type Schema97 = string;
 
-export type Schema98 = string;
+export type Schema98 = 'hashicorp_vault';
 
-export type Schema99 = 'hashicorp_vault';
+export type Schema99 = string;
 
 export type Schema100 = string;
 
@@ -482,9 +467,9 @@ export type Schema101 = string;
 
 export type Schema102 = string;
 
-export type Schema103 = string;
+export type Schema103 = 'infisical';
 
-export type Schema104 = 'infisical';
+export type Schema104 = string;
 
 export type Schema105 = string;
 
@@ -494,9 +479,9 @@ export type Schema107 = string;
 
 export type Schema108 = string;
 
-export type Schema109 = string;
+export type Schema109 = 'azure_key_vault';
 
-export type Schema110 = 'azure_key_vault';
+export type Schema110 = string;
 
 export type Schema111 = string;
 
@@ -504,24 +489,22 @@ export type Schema112 = string;
 
 export type Schema113 = string;
 
-export type Schema114 = string;
-
 /**
  * The secret identifier (e.g., AWS ARN, GCP secret path, Vault path, or Infisical secret name)
  */
+export type Schema114 = string;
+
 export type Schema115 = string;
 
-export type Schema116 = string;
+export type Schema116 = string | null;
 
-export type Schema117 = string | null;
+export type Schema117 = number | null;
 
-export type Schema118 = number | null;
+export type Schema118 = string;
 
 export type Schema119 = string;
 
-export type Schema120 = {
-    [key: string]: unknown;
-};
+export type Schema120 = 'signup' | 'playground-conversion';
 
 export type Schema121 = string;
 
@@ -529,311 +512,286 @@ export type Schema122 = string;
 
 export type Schema123 = string;
 
-export type Schema124 = boolean;
-
-export type Schema125 = {
-    [key: string]: unknown;
-};
-
-export type Schema126 = string;
-
-export type Schema127 = 'cron' | 'interval' | 'once';
-
-export type Schema128 = string;
-
-export type Schema129 = 'group' | 'isolated';
-
-export type Schema130 = string;
-
-export type Schema131 = string;
-
-export type Schema132 = 'active' | 'paused';
-
-export type Schema133 = string;
-
-export type Schema134 = 'signup' | 'playground-conversion';
-
-export type Schema135 = string;
-
 export type AuthMetadata = {
-    isPlayground: Schema136;
-    hasPaidSubscription: Schema137;
-    user: Schema138;
-    tenant: Schema140;
-    rules: Schema145;
-    quota: Schema146;
+    isPlayground: Schema124;
+    hasPaidSubscription: Schema125;
+    user: Schema126;
+    tenant: Schema128;
+    rules: Schema133;
+    quota: Schema134;
 };
 
 export type AuditLogResponse = {
-    id: Schema147;
-    tenantId: Schema148;
-    eventTime: Schema149;
-    entityType: Schema150;
-    entityId: Schema151;
-    eventName: Schema152;
-    userId: Schema153;
-    details: Schema154;
-    onlySuperadminVisibility: Schema155;
-    createdAt: Schema156;
-    userFullName: Schema157;
-    userEmail: Schema158;
-    teamName: Schema159;
-    serverSlug: Schema160;
-    profileName: Schema161;
+    id: Schema135;
+    tenantId: Schema136;
+    eventTime: Schema137;
+    entityType: Schema138;
+    entityId: Schema139;
+    eventName: Schema140;
+    userId: Schema141;
+    details: Schema142;
+    onlySuperadminVisibility: Schema143;
+    createdAt: Schema144;
+    userFullName: Schema145;
+    userEmail: Schema146;
+    teamName: Schema147;
+    serverSlug: Schema148;
+    profileName: Schema149;
 };
 
 export type PaginatedAuditLogResponse = {
-    pagination: Schema162;
-    data: Schema163;
+    pagination: Schema150;
+    data: Schema151;
 };
 
 export type GetUserMeResponse = {
-    user: Schema164;
-    identities: Schema176;
+    user: Schema152;
+    identities: Schema166;
 };
 
 export type ProfileAssignment = {
-    profileId: Schema172;
-    isLockedByOrgOwner: Schema173;
+    profileId: Schema160;
+    isLockedByOrgOwner: Schema161;
 };
 
 export type UserIdentity = {
-    tenantId: Schema177;
-    externalId: Schema178;
-    userId: Schema179;
-    type: Schema180;
-    createdAt: Schema181;
-    updatedAt: Schema182;
+    tenantId: Schema167;
+    externalId: Schema168;
+    userId: Schema169;
+    type: Schema170;
+    createdAt: Schema171;
+    updatedAt: Schema172;
 };
 
 export type User = {
-    id: Schema165;
-    tenantId: Schema166;
-    name: Schema167;
-    email: Schema168;
-    role: Schema139;
-    isSuperAdministrator: Schema183;
-    isDisabled: Schema169;
-    isServiceAccount: Schema170;
-    profileIds: Schema171;
-    createdAt: Schema174;
-    updatedAt: Schema175;
+    id: Schema153;
+    tenantId: Schema154;
+    name: Schema155;
+    email: Schema156;
+    role: Schema127;
+    isSuperAdministrator: Schema173;
+    isDisabled: Schema157;
+    isServiceAccount: Schema158;
+    profileIds: Schema159;
+    isScimManaged: Schema162;
+    scimExternalId: Schema163;
+    createdAt: Schema164;
+    updatedAt: Schema165;
 };
 
 export type PersonalAccessToken = {
-    tenantId: Schema186;
-    userId: Schema187;
-    id: Schema188;
-    name: Schema189;
-    apiKey: Schema190;
-    profileIds: Schema191;
-    createdAt: Schema192;
-    lastUsedAt: Schema193;
+    tenantId: Schema176;
+    userId: Schema177;
+    id: Schema178;
+    name: Schema179;
+    apiKey: Schema180;
+    profileIds: Schema181;
+    createdAt: Schema182;
+    lastUsedAt: Schema183;
 };
 
 export type ServerOAuthClientConfiguration = {
-    clientId: Schema221;
-    clientSecret: Schema222;
-    grantType: Schema223;
-    clientAuthMethod: Schema224;
-    scopes: Schema225;
+    clientId: Schema211;
+    clientSecret: Schema212;
+    grantType: Schema213;
+    clientAuthMethod: Schema214;
+    scopes: Schema215;
 };
 
 export type ServerOAuthMetadata = {
-    requiresAuthorization: Schema227;
-    resource?: Schema228;
-    as?: Schema229;
+    requiresAuthorization: Schema217;
+    resource?: Schema218;
+    as?: Schema219;
 };
 
 export type ServerDto = {
-    id: Schema194;
-    slug: Schema195;
-    tenantId: Schema196;
-    description: Schema197;
+    id: Schema184;
+    slug: Schema185;
+    tenantId: Schema186;
+    description: Schema187;
     authorization: ServerAuthorizationOutput;
-    transportConfig: Schema201;
-    oauthClientConfiguration: Schema220;
-    oauthMetadata: Schema226;
+    transportConfig: Schema191;
+    oauthClientConfiguration: Schema210;
+    oauthMetadata: Schema216;
     visibility: ServerVisibility;
-    isEnabled: Schema230;
-    lastToolRefreshAt: Schema231;
-    timeoutProtocol: Schema232;
-    timeoutTotal: Schema233;
-    resetTimeoutOnProgressNotification: Schema234;
-    isOutputCompressionEnabled: Schema235;
-    isOutputCompressionTransformEnabled: Schema236;
-    outputCompressionThresholdBytes: Schema237;
-    firewallRules: Schema238;
-    createdAt: Schema239;
-    updatedAt: Schema240;
+    isEnabled: Schema220;
+    lastToolRefreshAt: Schema221;
+    timeoutProtocol: Schema222;
+    timeoutTotal: Schema223;
+    resetTimeoutOnProgressNotification: Schema224;
+    isOutputCompressionEnabled: Schema225;
+    isOutputCompressionTransformEnabled: Schema226;
+    outputCompressionThresholdBytes: Schema227;
+    firewallRules: Schema228;
+    createdAt: Schema229;
+    updatedAt: Schema230;
 };
 
 export type ServerFile = {
-    tenantId: Schema242;
-    serverId: Schema243;
-    id: Schema244;
-    filename: Schema245;
-    sourceType: Schema246;
-    sourceId: Schema247;
-    size: Schema248;
-    credentialId: Schema249;
-    createdAt: Schema250;
-    updatedAt: Schema251;
+    tenantId: Schema232;
+    serverId: Schema233;
+    id: Schema234;
+    filename: Schema235;
+    sourceType: Schema236;
+    sourceId: Schema237;
+    size: Schema238;
+    credentialId: Schema239;
+    createdAt: Schema240;
+    updatedAt: Schema241;
 };
 
 export type ServerRunningStatusResponse = {
-    isDeployed: Schema252;
-    isAvailable: Schema253;
-    isStabilizing: Schema254;
-    pods: Schema255;
+    isDeployed: Schema242;
+    isAvailable: Schema243;
+    isStabilizing: Schema244;
+    pods: Schema245;
 };
 
 export type ServerPodStatus = {
-    name: Schema256;
-    ready: Schema257;
-    phase?: Schema258;
-    reason?: Schema259;
-    createdAt?: Schema260;
+    name: Schema246;
+    ready: Schema247;
+    phase?: Schema248;
+    reason?: Schema249;
+    createdAt?: Schema250;
 };
 
 export type ServerToolDto = {
-    tenantId: Schema263;
-    toolName: Schema264;
-    description: Schema265;
-    schema: Schema266;
-    outputSchema: Schema267;
-    annotations: Schema268;
-    isEnabled: Schema269;
-    serverSlug: Schema270;
-    universalName: Schema271;
+    tenantId: Schema253;
+    toolName: Schema254;
+    description: Schema255;
+    schema: Schema256;
+    outputSchema: Schema257;
+    annotations: Schema258;
+    isEnabled: Schema259;
+    serverSlug: Schema260;
+    universalName: Schema261;
 };
 
 export type GetMembersResponse = {
-    teams: Schema273;
-    users: Schema274;
+    teams: Schema263;
+    users: Schema264;
 };
 
 export type ServerCredentialsDto = {
-    id: Schema275;
-    tenantId: Schema276;
-    scope: Schema277;
-    userId: Schema278;
-    profileId: Schema279;
-    lastUsedAt: Schema280;
-    authorizedAt: Schema281;
-    type: Schema282;
-    createdAt: Schema283;
-    updatedAt: Schema284;
-    serverSlug: Schema285;
-    userEmail: Schema286;
-    userName: Schema287;
-    profileName: Schema288;
-    apikeysPresent: Schema289;
-    hasAccessToken: Schema290;
-    accessTokenExpiry: Schema291;
-    hasRefreshToken: Schema292;
-    subject: Schema293;
-    email: Schema294;
+    id: Schema265;
+    tenantId: Schema266;
+    scope: Schema267;
+    userId: Schema268;
+    profileId: Schema269;
+    lastUsedAt: Schema270;
+    authorizedAt: Schema271;
+    type: Schema272;
+    createdAt: Schema273;
+    updatedAt: Schema274;
+    serverSlug: Schema275;
+    userEmail: Schema276;
+    userName: Schema277;
+    profileName: Schema278;
+    apikeysPresent: Schema279;
+    hasAccessToken: Schema280;
+    accessTokenExpiry: Schema281;
+    hasRefreshToken: Schema282;
+    subject: Schema283;
+    email: Schema284;
 };
 
 export type GetCredentialTokenResponse = {
-    type: Schema295;
-    accessToken?: Schema296;
-    expiresAt?: Schema298;
-    apikeys?: Schema300;
+    type: Schema285;
+    accessToken?: Schema286;
+    expiresAt?: Schema288;
+    apikeys?: Schema290;
 };
 
 export type UploadSourceCodeResponse = {
-    success: Schema302;
-    message: Schema303;
-    analysisResult?: Schema304;
+    success: Schema292;
+    message: Schema293;
+    analysisResult?: Schema294;
 };
 
 export type TenantDto = {
-    id: Schema305;
-    isPlayground: Schema306;
-    displayName: Schema307;
-    upstreamOidcConfiguration: Schema308;
-    upstreamSamlConfiguration: Schema322;
-    isUpstreamOidcTokensTrusted: Schema334;
-    isAutomaticSeatIncreaseEnabled: Schema335;
-    isMcpAuthorizationApiKeyEnabled: Schema336;
-    grantPermissionsNewToolPolicy: Schema337;
-    allowMemberAddRemoteServers: Schema338;
-    allowMemberAddLocalServers: Schema339;
-    allowMemberAddHostedServers: Schema340;
-    isGoogleRefreshTokenSavingEnabled: Schema341;
-    isOutputCompressionAllowed: Schema342;
-    isOutputCompressionAiEnabled: Schema343;
-    outputCompressionAiModel: Schema344;
-    memberDefaultRole: Schema345;
+    id: Schema295;
+    isPlayground: Schema296;
+    displayName: Schema297;
+    upstreamOidcConfiguration: Schema298;
+    upstreamSamlConfiguration: Schema312;
+    isUpstreamOidcTokensTrusted: Schema324;
+    isAutomaticSeatIncreaseEnabled: Schema325;
+    isMcpAuthorizationApiKeyEnabled: Schema326;
+    grantPermissionsNewToolPolicy: Schema327;
+    allowMemberAddRemoteServers: Schema328;
+    allowMemberAddLocalServers: Schema329;
+    allowMemberAddHostedServers: Schema330;
+    isGoogleRefreshTokenSavingEnabled: Schema331;
+    isOutputCompressionAllowed: Schema332;
+    isOutputCompressionAiEnabled: Schema333;
+    outputCompressionAiModel: Schema334;
+    memberDefaultRole: Schema335;
     mcpAuditLogLevel: McpAuditLogVerbosity;
-    defaultResourceLimits: Schema142;
-    deploymentResourceLimits: Schema142;
-    isClawsEnabled: Schema346;
-    clawAnthropicApiKey: Schema347;
-    clawMainInstruction: Schema348;
-    clawDefaultGroupInstruction: Schema349;
+    defaultResourceLimits: Schema130;
+    deploymentResourceLimits: Schema130;
+    isScimEnabled: Schema336;
+    scimGroupDeleteBehavior: Schema337;
+    scimUserDeleteBehavior: Schema338;
 };
 
 export type TenantOidcConfiguration = {
-    isEnabled: Schema309;
-    displayName: Schema310;
-    issuer: Schema311;
-    authorizeEndpoint: Schema312;
-    extraParameters: Schema313;
-    tokenEndpoint: Schema314;
-    userInfoEndpoint: Schema315;
-    introspectionEndpoint: Schema316;
-    jwksUri: Schema317;
-    clientId: Schema318;
-    clientSecret: Schema319;
-    clientAuthMethod: Schema320;
-    scopes: Schema321;
+    isEnabled: Schema299;
+    displayName: Schema300;
+    issuer: Schema301;
+    authorizeEndpoint: Schema302;
+    extraParameters: Schema303;
+    tokenEndpoint: Schema304;
+    userInfoEndpoint: Schema305;
+    introspectionEndpoint: Schema306;
+    jwksUri: Schema307;
+    clientId: Schema308;
+    clientSecret: Schema309;
+    clientAuthMethod: Schema310;
+    scopes: Schema311;
 };
 
 export type TenantSamlConfiguration = {
-    isEnabled: Schema323;
-    displayName: Schema324;
-    idpMetadataUrl: Schema325;
-    idpMetadataDocument: Schema326;
-    entryPoint: Schema327;
-    cert: Schema328;
-    identifierFormat: Schema329;
-    signatureAlgorithm: Schema330;
-    emailClaim: Schema331;
-    firstNameClaim: Schema332;
-    lastNameClaim: Schema333;
+    isEnabled: Schema313;
+    displayName: Schema314;
+    idpMetadataUrl: Schema315;
+    idpMetadataDocument: Schema316;
+    entryPoint: Schema317;
+    cert: Schema318;
+    identifierFormat: Schema319;
+    signatureAlgorithm: Schema320;
+    emailClaim: Schema321;
+    firstNameClaim: Schema322;
+    lastNameClaim: Schema323;
 };
 
 export type McpAuditLogVerbosity = 'off' | 'terse' | 'detailed' | 'detailed-with-error' | 'verbose';
 
 export type GetSubscriptionResponse = {
-    subscriptionPlan: Schema350;
-    subscriptionSeats: Schema351;
-    subscription: Schema352;
+    subscriptionPlan: Schema339;
+    subscriptionSeats: Schema340;
+    subscription: Schema341;
 };
 
 export type DeploymentStatusResponse = {
-    isDeployed: Schema353;
-    isAvailable: Schema354;
-    isStabilizing: Schema355;
-    currentReplicaSet?: Schema356;
-    deployments: Schema357;
+    isDeployed: Schema342;
+    isAvailable: Schema343;
+    isStabilizing: Schema344;
+    currentReplicaSet?: Schema345;
+    deployments: Schema346;
 };
 
 export type DeploymentStatus = {
-    name: Schema358;
-    ready: Schema359;
-    crash: Schema360;
-    phase?: Schema361;
-    reason?: Schema362;
-    createdAt?: Schema363;
-    restartCount: Schema364;
-    hasPreviousFailure: Schema365;
-    lastFailCondition: Schema366;
-    lastFailure?: Schema373;
-    waitingReason?: Schema374;
+    name: Schema347;
+    ready: Schema348;
+    crash: Schema349;
+    phase?: Schema350;
+    reason?: Schema351;
+    createdAt?: Schema352;
+    restartCount: Schema353;
+    hasPreviousFailure: Schema354;
+    lastFailCondition: Schema355;
+    lastFailure?: Schema362;
+    waitingReason?: Schema363;
 };
 
 export type DeploymentMetricsResponse = {
@@ -843,171 +801,173 @@ export type DeploymentMetricsResponse = {
 };
 
 export type MetricsTimeSeries = {
-    timestamps: Schema375;
-    values: Schema376;
+    timestamps: Schema364;
+    values: Schema365;
 };
 
 export type ResourceLimits = {
-    cpuCores: Schema377;
-    memoryBytes: Schema378;
+    cpuCores: Schema366;
+    memoryBytes: Schema367;
 };
 
-export type DeploymentLogPayload = Schema379 | DeploymentLogPayloadPodInfo | Schema393 | Schema394 | Schema395 | Schema396 | Schema397 | Schema398 | Schema399 | Schema400;
+export type DeploymentLogPayload = Schema368 | DeploymentLogPayloadPodInfo | Schema382 | Schema383 | Schema384 | Schema385 | Schema386 | Schema387 | Schema388 | Schema389;
 
 export type DeploymentLogPayloadPodInfo = {
-    type: Schema380;
-    status: Schema381;
-    createdAt: Schema382;
-    pod: Schema383;
-    initContainers: Schema384;
-    containers: Schema385;
-    waitingReason: Schema386;
-    restartCount: Schema387;
-    hasPreviousFailure: Schema388;
-    lastFailCondition: Schema389;
-    lastFailure?: Schema373;
-    isSandbox: Schema391;
-    resourceLimits: Schema392;
+    type: Schema369;
+    status: Schema370;
+    createdAt: Schema371;
+    pod: Schema372;
+    initContainers: Schema373;
+    containers: Schema374;
+    waitingReason: Schema375;
+    restartCount: Schema376;
+    hasPreviousFailure: Schema377;
+    lastFailCondition: Schema378;
+    lastFailure?: Schema362;
+    isSandbox: Schema380;
+    resourceLimits: Schema381;
 };
 
 export type TeamWithMemberCount = {
-    id: Schema401;
-    tenantId: Schema402;
-    name: Schema403;
-    description: Schema404;
-    createdAt: Schema405;
-    updatedAt: Schema406;
-    memberCount: Schema407;
+    id: Schema390;
+    tenantId: Schema391;
+    name: Schema392;
+    description: Schema393;
+    isScimManaged: Schema394;
+    scimExternalId: Schema395;
+    createdAt: Schema396;
+    updatedAt: Schema397;
+    memberCount: Schema398;
 };
 
 export type TeamMember = {
-    teamId: Schema409;
-    userId: Schema410;
-    role: Schema411;
-    createdAt: Schema412;
-    updatedAt: Schema413;
+    teamId: Schema400;
+    userId: Schema401;
+    role: Schema402;
+    createdAt: Schema403;
+    updatedAt: Schema404;
 };
 
 export type TeamInvitation = {
-    id: Schema414;
-    teamId: Schema415;
-    tenantId: Schema416;
-    inviterUserId: Schema417;
-    email: Schema418;
-    role: Schema411;
-    token: Schema419;
-    expiresAt: Schema420;
-    acceptedAt: Schema421;
-    createdAt: Schema422;
-    updatedAt: Schema423;
+    id: Schema405;
+    teamId: Schema406;
+    tenantId: Schema407;
+    inviterUserId: Schema408;
+    email: Schema409;
+    role: Schema402;
+    token: Schema410;
+    expiresAt: Schema411;
+    acceptedAt: Schema412;
+    createdAt: Schema413;
+    updatedAt: Schema414;
 };
 
-export type ServerMember = Schema424 | Schema429;
+export type ServerMember = Schema415 | Schema420;
 
 export type Server = {
-    id: Schema194;
-    slug: Schema195;
-    tenantId: Schema196;
-    description: Schema197;
+    id: Schema184;
+    slug: Schema185;
+    tenantId: Schema186;
+    description: Schema187;
     authorization: ServerAuthorizationOutput;
-    transportConfig: Schema201;
-    oauthClientConfiguration: Schema220;
-    oauthMetadata: Schema226;
+    transportConfig: Schema191;
+    oauthClientConfiguration: Schema210;
+    oauthMetadata: Schema216;
     visibility: ServerVisibility;
-    isEnabled: Schema230;
-    lastToolRefreshAt: Schema231;
-    timeoutProtocol: Schema232;
-    timeoutTotal: Schema233;
-    resetTimeoutOnProgressNotification: Schema234;
-    isOutputCompressionEnabled: Schema235;
-    isOutputCompressionTransformEnabled: Schema236;
-    outputCompressionThresholdBytes: Schema237;
-    firewallRules: Schema238;
-    createdAt: Schema239;
-    updatedAt: Schema240;
+    isEnabled: Schema220;
+    lastToolRefreshAt: Schema221;
+    timeoutProtocol: Schema222;
+    timeoutTotal: Schema223;
+    resetTimeoutOnProgressNotification: Schema224;
+    isOutputCompressionEnabled: Schema225;
+    isOutputCompressionTransformEnabled: Schema226;
+    outputCompressionThresholdBytes: Schema227;
+    firewallRules: Schema228;
+    createdAt: Schema229;
+    updatedAt: Schema230;
 };
 
 export type TeamClaimMapping = {
-    id: Schema430;
-    tenantId: Schema431;
-    teamId: Schema432;
-    claimKey: Schema433;
-    claimValue: Schema434;
-    createdAt: Schema435;
+    id: Schema421;
+    tenantId: Schema422;
+    teamId: Schema423;
+    claimKey: Schema424;
+    claimValue: Schema425;
+    createdAt: Schema426;
 };
 
 export type SecretStoreListResponse = {
-    stores: Schema436;
+    stores: Schema427;
 };
 
 export type SecretStoreResponse = {
-    id: Schema437;
-    name: Schema438;
-    type: Schema439;
-    isEnabled: Schema440;
-    createdAt: Schema441;
-    updatedAt: Schema442;
+    id: Schema428;
+    name: Schema429;
+    type: Schema430;
+    isEnabled: Schema431;
+    createdAt: Schema432;
+    updatedAt: Schema433;
 };
 
 export type SecretStoreDetailResponse = {
-    id: Schema437;
-    name: Schema438;
-    type: Schema439;
-    isEnabled: Schema440;
-    createdAt: Schema441;
-    updatedAt: Schema442;
-    configuration: Schema443;
+    id: Schema428;
+    name: Schema429;
+    type: Schema430;
+    isEnabled: Schema431;
+    createdAt: Schema432;
+    updatedAt: Schema433;
+    configuration: Schema434;
 };
 
 export type SecretMappingListResponse = {
-    mappings: Schema467;
+    mappings: Schema458;
 };
 
 export type SecretMappingResponse = {
-    name: Schema468;
-    secretIdentifier: Schema469;
-    createdAt: Schema470;
-    updatedAt: Schema471;
+    name: Schema459;
+    secretIdentifier: Schema460;
+    createdAt: Schema461;
+    updatedAt: Schema462;
 };
 
 export type TestSecretResponse = {
-    success: Schema472;
-    message: Schema473;
-    value?: Schema474;
+    success: Schema463;
+    message: Schema464;
+    value?: Schema465;
 };
 
 export type Profile = {
-    tenantId: Schema475;
-    id: Schema476;
-    createdBy: Schema477;
-    name: Schema478;
-    description: Schema479;
-    isOpenToAllUsers: Schema480;
-    isRestrictive: Schema481;
-    createdAt: Schema482;
-    updatedAt: Schema483;
+    tenantId: Schema466;
+    id: Schema467;
+    createdBy: Schema468;
+    name: Schema469;
+    description: Schema470;
+    isOpenToAllUsers: Schema471;
+    isRestrictive: Schema472;
+    createdAt: Schema473;
+    updatedAt: Schema474;
 };
 
 export type ProfileDetailsDto = {
-    tenantId: Schema475;
-    id: Schema476;
-    createdBy: Schema477;
-    name: Schema478;
-    description: Schema479;
-    isOpenToAllUsers: Schema480;
-    isRestrictive: Schema481;
-    createdAt: Schema482;
-    updatedAt: Schema483;
-    servers: Schema484;
+    tenantId: Schema466;
+    id: Schema467;
+    createdBy: Schema468;
+    name: Schema469;
+    description: Schema470;
+    isOpenToAllUsers: Schema471;
+    isRestrictive: Schema472;
+    createdAt: Schema473;
+    updatedAt: Schema474;
+    servers: Schema475;
 };
 
 export type ProfileClaimMapping = {
-    id: Schema485;
-    tenantId: Schema486;
-    profileId: Schema487;
-    claimKey: Schema488;
-    claimValue: Schema489;
-    createdAt: Schema490;
+    id: Schema476;
+    tenantId: Schema477;
+    profileId: Schema478;
+    claimKey: Schema479;
+    claimValue: Schema480;
+    createdAt: Schema481;
 };
 
 export type CreateSandboxResponse = {
@@ -1015,120 +975,97 @@ export type CreateSandboxResponse = {
 };
 
 export type SandboxDto = {
-    id: Schema491;
-    tenantId: Schema492;
-    lastActivityAt: Schema493;
-    isArchived: Schema494;
-    createdAt: Schema495;
-    updatedAt: Schema496;
+    id: Schema482;
+    tenantId: Schema483;
+    lastActivityAt: Schema484;
+    isArchived: Schema485;
+    createdAt: Schema486;
+    updatedAt: Schema487;
     user: UserSmallDto;
 };
 
 export type UserSmallDto = {
-    id: Schema497;
-    email: Schema498;
-    name: Schema499;
+    id: Schema488;
+    email: Schema489;
+    name: Schema490;
 };
 
 export type ListSandboxesResponse = {
-    sandboxes: Schema500;
+    sandboxes: Schema491;
 };
 
 /**
  * Short-lived JWT credential for SSH access to a sandbox
  */
 export type SshSessionResponse = {
-    token: Schema501;
-    expiresIn: Schema502;
-    host: Schema503;
-    port: Schema504;
+    token: Schema492;
+    expiresIn: Schema493;
+    host: Schema494;
+    port: Schema495;
 };
 
 export type PaginatedSandboxAuditLog = {
-    pagination: Schema162;
-    data: Schema505;
+    pagination: Schema150;
+    data: Schema496;
 };
 
 export type SandboxAuditLog = {
-    id: Schema506;
-    tenantId: Schema507;
-    sandboxId: Schema508;
-    eventName: Schema509;
-    details: Schema510;
-    createdAt: Schema511;
-};
-
-export type ListGroupsResponse = {
-    groups: Schema512;
-};
-
-export type ClawGroupDto = {
-    id: Schema513;
-    tenantId: Schema514;
-    channelId: Schema515;
-    channelGroupId: Schema516;
-    name: Schema517;
-    triggerPattern: Schema518;
-    requiresTrigger: Schema519;
-    isMain: Schema520;
-    sessionId: Schema521;
-    sessionResumeAt: Schema522;
-    lastMessageAt: Schema523;
-    createdAt: Schema524;
-    updatedAt: Schema525;
-};
-
-export type ClawChannelTelegramConfig = {
-    id: Schema526;
-    tenantId: Schema527;
-    channelType: Schema528;
-    channelName: Schema529;
-    isEnabled: Schema530;
-    createdAt: Schema531;
-    updatedAt: Schema532;
-    config: TelegramConfig;
-};
-
-export type TelegramConfig = {
-    defaultTriggerName?: Schema533;
-    botToken: Schema535;
-};
-
-export type ClawChannel = {
-    id: Schema526;
-    tenantId: Schema527;
-    channelType: Schema528;
-    channelName: Schema529;
-    config: Schema536;
-    isEnabled: Schema530;
-    createdAt: Schema531;
-    updatedAt: Schema532;
+    id: Schema497;
+    tenantId: Schema498;
+    sandboxId: Schema499;
+    eventName: Schema500;
+    details: Schema501;
+    createdAt: Schema502;
 };
 
 export type SendVerificationCodeResponse = {
-    success: Schema537;
+    success: Schema503;
 };
 
-export type Schema136 = boolean;
+export type GetScimTokensResponse = {
+    tokens: Schema504;
+};
 
-export type Schema137 = boolean;
+export type ScimToken = {
+    id: Schema505;
+    tenantId: Schema506;
+    name: Schema507;
+    lastUsedAt: Schema508;
+    tokenHash: Schema509;
+    token?: Schema510;
+    createdAt: Schema511;
+    updatedAt: Schema512;
+};
 
-export type Schema138 = {
+export type CreateScimTokenResponse = {
+    token: ScimToken;
+    rawToken: Schema513;
+};
+
+export type GetScimTokenSecretResponse = {
+    rawToken: Schema514;
+};
+
+export type Schema124 = boolean;
+
+export type Schema125 = boolean;
+
+export type Schema126 = {
     id: string;
     tenantId: string;
     name: string;
     apiKey: string;
     email: string;
-    role: Schema139;
+    role: Schema127;
     isServiceAccount: boolean;
     createdAt: string;
     updatedAt: string;
     isSuperAdministrator?: boolean;
 };
 
-export type Schema139 = 'member' | 'owner';
+export type Schema127 = 'member' | 'owner';
 
-export type Schema140 = {
+export type Schema128 = {
     id: string;
     isMcpAuthorizationApiKeyEnabled: boolean;
     isOutputCompressionAllowed: boolean;
@@ -1138,10 +1075,10 @@ export type Schema140 = {
     subscriptionPlan: string;
     subscriptionSeats: number;
     numberOfEnabledUsers?: number;
-    memberDefaultRole: Schema141 | 'none';
+    memberDefaultRole: Schema129 | 'none';
     freeCredits: number;
     paidCredits: number;
-    defaultResourceLimits: Schema142;
+    defaultResourceLimits: Schema130;
     abilities: {
         canHaveMultipleUsers: boolean;
         canUseSandbox: boolean;
@@ -1150,26 +1087,25 @@ export type Schema140 = {
         canUpdateSeats: boolean;
         maxEnabledServers: number;
         canUseAiCompression: boolean;
-        canUseClaw: boolean;
         maxUsers: number;
         hasPaidFeatures: boolean;
     };
 };
 
-export type Schema141 = 'member' | 'admin' | 'maintainer';
+export type Schema129 = 'member' | 'admin' | 'maintainer';
 
-export type Schema142 = {
-    cpu: Schema143;
-    memory: Schema144;
+export type Schema130 = {
+    cpu: Schema131;
+    memory: Schema132;
 };
 
-export type Schema143 = string;
+export type Schema131 = string;
 
-export type Schema144 = string;
+export type Schema132 = string;
 
-export type Schema145 = Array<unknown>;
+export type Schema133 = Array<unknown>;
 
-export type Schema146 = {
+export type Schema134 = {
     enabledServers: {
         quota: number;
         current: number;
@@ -1177,37 +1113,37 @@ export type Schema146 = {
     };
 };
 
-export type Schema147 = number;
+export type Schema135 = number;
 
-export type Schema148 = string;
+export type Schema136 = string;
 
-export type Schema149 = string;
+export type Schema137 = string;
 
-export type Schema150 = string | null;
+export type Schema138 = string | null;
 
-export type Schema151 = string | null;
+export type Schema139 = string | null;
 
-export type Schema152 = string;
+export type Schema140 = string;
 
-export type Schema153 = string | null;
+export type Schema141 = string | null;
 
-export type Schema154 = unknown;
+export type Schema142 = unknown;
 
-export type Schema155 = boolean;
+export type Schema143 = boolean;
 
-export type Schema156 = string;
+export type Schema144 = string;
 
-export type Schema157 = string;
+export type Schema145 = string;
 
-export type Schema158 = string | null;
+export type Schema146 = string | null;
 
-export type Schema159 = string | null;
+export type Schema147 = string | null;
 
-export type Schema160 = string | null;
+export type Schema148 = string | null;
 
-export type Schema161 = string | null;
+export type Schema149 = string | null;
 
-export type Schema162 = {
+export type Schema150 = {
     page: number;
     limit: number;
     total: number;
@@ -1216,179 +1152,185 @@ export type Schema162 = {
     hasPrev: boolean;
 };
 
-export type Schema163 = Array<AuditLogResponse>;
+export type Schema151 = Array<AuditLogResponse>;
 
-export type Schema164 = {
-    id: Schema165;
-    tenantId: Schema166;
-    name: Schema167;
-    email: Schema168;
-    role: Schema139;
-    isDisabled: Schema169;
-    isServiceAccount: Schema170;
-    profileIds: Schema171;
-    createdAt: Schema174;
-    updatedAt: Schema175;
+export type Schema152 = {
+    id: Schema153;
+    tenantId: Schema154;
+    name: Schema155;
+    email: Schema156;
+    role: Schema127;
+    isDisabled: Schema157;
+    isServiceAccount: Schema158;
+    profileIds: Schema159;
+    isScimManaged: Schema162;
+    scimExternalId: Schema163;
+    createdAt: Schema164;
+    updatedAt: Schema165;
 };
+
+export type Schema153 = string;
+
+export type Schema154 = string;
+
+export type Schema155 = string;
+
+export type Schema156 = string;
+
+export type Schema157 = boolean;
+
+export type Schema158 = boolean;
+
+export type Schema159 = Array<ProfileAssignment>;
+
+export type Schema160 = string;
+
+export type Schema161 = boolean;
+
+export type Schema162 = boolean;
+
+export type Schema163 = string;
+
+export type Schema164 = string;
 
 export type Schema165 = string;
 
-export type Schema166 = string;
+export type Schema166 = Array<UserIdentity>;
 
-export type Schema167 = string;
+export type Schema167 = number;
 
 export type Schema168 = string;
 
-export type Schema169 = boolean;
+export type Schema169 = string;
 
-export type Schema170 = boolean;
+export type Schema170 = 'external-oidc' | 'external-saml' | 'native';
 
-export type Schema171 = Array<ProfileAssignment>;
+export type Schema171 = string;
 
 export type Schema172 = string;
 
 export type Schema173 = boolean;
 
-export type Schema174 = string;
+export type Schema174 = {
+    user: User;
+};
 
-export type Schema175 = string;
+export type Schema175 = {
+    profileAssignments: Array<ProfileAssignment>;
+};
 
-export type Schema176 = Array<UserIdentity>;
+export type Schema176 = string;
 
-export type Schema177 = number;
+export type Schema177 = string;
 
 export type Schema178 = string;
 
 export type Schema179 = string;
 
-export type Schema180 = 'external-oidc' | 'external-saml' | 'native';
+export type Schema180 = string;
 
-export type Schema181 = string;
+export type Schema181 = Array<string>;
 
 export type Schema182 = string;
 
-export type Schema183 = boolean;
+export type Schema183 = string | null;
 
-export type Schema184 = {
-    user: User;
-};
+export type Schema184 = string;
 
-export type Schema185 = {
-    profileAssignments: Array<ProfileAssignment>;
-};
+export type Schema185 = string;
 
 export type Schema186 = string;
 
 export type Schema187 = string;
 
-export type Schema188 = string;
+export type Schema188 = 'none' | 'oauth' | 'apikey';
 
-export type Schema189 = string;
+export type Schema189 = 'server' | 'user';
 
-export type Schema190 = string;
+export type Schema190 = Array<string>;
 
-export type Schema191 = Array<string>;
+export type Schema191 = HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
+    type: 'self';
+    id: string;
+} | HostedTransportConfigOutput;
 
-export type Schema192 = string;
+export type Schema192 = 'httpstreaming';
 
-export type Schema193 = string | null;
+export type Schema193 = string;
 
-export type Schema194 = string;
+export type Schema194 = Array<[
+    string,
+    string
+]>;
 
-export type Schema195 = string;
+export type Schema195 = 'stdio';
 
 export type Schema196 = string;
 
 export type Schema197 = string;
 
-export type Schema198 = 'none' | 'oauth' | 'apikey';
-
-export type Schema199 = 'server' | 'user';
-
-export type Schema200 = Array<string>;
-
-export type Schema201 = HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
-    type: 'self';
-    id: string;
-} | HostedTransportConfigOutput;
-
-export type Schema202 = 'httpstreaming';
-
-export type Schema203 = string;
-
-export type Schema204 = Array<[
+export type Schema198 = Array<[
     string,
     string
 ]>;
 
-export type Schema205 = 'stdio';
+export type Schema199 = 'sse' | 'httpstreaming' | 'stdio';
 
-export type Schema206 = string;
+export type Schema200 = number | null;
 
-export type Schema207 = string;
+export type Schema201 = string | null;
+
+export type Schema202 = {
+    cpu?: Schema131;
+    memory?: Schema132;
+} | null;
+
+export type Schema203 = 'sse';
+
+export type Schema204 = string;
+
+export type Schema205 = Array<[
+    string,
+    string
+]>;
+
+export type Schema206 = 'hosted';
+
+export type Schema207 = 'node24';
 
 export type Schema208 = Array<[
     string,
     string
 ]>;
 
-export type Schema209 = 'sse' | 'httpstreaming' | 'stdio';
-
-export type Schema210 = number | null;
-
-export type Schema211 = string | null;
-
-export type Schema212 = {
-    cpu?: Schema143;
-    memory?: Schema144;
+export type Schema209 = {
+    cpu?: Schema131;
+    memory?: Schema132;
 } | null;
 
-export type Schema213 = 'sse';
+export type Schema210 = null | ServerOAuthClientConfiguration;
 
-export type Schema214 = string;
+export type Schema211 = string;
 
-export type Schema215 = Array<[
-    string,
-    string
-]>;
+export type Schema212 = string;
 
-export type Schema216 = 'hosted';
+export type Schema213 = 'authorization_code' | 'device_code';
 
-export type Schema217 = 'node24';
+export type Schema214 = 'client_secret_basic' | 'client_secret_post' | 'none' | string;
 
-export type Schema218 = Array<[
-    string,
-    string
-]>;
+export type Schema215 = string;
 
-export type Schema219 = {
-    cpu?: Schema143;
-    memory?: Schema144;
-} | null;
+export type Schema216 = null | ServerOAuthMetadata;
 
-export type Schema220 = null | ServerOAuthClientConfiguration;
+export type Schema217 = boolean;
 
-export type Schema221 = string;
-
-export type Schema222 = string;
-
-export type Schema223 = 'authorization_code' | 'device_code';
-
-export type Schema224 = 'client_secret_basic' | 'client_secret_post' | 'none' | string;
-
-export type Schema225 = string;
-
-export type Schema226 = null | ServerOAuthMetadata;
-
-export type Schema227 = boolean;
-
-export type Schema228 = {
+export type Schema218 = {
     id: string;
     availableScopes: Array<string>;
     metadataUrl: string;
 };
 
-export type Schema229 = {
+export type Schema219 = {
     issuer: string;
     authorizeEndpoint: string;
     deviceAuthorizationEndpoint: string;
@@ -1404,23 +1346,23 @@ export type Schema229 = {
     availableScopes: Array<string>;
 };
 
-export type Schema230 = boolean;
+export type Schema220 = boolean;
 
-export type Schema231 = string | null;
+export type Schema221 = string | null;
 
-export type Schema232 = number;
+export type Schema222 = number;
 
-export type Schema233 = number;
+export type Schema223 = number;
 
-export type Schema234 = boolean;
+export type Schema224 = boolean;
 
-export type Schema235 = boolean;
+export type Schema225 = boolean;
 
-export type Schema236 = boolean;
+export type Schema226 = boolean;
 
-export type Schema237 = number;
+export type Schema227 = number;
 
-export type Schema238 = Array<{
+export type Schema228 = Array<{
     /**
      * CEL representing the condition
      */
@@ -1428,190 +1370,210 @@ export type Schema238 = Array<{
     action: 'deny' | 'modify' | 'log';
 }>;
 
-export type Schema239 = string;
+export type Schema229 = string;
 
-export type Schema240 = string;
+export type Schema230 = string;
 
-export type Schema241 = {
+export type Schema231 = {
     server: ServerDto;
     files: Array<ServerFile>;
 };
 
-export type Schema242 = string;
+export type Schema232 = string;
 
-export type Schema243 = string;
+export type Schema233 = string;
 
-export type Schema244 = string;
+export type Schema234 = string;
 
-export type Schema245 = string;
+export type Schema235 = string;
 
-export type Schema246 = 'gcs' | 'aws-ssm' | 'aws-secrets-manager';
+export type Schema236 = 'gcs' | 'aws-ssm' | 'aws-secrets-manager';
 
-export type Schema247 = string;
+export type Schema237 = string;
 
-export type Schema248 = number | null;
+export type Schema238 = number | null;
 
-export type Schema249 = string | null;
+export type Schema239 = string | null;
+
+export type Schema240 = string;
+
+export type Schema241 = string;
+
+export type Schema242 = boolean;
+
+export type Schema243 = boolean;
+
+export type Schema244 = boolean;
+
+export type Schema245 = Array<ServerPodStatus>;
+
+export type Schema246 = string;
+
+export type Schema247 = boolean;
+
+export type Schema248 = string;
+
+export type Schema249 = string;
 
 export type Schema250 = string;
 
 export type Schema251 = string;
 
-export type Schema252 = boolean;
+export type Schema252 = {
+    tools: Array<ServerToolDto>;
+};
 
-export type Schema253 = boolean;
+export type Schema253 = string;
 
-export type Schema254 = boolean;
+export type Schema254 = string;
 
-export type Schema255 = Array<ServerPodStatus>;
+export type Schema255 = string;
 
-export type Schema256 = string;
+export type Schema256 = {
+    [key: string]: never;
+};
 
-export type Schema257 = boolean;
+export type Schema257 = {
+    [key: string]: never;
+} | null;
 
-export type Schema258 = string;
+export type Schema258 = {
+    [key: string]: never;
+} | null;
 
-export type Schema259 = string;
+export type Schema259 = boolean;
 
 export type Schema260 = string;
 
 export type Schema261 = string;
 
 export type Schema262 = {
-    tools: Array<ServerToolDto>;
-};
-
-export type Schema263 = string;
-
-export type Schema264 = string;
-
-export type Schema265 = string;
-
-export type Schema266 = {
-    [key: string]: never;
-};
-
-export type Schema267 = {
-    [key: string]: never;
-} | null;
-
-export type Schema268 = {
-    [key: string]: never;
-} | null;
-
-export type Schema269 = boolean;
-
-export type Schema270 = string;
-
-export type Schema271 = string;
-
-export type Schema272 = {
     success: boolean;
     message: string;
 };
 
-export type Schema273 = Array<{
-    role: Schema141;
+export type Schema263 = Array<{
+    role: Schema129;
     id: string;
     name: string;
 }>;
 
-export type Schema274 = Array<{
-    role: Schema141;
+export type Schema264 = Array<{
+    role: Schema129;
     id: string;
     name: string;
     email: string;
 }>;
 
+export type Schema265 = string;
+
+export type Schema266 = string;
+
+export type Schema267 = 'server' | 'user' | 'profile';
+
+export type Schema268 = string | null;
+
+export type Schema269 = string | null;
+
+export type Schema270 = string | null;
+
+export type Schema271 = string;
+
+export type Schema272 = 'oauth' | 'apikey';
+
+export type Schema273 = string;
+
+export type Schema274 = string;
+
 export type Schema275 = string;
 
-export type Schema276 = string;
+export type Schema276 = string | null;
 
-export type Schema277 = 'server' | 'user' | 'profile';
+export type Schema277 = string | null;
 
 export type Schema278 = string | null;
 
-export type Schema279 = string | null;
+export type Schema279 = Array<string> | null;
 
-export type Schema280 = string | null;
+export type Schema280 = boolean | null;
 
-export type Schema281 = string;
+export type Schema281 = string | null;
 
-export type Schema282 = 'oauth' | 'apikey';
+export type Schema282 = boolean | null;
 
-export type Schema283 = string;
+export type Schema283 = string | null;
 
-export type Schema284 = string;
+export type Schema284 = string | null;
 
-export type Schema285 = string;
-
-export type Schema286 = string | null;
-
-export type Schema287 = string | null;
-
-export type Schema288 = string | null;
-
-export type Schema289 = Array<string> | null;
-
-export type Schema290 = boolean | null;
-
-export type Schema291 = string | null;
-
-export type Schema292 = boolean | null;
-
-export type Schema293 = string | null;
-
-export type Schema294 = string | null;
-
-export type Schema295 = 'oauth' | 'apikey';
+export type Schema285 = 'oauth' | 'apikey';
 
 /**
  * The OAuth access token (refreshed if necessary and possible).
  */
-export type Schema296 = Schema297;
+export type Schema286 = Schema287;
 
-export type Schema297 = string;
+export type Schema287 = string;
 
 /**
  * Unix timestamp (ms) when the access token expires.
  */
-export type Schema298 = Schema299;
+export type Schema288 = Schema289;
 
-export type Schema299 = number;
+export type Schema289 = number;
 
 /**
  * Array of [key, value] tuples for API key credentials.
  */
-export type Schema300 = Schema301;
+export type Schema290 = Schema291;
 
-export type Schema301 = Array<[
+export type Schema291 = Array<[
     string,
     string
 ]>;
 
-export type Schema302 = boolean;
+export type Schema292 = boolean;
+
+export type Schema293 = string;
+
+export type Schema294 = unknown;
+
+export type Schema295 = string;
+
+export type Schema296 = boolean;
+
+export type Schema297 = string;
+
+export type Schema298 = TenantOidcConfiguration | null;
+
+export type Schema299 = boolean;
+
+export type Schema300 = string;
+
+export type Schema301 = string;
+
+export type Schema302 = string;
 
 export type Schema303 = string;
 
-export type Schema304 = unknown;
+export type Schema304 = string;
 
 export type Schema305 = string;
 
-export type Schema306 = boolean;
+export type Schema306 = string;
 
 export type Schema307 = string;
 
-export type Schema308 = TenantOidcConfiguration | null;
+export type Schema308 = string;
 
-export type Schema309 = boolean;
+export type Schema309 = string;
 
-export type Schema310 = string;
+export type Schema310 = 'client_secret_basic' | 'client_secret_post';
 
 export type Schema311 = string;
 
-export type Schema312 = string;
+export type Schema312 = TenantSamlConfiguration | null;
 
-export type Schema313 = string;
+export type Schema313 = boolean;
 
 export type Schema314 = string;
 
@@ -1625,71 +1587,49 @@ export type Schema318 = string;
 
 export type Schema319 = string;
 
-export type Schema320 = 'client_secret_basic' | 'client_secret_post';
+export type Schema320 = string;
 
 export type Schema321 = string;
 
-export type Schema322 = TenantSamlConfiguration | null;
+export type Schema322 = string;
 
-export type Schema323 = boolean;
+export type Schema323 = string;
 
-export type Schema324 = string;
+export type Schema324 = boolean;
 
-export type Schema325 = string;
+export type Schema325 = boolean;
 
-export type Schema326 = string;
+export type Schema326 = boolean;
 
-export type Schema327 = string;
+export type Schema327 = boolean;
 
-export type Schema328 = string;
+export type Schema328 = boolean;
 
-export type Schema329 = string;
+export type Schema329 = boolean;
 
-export type Schema330 = string;
+export type Schema330 = boolean;
 
-export type Schema331 = string;
+export type Schema331 = boolean;
 
-export type Schema332 = string;
+export type Schema332 = boolean;
 
-export type Schema333 = string;
+export type Schema333 = boolean;
 
-export type Schema334 = boolean;
+export type Schema334 = 'english' | 'multilingual';
 
-export type Schema335 = boolean;
+export type Schema335 = Schema129 | 'none';
 
 export type Schema336 = boolean;
 
-export type Schema337 = boolean;
+export type Schema337 = 'delete' | 'keep';
 
-export type Schema338 = boolean;
+export type Schema338 = 'delete' | 'disable' | 'keep';
 
-export type Schema339 = boolean;
+export type Schema339 = string;
 
-export type Schema340 = boolean;
+export type Schema340 = number;
 
-export type Schema341 = boolean;
-
-export type Schema342 = boolean;
-
-export type Schema343 = boolean;
-
-export type Schema344 = 'english' | 'multilingual';
-
-export type Schema345 = Schema141 | 'none';
-
-export type Schema346 = boolean;
-
-export type Schema347 = string;
-
-export type Schema348 = string;
-
-export type Schema349 = string;
-
-export type Schema350 = string;
-
-export type Schema351 = number;
-
-export type Schema352 = {
+export type Schema341 = {
     hasPaymentMethod: boolean;
     trialEndsAt: string | null;
     status: string;
@@ -1707,55 +1647,55 @@ export type Schema352 = {
     } | null;
 } | null;
 
-export type Schema353 = boolean;
+export type Schema342 = boolean;
+
+export type Schema343 = boolean;
+
+export type Schema344 = boolean;
+
+export type Schema345 = string;
+
+export type Schema346 = Array<DeploymentStatus>;
+
+export type Schema347 = string;
+
+export type Schema348 = boolean;
+
+export type Schema349 = boolean;
+
+export type Schema350 = string;
+
+export type Schema351 = string;
+
+export type Schema352 = string;
+
+export type Schema353 = number;
 
 export type Schema354 = boolean;
 
-export type Schema355 = boolean;
+export type Schema355 = Schema356 | null;
 
-export type Schema356 = string;
-
-export type Schema357 = Array<DeploymentStatus>;
-
-export type Schema358 = string;
-
-export type Schema359 = boolean;
-
-export type Schema360 = boolean;
-
-export type Schema361 = string;
-
-export type Schema362 = string;
-
-export type Schema363 = string;
-
-export type Schema364 = number;
-
-export type Schema365 = boolean;
-
-export type Schema366 = Schema367 | null;
-
-export type Schema367 = {
+export type Schema356 = {
     /**
      * Last time we probed the condition.
      */
-    lastProbeTime?: Schema368;
+    lastProbeTime?: Schema357;
     /**
      * Last time the condition transitioned from one status to another.
      */
-    lastTransitionTime?: Schema369;
+    lastTransitionTime?: Schema358;
     /**
      * Human-readable message indicating details about last transition.
      */
-    message?: Schema370;
+    message?: Schema359;
     /**
      * If set, this represents the .metadata.generation that the pod condition was set based upon. This is an alpha field. Enable PodObservedGenerationTracking to be able to use this field.
      */
-    observedGeneration?: Schema371;
+    observedGeneration?: Schema360;
     /**
      * Unique, one-word, CamelCase reason for the condition's last transition.
      */
-    reason?: Schema372;
+    reason?: Schema361;
     /**
      * Status is the status of the condition. Can be True, False, Unknown. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#pod-conditions
      */
@@ -1763,17 +1703,17 @@ export type Schema367 = {
     type: string;
 };
 
-export type Schema368 = string;
+export type Schema357 = string;
 
-export type Schema369 = string;
+export type Schema358 = string;
 
-export type Schema370 = string;
+export type Schema359 = string;
 
-export type Schema371 = number;
+export type Schema360 = number;
 
-export type Schema372 = string;
+export type Schema361 = string;
 
-export type Schema373 = {
+export type Schema362 = {
     containerName: string;
     exitCode?: number;
     reason?: string;
@@ -1781,56 +1721,56 @@ export type Schema373 = {
     finishedAt?: string;
 };
 
-export type Schema374 = string;
+export type Schema363 = string;
 
-export type Schema375 = Array<number>;
+export type Schema364 = Array<number>;
 
-export type Schema376 = Array<number>;
+export type Schema365 = Array<number>;
 
-export type Schema377 = number | null;
+export type Schema366 = number | null;
 
-export type Schema378 = number | null;
+export type Schema367 = number | null;
 
-export type Schema379 = {
+export type Schema368 = {
     type: 'error';
     message: string;
 };
 
-export type Schema380 = 'podInfo';
+export type Schema369 = 'podInfo';
 
-export type Schema381 = 'Ready' | 'Pending' | 'Running' | 'Succeeded' | 'Failed' | 'Unknown';
+export type Schema370 = 'Ready' | 'Pending' | 'Running' | 'Succeeded' | 'Failed' | 'Unknown';
 
-export type Schema382 = string;
+export type Schema371 = string;
 
-export type Schema383 = string;
+export type Schema372 = string;
 
-export type Schema384 = Array<string>;
+export type Schema373 = Array<string>;
 
-export type Schema385 = Array<string>;
+export type Schema374 = Array<string>;
 
-export type Schema386 = string | null;
+export type Schema375 = string | null;
 
-export type Schema387 = number;
+export type Schema376 = number;
 
-export type Schema388 = boolean;
+export type Schema377 = boolean;
 
-export type Schema389 = Schema367 | null;
+export type Schema378 = Schema356 | null;
 
-export type Schema390 = Schema373;
+export type Schema379 = Schema362;
 
-export type Schema391 = boolean;
+export type Schema380 = boolean;
 
-export type Schema392 = {
+export type Schema381 = {
     cpuCores: number | null;
     memoryBytes: number | null;
 };
 
-export type Schema393 = {
+export type Schema382 = {
     type: 'initContainerRunning';
     name: string;
 };
 
-export type Schema394 = {
+export type Schema383 = {
     type: 'initContainerTerminated';
     name: string;
     exitCode: number;
@@ -1839,27 +1779,27 @@ export type Schema394 = {
     finishedAt: string;
 };
 
-export type Schema395 = {
+export type Schema384 = {
     type: 'mainContainerWaiting';
     reason: string;
 };
 
-export type Schema396 = {
+export type Schema385 = {
     type: 'mainContainerCrashBackOff' | 'mainContainerImagePullBackOff';
     reason: string;
     detail?: string;
     restarts: number;
 };
 
-export type Schema397 = {
+export type Schema386 = {
     type: 'mainContainerRunning';
 };
 
-export type Schema398 = {
+export type Schema387 = {
     type: 'mainContainerReady';
 };
 
-export type Schema399 = {
+export type Schema388 = {
     type: 'mainContainerCrashed';
     exitCode: number;
     reason?: string;
@@ -1867,13 +1807,37 @@ export type Schema399 = {
     finishedAt: string;
 };
 
-export type Schema400 = {
+export type Schema389 = {
     type: 'done';
 };
 
+export type Schema390 = string;
+
+export type Schema391 = string;
+
+export type Schema392 = string;
+
+export type Schema393 = string;
+
+export type Schema394 = boolean;
+
+export type Schema395 = string;
+
+export type Schema396 = string;
+
+export type Schema397 = string;
+
+export type Schema398 = number;
+
+export type Schema399 = {
+    team: TeamWithMemberCount;
+};
+
+export type Schema400 = string;
+
 export type Schema401 = string;
 
-export type Schema402 = string;
+export type Schema402 = 'member' | 'maintainer';
 
 export type Schema403 = string;
 
@@ -1883,127 +1847,125 @@ export type Schema405 = string;
 
 export type Schema406 = string;
 
-export type Schema407 = number;
+export type Schema407 = string;
 
-export type Schema408 = {
-    team: TeamWithMemberCount;
-};
+export type Schema408 = number | null;
 
 export type Schema409 = string;
 
 export type Schema410 = string;
 
-export type Schema411 = 'member' | 'maintainer';
+export type Schema411 = string;
 
-export type Schema412 = string;
+export type Schema412 = string | null;
 
 export type Schema413 = string;
 
 export type Schema414 = string;
 
-export type Schema415 = string;
+export type Schema415 = {
+    tenantId: Schema416;
+    serverId: Schema417;
+    role: Schema129;
+    createdAt: Schema418;
+    updatedAt: Schema419;
+    userId: string;
+    teamId: null;
+};
 
 export type Schema416 = string;
 
-export type Schema417 = number | null;
+export type Schema417 = string;
 
 export type Schema418 = string;
 
 export type Schema419 = string;
 
-export type Schema420 = string;
+export type Schema420 = {
+    tenantId: Schema416;
+    serverId: Schema417;
+    role: Schema129;
+    createdAt: Schema418;
+    updatedAt: Schema419;
+    userId: null;
+    teamId: string;
+};
 
-export type Schema421 = string | null;
+export type Schema421 = string;
 
 export type Schema422 = string;
 
 export type Schema423 = string;
 
-export type Schema424 = {
-    tenantId: Schema425;
-    serverId: Schema426;
-    role: Schema141;
-    createdAt: Schema427;
-    updatedAt: Schema428;
-    userId: string;
-    teamId: null;
-};
+export type Schema424 = string;
 
 export type Schema425 = string;
 
 export type Schema426 = string;
 
-export type Schema427 = string;
+export type Schema427 = Array<SecretStoreResponse>;
 
 export type Schema428 = string;
 
-export type Schema429 = {
-    tenantId: Schema425;
-    serverId: Schema426;
-    role: Schema141;
-    createdAt: Schema427;
-    updatedAt: Schema428;
-    userId: null;
-    teamId: string;
-};
+export type Schema429 = string;
 
-export type Schema430 = string;
+export type Schema430 = 'aws_secrets_manager' | 'gcp_secret_manager' | 'hashicorp_vault' | 'infisical' | 'azure_key_vault';
 
-export type Schema431 = string;
+export type Schema431 = boolean;
 
 export type Schema432 = string;
 
 export type Schema433 = string;
 
-export type Schema434 = string;
+export type Schema434 = AwsSecretsManagerConfigurationOutput | GcpSecretManagerConfigurationOutput | HashiCorpVaultConfigurationOutput | InfisicalConfigurationOutput | AzureKeyVaultConfigurationOutput;
 
-export type Schema435 = string;
+export type Schema435 = 'aws_secrets_manager';
 
-export type Schema436 = Array<SecretStoreResponse>;
+export type Schema436 = string;
 
 export type Schema437 = string;
 
 export type Schema438 = string;
 
-export type Schema439 = 'aws_secrets_manager' | 'gcp_secret_manager' | 'hashicorp_vault' | 'infisical' | 'azure_key_vault';
+export type Schema439 = 'gcp_secret_manager';
 
-export type Schema440 = boolean;
+export type Schema440 = string;
 
 export type Schema441 = string;
 
-export type Schema442 = string;
+export type Schema442 = 'hashicorp_vault';
 
-export type Schema443 = AwsSecretsManagerConfigurationOutput | GcpSecretManagerConfigurationOutput | HashiCorpVaultConfigurationOutput | InfisicalConfigurationOutput | AzureKeyVaultConfigurationOutput;
+export type Schema443 = string;
 
-export type Schema444 = 'aws_secrets_manager';
+export type Schema444 = string;
 
 export type Schema445 = string;
 
 export type Schema446 = string;
 
-export type Schema447 = string;
+export type Schema447 = 'infisical';
 
-export type Schema448 = 'gcp_secret_manager';
+export type Schema448 = string;
 
 export type Schema449 = string;
 
 export type Schema450 = string;
 
-export type Schema451 = 'hashicorp_vault';
+export type Schema451 = string;
 
 export type Schema452 = string;
 
-export type Schema453 = string;
+export type Schema453 = 'azure_key_vault';
 
 export type Schema454 = string;
 
 export type Schema455 = string;
 
-export type Schema456 = 'infisical';
+export type Schema456 = string;
 
 export type Schema457 = string;
 
-export type Schema458 = string;
+export type Schema458 = Array<SecretMappingResponse>;
 
 export type Schema459 = string;
 
@@ -2011,9 +1973,9 @@ export type Schema460 = string;
 
 export type Schema461 = string;
 
-export type Schema462 = 'azure_key_vault';
+export type Schema462 = string;
 
-export type Schema463 = string;
+export type Schema463 = boolean;
 
 export type Schema464 = string;
 
@@ -2021,7 +1983,7 @@ export type Schema465 = string;
 
 export type Schema466 = string;
 
-export type Schema467 = Array<SecretMappingResponse>;
+export type Schema467 = string;
 
 export type Schema468 = string;
 
@@ -2029,7 +1991,7 @@ export type Schema469 = string;
 
 export type Schema470 = string;
 
-export type Schema471 = string;
+export type Schema471 = boolean;
 
 export type Schema472 = boolean;
 
@@ -2037,7 +1999,14 @@ export type Schema473 = string;
 
 export type Schema474 = string;
 
-export type Schema475 = string;
+export type Schema475 = Array<{
+    name: string;
+    slug: string;
+    authorization: ServerAuthorizationOutput;
+    credentialsNumKeys: number | null;
+    credentialScope: Schema267;
+    credentials: ServerCredentialsDto | null;
+}>;
 
 export type Schema476 = string;
 
@@ -2047,24 +2016,17 @@ export type Schema478 = string;
 
 export type Schema479 = string;
 
-export type Schema480 = boolean;
+export type Schema480 = string;
 
-export type Schema481 = boolean;
+export type Schema481 = string;
 
 export type Schema482 = string;
 
 export type Schema483 = string;
 
-export type Schema484 = Array<{
-    name: string;
-    slug: string;
-    authorization: ServerAuthorizationOutput;
-    credentialsNumKeys: number | null;
-    credentialScope: Schema277;
-    credentials: ServerCredentialsDto | null;
-}>;
+export type Schema484 = string;
 
-export type Schema485 = string;
+export type Schema485 = boolean;
 
 export type Schema486 = string;
 
@@ -2076,182 +2038,128 @@ export type Schema489 = string;
 
 export type Schema490 = string;
 
-export type Schema491 = string;
+export type Schema491 = Array<SandboxDto>;
 
 export type Schema492 = string;
 
-export type Schema493 = string;
+export type Schema493 = number;
 
-export type Schema494 = boolean;
+export type Schema494 = string;
 
-export type Schema495 = string;
+export type Schema495 = number;
 
-export type Schema496 = string;
+export type Schema496 = Array<SandboxAuditLog>;
 
-export type Schema497 = string;
+export type Schema497 = number;
 
 export type Schema498 = string;
 
 export type Schema499 = string;
 
-export type Schema500 = Array<SandboxDto>;
+export type Schema500 = string;
 
-export type Schema501 = string;
-
-export type Schema502 = number;
-
-export type Schema503 = string;
-
-export type Schema504 = number;
-
-export type Schema505 = Array<SandboxAuditLog>;
-
-export type Schema506 = number;
-
-export type Schema507 = string;
-
-export type Schema508 = string;
-
-export type Schema509 = string;
-
-export type Schema510 = {
+export type Schema501 = {
     [key: string]: unknown;
 };
 
+export type Schema502 = string;
+
+export type Schema503 = boolean;
+
+export type Schema504 = Array<ScimToken>;
+
+export type Schema505 = string;
+
+export type Schema506 = string;
+
+export type Schema507 = string;
+
+export type Schema508 = string | null;
+
+export type Schema509 = string;
+
+export type Schema510 = string;
+
 export type Schema511 = string;
 
-export type Schema512 = Array<ClawGroupDto>;
+export type Schema512 = string;
 
 export type Schema513 = string;
 
 export type Schema514 = string;
 
-export type Schema515 = string;
-
-export type Schema516 = string;
-
-export type Schema517 = string;
-
-export type Schema518 = string;
-
-export type Schema519 = boolean;
-
-export type Schema520 = boolean;
-
-export type Schema521 = string;
-
-export type Schema522 = string;
-
-export type Schema523 = string | null;
-
-export type Schema524 = string;
-
-export type Schema525 = string;
-
-export type Schema526 = string;
-
-export type Schema527 = string;
-
-export type Schema528 = string;
-
-export type Schema529 = string;
-
-export type Schema530 = boolean;
-
-export type Schema531 = string;
-
-export type Schema532 = string;
-
-/**
- * Default trigger name for new Telegram groups
- */
-export type Schema533 = Schema534;
-
-export type Schema534 = string;
-
-/**
- * Telegram bot token from BotFather
- */
-export type Schema535 = string;
-
-export type Schema536 = {
-    [key: string]: unknown;
-};
-
-export type Schema537 = boolean;
-
 export type ServerAuthorizationOutput = {
-    method: Schema198;
-    credentialsScope: Schema199;
-    apikeys?: Schema200;
+    method: Schema188;
+    credentialsScope: Schema189;
+    apikeys?: Schema190;
 };
 
 export type HttpStreamingTransportConfigOutput = {
-    type: Schema202;
-    url: Schema203;
-    headers?: Schema204;
+    type: Schema192;
+    url: Schema193;
+    headers?: Schema194;
 };
 
 export type StdioTransportConfigOutput = {
-    type: Schema205;
-    command: Schema206;
-    dockerImage?: Schema207;
-    env?: Schema208;
-    transport: Schema209;
-    httpPort?: Schema210;
-    urlPath?: Schema211;
-    limits?: Schema212;
+    type: Schema195;
+    command: Schema196;
+    dockerImage?: Schema197;
+    env?: Schema198;
+    transport: Schema199;
+    httpPort?: Schema200;
+    urlPath?: Schema201;
+    limits?: Schema202;
 };
 
 export type SseTransportConfigOutput = {
-    type: Schema213;
-    url: Schema214;
-    headers?: Schema215;
+    type: Schema203;
+    url: Schema204;
+    headers?: Schema205;
 };
 
 export type HostedTransportConfigOutput = {
-    type: Schema216;
-    runtime: Schema217;
-    env?: Schema218;
-    limits?: Schema219;
+    type: Schema206;
+    runtime: Schema207;
+    env?: Schema208;
+    limits?: Schema209;
 };
 
 export type AwsSecretsManagerConfigurationOutput = {
-    type: Schema444;
-    region: Schema445;
-    accessKeyId: Schema446;
-    secretAccessKey: Schema447;
+    type: Schema435;
+    region: Schema436;
+    accessKeyId: Schema437;
+    secretAccessKey: Schema438;
 };
 
 export type GcpSecretManagerConfigurationOutput = {
-    type: Schema448;
-    projectId: Schema449;
-    serviceAccountKey: Schema450;
+    type: Schema439;
+    projectId: Schema440;
+    serviceAccountKey: Schema441;
 };
 
 export type HashiCorpVaultConfigurationOutput = {
-    type: Schema451;
-    address: Schema452;
-    token: Schema453;
-    namespace?: Schema454;
-    mountPath: Schema455;
+    type: Schema442;
+    address: Schema443;
+    token: Schema444;
+    namespace?: Schema445;
+    mountPath: Schema446;
 };
 
 export type InfisicalConfigurationOutput = {
-    type: Schema456;
-    siteUrl: Schema457;
-    accessToken: Schema458;
-    projectId: Schema459;
-    environment: Schema460;
-    secretPath: Schema461;
+    type: Schema447;
+    siteUrl: Schema448;
+    accessToken: Schema449;
+    projectId: Schema450;
+    environment: Schema451;
+    secretPath: Schema452;
 };
 
 export type AzureKeyVaultConfigurationOutput = {
-    type: Schema462;
-    vaultUrl: Schema463;
-    tenantId: Schema464;
-    clientId: Schema465;
-    clientSecret: Schema466;
+    type: Schema453;
+    vaultUrl: Schema454;
+    tenantId: Schema455;
+    clientId: Schema456;
+    clientSecret: Schema457;
 };
 
 export type Schema12Writable = Schema7;
@@ -2259,77 +2167,72 @@ export type Schema12Writable = Schema7;
 /**
  * Whether to enable text output compression for this server. Default is true.
  */
-export type Schema25Writable = Schema26;
+export type Schema27Writable = Schema28;
 
 /**
  * Server visibility. "private" (default) restricts access to members only. "public" makes the server visible and usable by all organization members.
  */
-export type Schema27Writable = ServerVisibility;
+export type Schema29Writable = ServerVisibility;
 
 /**
  * The URL of the remote MCP server
  */
-export type Schema31Writable = Schema32;
+export type Schema33Writable = Schema34;
 
 export type Schema69Writable = ServerVisibility;
 
 export type AuditLogResponseWritable = {
-    tenantId: Schema148;
-    eventTime: Schema149;
-    entityType: Schema150;
-    entityId: Schema151;
-    eventName: Schema152;
-    userId: Schema153;
-    details: Schema154;
-    onlySuperadminVisibility: Schema155;
-    createdAt: Schema156;
-    userFullName: Schema157;
-    userEmail: Schema158;
-    teamName: Schema159;
-    serverSlug: Schema160;
-    profileName: Schema161;
+    tenantId: Schema136;
+    eventTime: Schema137;
+    entityType: Schema138;
+    entityId: Schema139;
+    eventName: Schema140;
+    userId: Schema141;
+    details: Schema142;
+    onlySuperadminVisibility: Schema143;
+    createdAt: Schema144;
+    userFullName: Schema145;
+    userEmail: Schema146;
+    teamName: Schema147;
+    serverSlug: Schema148;
+    profileName: Schema149;
 };
 
 export type PaginatedAuditLogResponseWritable = {
-    pagination: Schema162;
-    data: Schema163Writable;
+    pagination: Schema150;
+    data: Schema151Writable;
 };
 
-export type Schema163Writable = Array<AuditLogResponseWritable>;
+export type Schema151Writable = Array<AuditLogResponseWritable>;
 
-export type Schema266Writable = {
+export type Schema256Writable = {
     [key: string]: never;
 };
 
-export type Schema267Writable = {
+export type Schema257Writable = {
     [key: string]: never;
 } | null;
 
-export type Schema268Writable = {
+export type Schema258Writable = {
     [key: string]: never;
 } | null;
 
 /**
  * The OAuth access token (refreshed if necessary and possible).
  */
-export type Schema296Writable = Schema297;
+export type Schema286Writable = Schema287;
 
 /**
  * Unix timestamp (ms) when the access token expires.
  */
-export type Schema298Writable = Schema299;
+export type Schema288Writable = Schema289;
 
 /**
  * Array of [key, value] tuples for API key credentials.
  */
-export type Schema300Writable = Schema301;
+export type Schema290Writable = Schema291;
 
-export type Schema345Writable = Schema141 | 'none';
-
-/**
- * Default trigger name for new Telegram groups
- */
-export type Schema533Writable = Schema534;
+export type Schema335Writable = Schema129 | 'none';
 
 export type GetAuthMeData = {
     body?: never;
@@ -2474,7 +2377,7 @@ export type PostUsersResponses = {
     /**
      * Successful response
      */
-    200: Schema184;
+    200: Schema174;
 };
 
 export type PostUsersResponse = PostUsersResponses[keyof PostUsersResponses];
@@ -2512,7 +2415,7 @@ export type GetUsersByUserIdResponses = {
     /**
      * Successful response
      */
-    200: Schema184;
+    200: Schema174;
 };
 
 export type GetUsersByUserIdResponse = GetUsersByUserIdResponses[keyof GetUsersByUserIdResponses];
@@ -2530,7 +2433,7 @@ export type PutUsersByUserIdResponses = {
     /**
      * Successful response
      */
-    200: Schema184;
+    200: Schema174;
 };
 
 export type PutUsersByUserIdResponse = PutUsersByUserIdResponses[keyof PutUsersByUserIdResponses];
@@ -2548,7 +2451,7 @@ export type GetUsersByUserIdProfilesResponses = {
     /**
      * Successful response
      */
-    200: Schema185;
+    200: Schema175;
 };
 
 export type GetUsersByUserIdProfilesResponse = GetUsersByUserIdProfilesResponses[keyof GetUsersByUserIdProfilesResponses];
@@ -2566,7 +2469,7 @@ export type PostUsersByUserIdProfilesResponses = {
     /**
      * Successful response
      */
-    200: Schema185;
+    200: Schema175;
 };
 
 export type PostUsersByUserIdProfilesResponse = PostUsersByUserIdProfilesResponses[keyof PostUsersByUserIdProfilesResponses];
@@ -2575,7 +2478,7 @@ export type DeleteUsersByUserIdProfilesByProfileIdData = {
     body?: never;
     path: {
         userId: Schema9;
-        profileId: Schema16;
+        profileId: Schema18;
     };
     query?: never;
     url: '/users/{userId}/profiles/{profileId}';
@@ -2596,7 +2499,7 @@ export type PatchUsersByUserIdProfilesByProfileIdData = {
     body?: UpdateUserProfileAssignmentRequest;
     path: {
         userId: Schema9;
-        profileId: Schema16;
+        profileId: Schema18;
     };
     query?: never;
     url: '/users/{userId}/profiles/{profileId}';
@@ -2606,7 +2509,7 @@ export type PatchUsersByUserIdProfilesByProfileIdResponses = {
     /**
      * Successful response
      */
-    200: Schema185;
+    200: Schema175;
 };
 
 export type PatchUsersByUserIdProfilesByProfileIdResponse = PatchUsersByUserIdProfilesByProfileIdResponses[keyof PatchUsersByUserIdProfilesByProfileIdResponses];
@@ -2655,7 +2558,7 @@ export type DeleteUsersByUserIdPersonalAccessTokensByPatIdData = {
     body?: never;
     path: {
         userId: Schema9;
-        patId: Schema20;
+        patId: Schema22;
     };
     query?: never;
     url: '/users/{userId}/personal-access-tokens/{patId}';
@@ -2676,7 +2579,7 @@ export type PatchUsersByUserIdPersonalAccessTokensByPatIdData = {
     body?: UpdatePersonalAccessTokenRequest;
     path: {
         userId: Schema9;
-        patId: Schema20;
+        patId: Schema22;
     };
     query?: never;
     url: '/users/{userId}/personal-access-tokens/{patId}';
@@ -2727,26 +2630,26 @@ export type GetMcpServersResponses = {
      */
     200: {
         servers: Array<{
-            id: Schema194;
-            slug: Schema195;
-            tenantId: Schema196;
-            description: Schema197;
+            id: Schema184;
+            slug: Schema185;
+            tenantId: Schema186;
+            description: Schema187;
             authorization: ServerAuthorizationOutput;
-            transportConfig: Schema201;
-            oauthClientConfiguration: Schema220;
-            oauthMetadata: Schema226;
+            transportConfig: Schema191;
+            oauthClientConfiguration: Schema210;
+            oauthMetadata: Schema216;
             visibility: ServerVisibility;
-            isEnabled: Schema230;
-            lastToolRefreshAt: Schema231;
-            timeoutProtocol: Schema232;
-            timeoutTotal: Schema233;
-            resetTimeoutOnProgressNotification: Schema234;
-            isOutputCompressionEnabled: Schema235;
-            isOutputCompressionTransformEnabled: Schema236;
-            outputCompressionThresholdBytes: Schema237;
-            firewallRules: Schema238;
-            createdAt: Schema239;
-            updatedAt: Schema240;
+            isEnabled: Schema220;
+            lastToolRefreshAt: Schema221;
+            timeoutProtocol: Schema222;
+            timeoutTotal: Schema223;
+            resetTimeoutOnProgressNotification: Schema224;
+            isOutputCompressionEnabled: Schema225;
+            isOutputCompressionTransformEnabled: Schema226;
+            outputCompressionThresholdBytes: Schema227;
+            firewallRules: Schema228;
+            createdAt: Schema229;
+            updatedAt: Schema230;
             usage: {
                 lastSevenDays: number;
             };
@@ -2767,7 +2670,7 @@ export type PostMcpServersResponses = {
     /**
      * Successful response
      */
-    200: Schema241;
+    200: Schema231;
 };
 
 export type PostMcpServersResponse = PostMcpServersResponses[keyof PostMcpServersResponses];
@@ -2775,7 +2678,7 @@ export type PostMcpServersResponse = PostMcpServersResponses[keyof PostMcpServer
 export type DeleteMcpServersByServerSlugData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}';
@@ -2785,7 +2688,7 @@ export type DeleteMcpServersByServerSlugResponses = {
     /**
      * Successful response
      */
-    200: Schema241;
+    200: Schema231;
 };
 
 export type DeleteMcpServersByServerSlugResponse = DeleteMcpServersByServerSlugResponses[keyof DeleteMcpServersByServerSlugResponses];
@@ -2793,7 +2696,7 @@ export type DeleteMcpServersByServerSlugResponse = DeleteMcpServersByServerSlugR
 export type GetMcpServersByServerSlugData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}';
@@ -2803,7 +2706,7 @@ export type GetMcpServersByServerSlugResponses = {
     /**
      * Successful response
      */
-    200: Schema241;
+    200: Schema231;
 };
 
 export type GetMcpServersByServerSlugResponse = GetMcpServersByServerSlugResponses[keyof GetMcpServersByServerSlugResponses];
@@ -2811,7 +2714,7 @@ export type GetMcpServersByServerSlugResponse = GetMcpServersByServerSlugRespons
 export type PutMcpServersByServerSlugData = {
     body?: UpdateServerRequest;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}';
@@ -2821,7 +2724,7 @@ export type PutMcpServersByServerSlugResponses = {
     /**
      * Successful response
      */
-    200: Schema241;
+    200: Schema231;
 };
 
 export type PutMcpServersByServerSlugResponse = PutMcpServersByServerSlugResponses[keyof PutMcpServersByServerSlugResponses];
@@ -2829,7 +2732,7 @@ export type PutMcpServersByServerSlugResponse = PutMcpServersByServerSlugRespons
 export type GetMcpServersByServerSlugRunningStatusData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/running-status';
@@ -2847,7 +2750,7 @@ export type GetMcpServersByServerSlugRunningStatusResponse = GetMcpServersByServ
 export type PostMcpServersByServerSlugStartData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/start';
@@ -2862,7 +2765,7 @@ export type PostMcpServersByServerSlugStartResponses = {
         /**
          * Detailed information about why the server could not be started.
          */
-        detail?: Schema261;
+        detail?: Schema251;
     };
 };
 
@@ -2871,7 +2774,7 @@ export type PostMcpServersByServerSlugStartResponse = PostMcpServersByServerSlug
 export type PostMcpServersByServerSlugStopData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/stop';
@@ -2888,53 +2791,12 @@ export type PostMcpServersByServerSlugStopResponses = {
 
 export type PostMcpServersByServerSlugStopResponse = PostMcpServersByServerSlugStopResponses[keyof PostMcpServersByServerSlugStopResponses];
 
-export type PutMcpServersByServerSlugConfigData = {
-    body?: {
-        type?: Schema38;
-        url?: Schema39;
-        headers?: Schema40;
-    } | {
-        type?: Schema41;
-        runtime?: Schema42;
-        env?: Schema43;
-        limits?: Schema44;
-    } | {
-        type?: Schema47;
-        command?: Schema48;
-        dockerImage?: Schema49;
-        env?: Schema50;
-        transport?: Schema51;
-        httpPort?: Schema52;
-        urlPath?: Schema53;
-        limits?: Schema54;
-    } | {
-        type?: Schema55;
-        url?: Schema56;
-        headers?: Schema57;
-    } | {
-        type?: Schema58;
-        id?: Schema59;
-    };
-    path: {
-        serverSlug: string;
-    };
-    query?: never;
-    url: '/mcp-servers/{serverSlug}/config';
-};
-
-export type PutMcpServersByServerSlugConfigResponses = {
-    /**
-     * Successful response
-     */
-    200: unknown;
-};
-
 export type PutMcpServersByServerSlugIsEnabledData = {
     body?: {
         value: boolean;
     };
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/isEnabled';
@@ -2951,30 +2813,10 @@ export type PutMcpServersByServerSlugIsEnabledResponses = {
 
 export type PutMcpServersByServerSlugIsEnabledResponse = PutMcpServersByServerSlugIsEnabledResponses[keyof PutMcpServersByServerSlugIsEnabledResponses];
 
-export type PutMcpServersByServerSlugAuthorizationData = {
-    body?: {
-        method: Schema34;
-        credentialsScope: Schema35;
-        apikeys?: Schema36;
-    };
-    path: {
-        serverSlug: Schema28;
-    };
-    query?: never;
-    url: '/mcp-servers/{serverSlug}/authorization';
-};
-
-export type PutMcpServersByServerSlugAuthorizationResponses = {
-    /**
-     * Successful response
-     */
-    200: unknown;
-};
-
 export type GetMcpServersByServerSlugOauthDiscoverData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: {
         url?: string;
@@ -2996,7 +2838,7 @@ export type GetMcpServersByServerSlugOauthDiscoverResponse = GetMcpServersByServ
 export type GetMcpServersByServerSlugToolsData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/tools';
@@ -3006,7 +2848,7 @@ export type GetMcpServersByServerSlugToolsResponses = {
     /**
      * Successful response
      */
-    200: Schema262;
+    200: Schema252;
 };
 
 export type GetMcpServersByServerSlugToolsResponse = GetMcpServersByServerSlugToolsResponses[keyof GetMcpServersByServerSlugToolsResponses];
@@ -3033,7 +2875,7 @@ export type GetMcpServersByServerSlugToolsByToolNameResponse = GetMcpServersBySe
 export type PutMcpServersByServerSlugAllToolsIsEnabledData = {
     body?: Schema72;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/all-tools-isEnabled';
@@ -3043,7 +2885,7 @@ export type PutMcpServersByServerSlugAllToolsIsEnabledResponses = {
     /**
      * Successful response
      */
-    200: Schema272;
+    200: Schema262;
 };
 
 export type PutMcpServersByServerSlugAllToolsIsEnabledResponse = PutMcpServersByServerSlugAllToolsIsEnabledResponses[keyof PutMcpServersByServerSlugAllToolsIsEnabledResponses];
@@ -3062,7 +2904,7 @@ export type PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses = {
     /**
      * Successful response
      */
-    200: Schema272;
+    200: Schema262;
 };
 
 export type PutMcpServersByServerSlugToolsByToolNameIsEnabledResponse = PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses[keyof PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses];
@@ -3113,7 +2955,7 @@ export type GetToolsResponses = {
     /**
      * Successful response
      */
-    200: Schema262;
+    200: Schema252;
 };
 
 export type GetToolsResponse = GetToolsResponses[keyof GetToolsResponses];
@@ -3137,7 +2979,7 @@ export type PostToolsRefreshResponses = {
 export type GetMcpServersByServerSlugMembersData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/members/';
@@ -3201,7 +3043,7 @@ export type PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponse = Put
 export type DeleteMcpServersByServerSlugCredentialsUserData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user';
@@ -3217,7 +3059,7 @@ export type DeleteMcpServersByServerSlugCredentialsUserResponses = {
 export type GetMcpServersByServerSlugCredentialsUserData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user';
@@ -3237,7 +3079,7 @@ export type GetMcpServersByServerSlugCredentialsUserResponse = GetMcpServersBySe
 export type PutMcpServersByServerSlugCredentialsUserData = {
     body?: Schema76;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user';
@@ -3257,7 +3099,7 @@ export type PutMcpServersByServerSlugCredentialsUserResponse = PutMcpServersBySe
 export type DeleteMcpServersByServerSlugCredentialsServerData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server';
@@ -3273,7 +3115,7 @@ export type DeleteMcpServersByServerSlugCredentialsServerResponses = {
 export type GetMcpServersByServerSlugCredentialsServerData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server';
@@ -3293,7 +3135,7 @@ export type GetMcpServersByServerSlugCredentialsServerResponse = GetMcpServersBy
 export type PutMcpServersByServerSlugCredentialsServerData = {
     body?: Schema76;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server';
@@ -3313,7 +3155,7 @@ export type PutMcpServersByServerSlugCredentialsServerResponse = PutMcpServersBy
 export type GetMcpServersByServerSlugCredentialsProfileData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query: {
         profileId: string;
@@ -3335,7 +3177,7 @@ export type GetMcpServersByServerSlugCredentialsProfileResponse = GetMcpServersB
 export type GetMcpServersByServerSlugCredentialsUserApikeysData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/user/apikeys';
@@ -3358,7 +3200,7 @@ export type GetMcpServersByServerSlugCredentialsUserApikeysResponse = GetMcpServ
 export type GetMcpServersByServerSlugCredentialsServerApikeysData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/credentials/server/apikeys';
@@ -3381,7 +3223,7 @@ export type GetMcpServersByServerSlugCredentialsServerApikeysResponse = GetMcpSe
 export type GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         profileId: string;
     };
     query?: never;
@@ -3405,7 +3247,7 @@ export type GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysRespons
 export type DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         profileId: string;
     };
     query?: never;
@@ -3422,7 +3264,7 @@ export type DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses 
 export type PutMcpServersByServerSlugCredentialsProfilesByProfileIdData = {
     body?: Schema76;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         profileId: string;
     };
     query?: never;
@@ -3443,7 +3285,7 @@ export type PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponse = Pu
 export type PostMcpServersByServerSlugCredentialsCopyData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query: {
         /**
@@ -3480,7 +3322,7 @@ export type PostMcpServersByServerSlugCredentialsCopyResponse = PostMcpServersBy
 export type GetMcpServersByServerSlugCredentialsAuthorizeUrlData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: {
         scope?: Schema81;
@@ -3504,56 +3346,10 @@ export type GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses = {
 
 export type GetMcpServersByServerSlugCredentialsAuthorizeUrlResponse = GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses[keyof GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses];
 
-export type DeleteMcpServersByServerSlugCredentialsData = {
-    body?: never;
-    path: {
-        serverSlug: Schema28;
-    };
-    query?: never;
-    url: '/mcp-servers/{serverSlug}/credentials';
-};
-
-export type DeleteMcpServersByServerSlugCredentialsResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        success: boolean;
-        deletedCount: number;
-    };
-};
-
-export type DeleteMcpServersByServerSlugCredentialsResponse = DeleteMcpServersByServerSlugCredentialsResponses[keyof DeleteMcpServersByServerSlugCredentialsResponses];
-
-export type GetMcpServersByServerSlugCredentialsData = {
-    body?: never;
-    path: {
-        serverSlug: Schema28;
-    };
-    query?: {
-        /**
-         * If "true", retrieves credentials for all users (only available for admins).
-         */
-        all?: Schema84;
-    };
-    url: '/mcp-servers/{serverSlug}/credentials';
-};
-
-export type GetMcpServersByServerSlugCredentialsResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        credentials: Array<ServerCredentialsDto>;
-    };
-};
-
-export type GetMcpServersByServerSlugCredentialsResponse = GetMcpServersByServerSlugCredentialsResponses[keyof GetMcpServersByServerSlugCredentialsResponses];
-
 export type DeleteMcpServersByServerSlugCredentialsByCredentialsIdData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         credentialsId: string;
     };
     query?: never;
@@ -3570,13 +3366,13 @@ export type DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses = {
 export type GetMcpServersByServerSlugCredentialsTokenData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: {
         /**
          * ID of a specific credential to retrieve the token for. If omitted, the effective credentials for the current user are resolved automatically.
          */
-        credentialsId?: Schema85;
+        credentialsId?: Schema84;
     };
     url: '/mcp-servers/{serverSlug}/credentials/token';
 };
@@ -3593,7 +3389,7 @@ export type GetMcpServersByServerSlugCredentialsTokenResponse = GetMcpServersByS
 export type GetMcpServersByServerSlugSourceCodeData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/source-code';
@@ -3611,7 +3407,7 @@ export type PutMcpServersByServerSlugSourceCodeData = {
         file: unknown;
     };
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/source-code';
@@ -3629,7 +3425,7 @@ export type PutMcpServersByServerSlugSourceCodeResponse = PutMcpServersByServerS
 export type GetMcpServersByServerSlugFilesData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/files';
@@ -3649,7 +3445,7 @@ export type GetMcpServersByServerSlugFilesResponse = GetMcpServersByServerSlugFi
 export type PostMcpServersByServerSlugFilesData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
     };
     query?: never;
     url: '/mcp-servers/{serverSlug}/files';
@@ -3671,7 +3467,7 @@ export type PutMcpServersByServerSlugFilesByFileIdNameData = {
         filename: string;
     };
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         fileId: string;
     };
     query?: never;
@@ -3692,7 +3488,7 @@ export type PutMcpServersByServerSlugFilesByFileIdNameResponse = PutMcpServersBy
 export type DeleteMcpServersByServerSlugFilesByFileIdData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         fileId: string;
     };
     query?: never;
@@ -3709,7 +3505,7 @@ export type DeleteMcpServersByServerSlugFilesByFileIdResponses = {
 export type GetMcpServersByServerSlugFilesByFileIdData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         fileId: string;
     };
     query?: never;
@@ -3726,7 +3522,7 @@ export type GetMcpServersByServerSlugFilesByFileIdResponses = {
 export type PutMcpServersByServerSlugFilesByFileIdData = {
     body?: never;
     path: {
-        serverSlug: Schema28;
+        serverSlug: Schema30;
         fileId: string;
     };
     query?: never;
@@ -3747,7 +3543,7 @@ export type PutMcpServersByServerSlugFilesByFileIdResponse = PutMcpServersByServ
 export type GetTenantsByTenantIdData = {
     body?: never;
     path: {
-        tenantId: Schema86;
+        tenantId: Schema85;
     };
     query?: never;
     url: '/tenants/{tenantId}';
@@ -3767,7 +3563,7 @@ export type GetTenantsByTenantIdResponse = GetTenantsByTenantIdResponses[keyof G
 export type GetTenantsByTenantIdSubscriptionData = {
     body?: never;
     path: {
-        tenantId: Schema86;
+        tenantId: Schema85;
     };
     query?: never;
     url: '/tenants/{tenantId}/subscription';
@@ -3899,7 +3695,7 @@ export type PostTeamsResponses = {
     /**
      * Successful response
      */
-    200: Schema408;
+    200: Schema399;
 };
 
 export type PostTeamsResponse = PostTeamsResponses[keyof PostTeamsResponses];
@@ -3907,7 +3703,7 @@ export type PostTeamsResponse = PostTeamsResponses[keyof PostTeamsResponses];
 export type DeleteTeamsByTeamIdData = {
     body?: never;
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}';
@@ -3927,7 +3723,7 @@ export type DeleteTeamsByTeamIdResponse = DeleteTeamsByTeamIdResponses[keyof Del
 export type GetTeamsByTeamIdData = {
     body?: never;
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}';
@@ -3937,7 +3733,7 @@ export type GetTeamsByTeamIdResponses = {
     /**
      * Successful response
      */
-    200: Schema408;
+    200: Schema399;
 };
 
 export type GetTeamsByTeamIdResponse = GetTeamsByTeamIdResponses[keyof GetTeamsByTeamIdResponses];
@@ -3948,7 +3744,7 @@ export type PutTeamsByTeamIdData = {
         description: string;
     };
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}';
@@ -3958,7 +3754,7 @@ export type PutTeamsByTeamIdResponses = {
     /**
      * Successful response
      */
-    200: Schema408;
+    200: Schema399;
 };
 
 export type PutTeamsByTeamIdResponse = PutTeamsByTeamIdResponses[keyof PutTeamsByTeamIdResponses];
@@ -3966,7 +3762,7 @@ export type PutTeamsByTeamIdResponse = PutTeamsByTeamIdResponses[keyof PutTeamsB
 export type GetTeamsByTeamIdMembersData = {
     body?: never;
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}/members';
@@ -3989,10 +3785,10 @@ export type GetTeamsByTeamIdMembersResponse = GetTeamsByTeamIdMembersResponses[k
 export type PostTeamsByTeamIdMembersData = {
     body?: {
         userId: string;
-        role: Schema88;
+        role: Schema87;
     };
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}/members';
@@ -4012,8 +3808,8 @@ export type PostTeamsByTeamIdMembersResponse = PostTeamsByTeamIdMembersResponses
 export type DeleteTeamsByTeamIdMembersByUserIdData = {
     body?: never;
     path: {
-        teamId: Schema89;
-        userId: Schema90;
+        teamId: Schema88;
+        userId: Schema89;
     };
     query?: never;
     url: '/teams/{teamId}/members/{userId}';
@@ -4032,11 +3828,11 @@ export type DeleteTeamsByTeamIdMembersByUserIdResponse = DeleteTeamsByTeamIdMemb
 
 export type PutTeamsByTeamIdMembersByUserIdData = {
     body?: {
-        role: Schema88;
+        role: Schema87;
     };
     path: {
-        teamId: Schema89;
-        userId: Schema90;
+        teamId: Schema88;
+        userId: Schema89;
     };
     query?: never;
     url: '/teams/{teamId}/members/{userId}';
@@ -4056,7 +3852,7 @@ export type PutTeamsByTeamIdMembersByUserIdResponse = PutTeamsByTeamIdMembersByU
 export type GetTeamsByTeamIdInvitationsData = {
     body?: never;
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}/invitations';
@@ -4076,10 +3872,10 @@ export type GetTeamsByTeamIdInvitationsResponse = GetTeamsByTeamIdInvitationsRes
 export type PostTeamsByTeamIdInvitationsData = {
     body?: {
         email: string;
-        role: Schema88;
+        role: Schema87;
     };
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}/invitations';
@@ -4120,7 +3916,7 @@ export type DeleteTeamsByTeamIdInvitationsByInvitationIdResponse = DeleteTeamsBy
 export type GetTeamsByTeamIdServersData = {
     body?: never;
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}/servers';
@@ -4143,7 +3939,7 @@ export type GetTeamsByTeamIdServersResponse = GetTeamsByTeamIdServersResponses[k
 export type GetTeamsByTeamIdClaimMappingsData = {
     body?: never;
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}/claim-mappings';
@@ -4166,7 +3962,7 @@ export type PostTeamsByTeamIdClaimMappingsData = {
         claimValue: string;
     };
     path: {
-        teamId: Schema87;
+        teamId: Schema86;
     };
     query?: never;
     url: '/teams/{teamId}/claim-mappings';
@@ -4224,7 +4020,7 @@ export type PostSecretStoresData = {
     body?: {
         name: string;
         type: 'aws_secrets_manager' | 'gcp_secret_manager' | 'hashicorp_vault' | 'infisical' | 'azure_key_vault';
-        configuration: Schema91;
+        configuration: Schema90;
     };
     path?: never;
     query?: never;
@@ -4277,7 +4073,7 @@ export type GetSecretStoresByIdResponse = GetSecretStoresByIdResponses[keyof Get
 export type PatchSecretStoresByIdData = {
     body?: {
         name?: string;
-        configuration?: Schema91;
+        configuration?: Schema90;
         isEnabled?: boolean;
     };
     path: {
@@ -4727,7 +4523,7 @@ export type PostSandboxesBySandboxIdWriteFileData = {
         sandboxId: string;
     };
     query: {
-        path: Schema119;
+        path: Schema118;
     };
     url: '/sandboxes/{sandboxId}/write-file';
 };
@@ -4749,7 +4545,7 @@ export type PostSandboxesBySandboxIdReadFileData = {
         sandboxId: string;
     };
     query: {
-        path: Schema119;
+        path: Schema118;
     };
     url: '/sandboxes/{sandboxId}/read-file';
 };
@@ -4804,313 +4600,6 @@ export type GetSandboxesBySandboxIdAuditLogsByIdResponses = {
 
 export type GetSandboxesBySandboxIdAuditLogsByIdResponse = GetSandboxesBySandboxIdAuditLogsByIdResponses[keyof GetSandboxesBySandboxIdAuditLogsByIdResponses];
 
-export type GetClawsGroupsData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/claws/groups';
-};
-
-export type GetClawsGroupsResponses = {
-    /**
-     * Successful response
-     */
-    200: ListGroupsResponse;
-};
-
-export type GetClawsGroupsResponse = GetClawsGroupsResponses[keyof GetClawsGroupsResponses];
-
-export type GetClawsChannelsData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/claws/channels';
-};
-
-export type GetClawsChannelsResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        channels: Array<ClawChannelTelegramConfig>;
-    };
-};
-
-export type GetClawsChannelsResponse = GetClawsChannelsResponses[keyof GetClawsChannelsResponses];
-
-export type PostClawsChannelsData = {
-    body?: {
-        channelType: string;
-        channelName: string;
-        config: Schema120;
-    };
-    path?: never;
-    query?: never;
-    url: '/claws/channels';
-};
-
-export type PostClawsChannelsResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        channel: ClawChannel;
-    };
-};
-
-export type PostClawsChannelsResponse = PostClawsChannelsResponses[keyof PostClawsChannelsResponses];
-
-export type PutClawsChannelsByChannelIdConfigData = {
-    body?: {
-        config: Schema120;
-    };
-    path: {
-        channelId: string;
-    };
-    query?: never;
-    url: '/claws/channels/{channelId}/config';
-};
-
-export type PutClawsChannelsByChannelIdConfigResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        channel: ClawChannelTelegramConfig;
-    };
-};
-
-export type PutClawsChannelsByChannelIdConfigResponse = PutClawsChannelsByChannelIdConfigResponses[keyof PutClawsChannelsByChannelIdConfigResponses];
-
-export type DeleteClawsChannelsByChannelIdData = {
-    body?: never;
-    path: {
-        channelId: string;
-    };
-    query?: never;
-    url: '/claws/channels/{channelId}';
-};
-
-export type DeleteClawsChannelsByChannelIdResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        [key: string]: never;
-    };
-};
-
-export type DeleteClawsChannelsByChannelIdResponse = DeleteClawsChannelsByChannelIdResponses[keyof DeleteClawsChannelsByChannelIdResponses];
-
-export type GetClawsIdentityLinksData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/claws/identity-links';
-};
-
-export type GetClawsIdentityLinksResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        links: Array<unknown>;
-    };
-};
-
-export type GetClawsIdentityLinksResponse = GetClawsIdentityLinksResponses[keyof GetClawsIdentityLinksResponses];
-
-export type GetClawsLinkData = {
-    body?: never;
-    path?: never;
-    query: {
-        token: string;
-    };
-    url: '/claws/link';
-};
-
-export type GetClawsLinkResponses = {
-    /**
-     * Successful response
-     */
-    200: unknown;
-};
-
-export type GetClawsLinkCallbackData = {
-    body?: never;
-    path?: never;
-    query: {
-        code: string;
-        state: string;
-    };
-    url: '/claws/link-callback';
-};
-
-export type GetClawsLinkCallbackResponses = {
-    /**
-     * Successful response
-     */
-    200: unknown;
-};
-
-export type DeleteClawsIdentityLinksByLinkIdData = {
-    body?: never;
-    path: {
-        linkId: string;
-    };
-    query?: never;
-    url: '/claws/identity-links/{linkId}';
-};
-
-export type DeleteClawsIdentityLinksByLinkIdResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        [key: string]: never;
-    };
-};
-
-export type DeleteClawsIdentityLinksByLinkIdResponse = DeleteClawsIdentityLinksByLinkIdResponses[keyof DeleteClawsIdentityLinksByLinkIdResponses];
-
-export type DeleteClawsGroupsByGroupIdData = {
-    body?: never;
-    path: {
-        groupId: string;
-    };
-    query?: never;
-    url: '/claws/groups/{groupId}';
-};
-
-export type DeleteClawsGroupsByGroupIdResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        [key: string]: never;
-    };
-};
-
-export type DeleteClawsGroupsByGroupIdResponse = DeleteClawsGroupsByGroupIdResponses[keyof DeleteClawsGroupsByGroupIdResponses];
-
-export type GetClawsGroupsByGroupIdData = {
-    body?: never;
-    path: {
-        groupId: string;
-    };
-    query?: never;
-    url: '/claws/groups/{groupId}';
-};
-
-export type GetClawsGroupsByGroupIdResponses = {
-    /**
-     * Successful response
-     */
-    200: ClawGroupDto;
-};
-
-export type GetClawsGroupsByGroupIdResponse = GetClawsGroupsByGroupIdResponses[keyof GetClawsGroupsByGroupIdResponses];
-
-export type PutClawsGroupsByGroupIdData = {
-    body?: UpdateGroupBody;
-    path: {
-        groupId: string;
-    };
-    query?: never;
-    url: '/claws/groups/{groupId}';
-};
-
-export type PutClawsGroupsByGroupIdResponses = {
-    /**
-     * Successful response
-     */
-    200: ClawGroupDto;
-};
-
-export type PutClawsGroupsByGroupIdResponse = PutClawsGroupsByGroupIdResponses[keyof PutClawsGroupsByGroupIdResponses];
-
-export type GetClawsGroupsByGroupIdTasksData = {
-    body?: never;
-    path: {
-        groupId: string;
-    };
-    query?: never;
-    url: '/claws/groups/{groupId}/tasks';
-};
-
-export type GetClawsGroupsByGroupIdTasksResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        tasks: Array<unknown>;
-    };
-};
-
-export type GetClawsGroupsByGroupIdTasksResponse = GetClawsGroupsByGroupIdTasksResponses[keyof GetClawsGroupsByGroupIdTasksResponses];
-
-export type PostClawsGroupsByGroupIdTasksData = {
-    body?: CreateScheduledTaskBody;
-    path: {
-        groupId: string;
-    };
-    query?: never;
-    url: '/claws/groups/{groupId}/tasks';
-};
-
-export type PostClawsGroupsByGroupIdTasksResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        task: unknown;
-    };
-};
-
-export type PostClawsGroupsByGroupIdTasksResponse = PostClawsGroupsByGroupIdTasksResponses[keyof PostClawsGroupsByGroupIdTasksResponses];
-
-export type DeleteClawsGroupsByGroupIdTasksByTaskIdData = {
-    body?: never;
-    path: {
-        groupId: string;
-        taskId: string;
-    };
-    query?: never;
-    url: '/claws/groups/{groupId}/tasks/{taskId}';
-};
-
-export type DeleteClawsGroupsByGroupIdTasksByTaskIdResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        [key: string]: never;
-    };
-};
-
-export type DeleteClawsGroupsByGroupIdTasksByTaskIdResponse = DeleteClawsGroupsByGroupIdTasksByTaskIdResponses[keyof DeleteClawsGroupsByGroupIdTasksByTaskIdResponses];
-
-export type PutClawsGroupsByGroupIdTasksByTaskIdData = {
-    body?: UpdateScheduledTaskBody;
-    path: {
-        groupId: string;
-        taskId: string;
-    };
-    query?: never;
-    url: '/claws/groups/{groupId}/tasks/{taskId}';
-};
-
-export type PutClawsGroupsByGroupIdTasksByTaskIdResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        task: unknown;
-    };
-};
-
-export type PutClawsGroupsByGroupIdTasksByTaskIdResponse = PutClawsGroupsByGroupIdTasksByTaskIdResponses[keyof PutClawsGroupsByGroupIdTasksByTaskIdResponses];
-
 export type PostEmailVerificationSendCodeData = {
     body?: SendVerificationCodeRequest;
     path?: never;
@@ -5126,3 +4615,73 @@ export type PostEmailVerificationSendCodeResponses = {
 };
 
 export type PostEmailVerificationSendCodeResponse = PostEmailVerificationSendCodeResponses[keyof PostEmailVerificationSendCodeResponses];
+
+export type GetScimConfigTokensData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/scim-config/tokens';
+};
+
+export type GetScimConfigTokensResponses = {
+    /**
+     * Successful response
+     */
+    200: GetScimTokensResponse;
+};
+
+export type GetScimConfigTokensResponse = GetScimConfigTokensResponses[keyof GetScimConfigTokensResponses];
+
+export type PostScimConfigTokensData = {
+    body?: CreateScimTokenRequest;
+    path?: never;
+    query?: never;
+    url: '/scim-config/tokens';
+};
+
+export type PostScimConfigTokensResponses = {
+    /**
+     * Successful response
+     */
+    200: CreateScimTokenResponse;
+};
+
+export type PostScimConfigTokensResponse = PostScimConfigTokensResponses[keyof PostScimConfigTokensResponses];
+
+export type GetScimConfigTokensByTokenIdSecretData = {
+    body?: never;
+    path: {
+        tokenId: Schema123;
+    };
+    query?: never;
+    url: '/scim-config/tokens/{tokenId}/secret';
+};
+
+export type GetScimConfigTokensByTokenIdSecretResponses = {
+    /**
+     * Successful response
+     */
+    200: GetScimTokenSecretResponse;
+};
+
+export type GetScimConfigTokensByTokenIdSecretResponse = GetScimConfigTokensByTokenIdSecretResponses[keyof GetScimConfigTokensByTokenIdSecretResponses];
+
+export type DeleteScimConfigTokensByTokenIdData = {
+    body?: never;
+    path: {
+        tokenId: Schema123;
+    };
+    query?: never;
+    url: '/scim-config/tokens/{tokenId}';
+};
+
+export type DeleteScimConfigTokensByTokenIdResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        success: boolean;
+    };
+};
+
+export type DeleteScimConfigTokensByTokenIdResponse = DeleteScimConfigTokensByTokenIdResponses[keyof DeleteScimConfigTokensByTokenIdResponses];

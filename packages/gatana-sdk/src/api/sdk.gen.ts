@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client/index.js';
-import type { DeleteClawsChannelsByChannelIdData, DeleteClawsChannelsByChannelIdResponses, DeleteClawsGroupsByGroupIdData, DeleteClawsGroupsByGroupIdResponses, DeleteClawsGroupsByGroupIdTasksByTaskIdData, DeleteClawsGroupsByGroupIdTasksByTaskIdResponses, DeleteClawsIdentityLinksByLinkIdData, DeleteClawsIdentityLinksByLinkIdResponses, DeleteMcpServersByServerSlugCredentialsByCredentialsIdData, DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses, DeleteMcpServersByServerSlugCredentialsData, DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData, DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, DeleteMcpServersByServerSlugCredentialsResponses, DeleteMcpServersByServerSlugCredentialsServerData, DeleteMcpServersByServerSlugCredentialsServerResponses, DeleteMcpServersByServerSlugCredentialsUserData, DeleteMcpServersByServerSlugCredentialsUserResponses, DeleteMcpServersByServerSlugData, DeleteMcpServersByServerSlugFilesByFileIdData, DeleteMcpServersByServerSlugFilesByFileIdResponses, DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdData, DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, DeleteMcpServersByServerSlugResponses, DeleteProfilesByProfileIdClaimMappingsByMappingIdData, DeleteProfilesByProfileIdClaimMappingsByMappingIdResponses, DeleteProfilesByProfileIdData, DeleteProfilesByProfileIdResponses, DeleteSandboxesBySandboxIdData, DeleteSandboxesBySandboxIdResponses, DeleteSecretStoresByIdData, DeleteSecretStoresByIdResponses, DeleteSecretStoresByStoreIdMappingsByMappingNameData, DeleteSecretStoresByStoreIdMappingsByMappingNameResponses, DeleteTeamsByTeamIdClaimMappingsByMappingIdData, DeleteTeamsByTeamIdClaimMappingsByMappingIdResponses, DeleteTeamsByTeamIdData, DeleteTeamsByTeamIdInvitationsByInvitationIdData, DeleteTeamsByTeamIdInvitationsByInvitationIdResponses, DeleteTeamsByTeamIdMembersByUserIdData, DeleteTeamsByTeamIdMembersByUserIdResponses, DeleteTeamsByTeamIdResponses, DeleteUsersByUserIdData, DeleteUsersByUserIdPersonalAccessTokensByPatIdData, DeleteUsersByUserIdPersonalAccessTokensByPatIdResponses, DeleteUsersByUserIdProfilesByProfileIdData, DeleteUsersByUserIdProfilesByProfileIdResponses, DeleteUsersByUserIdResponses, GetAuditLogsByIdData, GetAuditLogsByIdResponses, GetAuditLogsData, GetAuditLogsResponses, GetAuthMeData, GetAuthMeResponses, GetClawsChannelsData, GetClawsChannelsResponses, GetClawsGroupsByGroupIdData, GetClawsGroupsByGroupIdResponses, GetClawsGroupsByGroupIdTasksData, GetClawsGroupsByGroupIdTasksResponses, GetClawsGroupsData, GetClawsGroupsResponses, GetClawsIdentityLinksData, GetClawsIdentityLinksResponses, GetClawsLinkCallbackData, GetClawsLinkCallbackResponses, GetClawsLinkData, GetClawsLinkResponses, GetDeploymentsDeploymentLogsData, GetDeploymentsDeploymentLogsResponse, GetDeploymentsDeploymentLogsResponses, GetDeploymentsLogsData, GetDeploymentsLogsResponses, GetDeploymentsMetricsData, GetDeploymentsMetricsResponses, GetDeploymentsStatusData, GetDeploymentsStatusResponses, GetMcpServersAccessPreviewData, GetMcpServersAccessPreviewResponses, GetMcpServersByServerSlugCredentialsAuthorizeUrlData, GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses, GetMcpServersByServerSlugCredentialsData, GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData, GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysResponses, GetMcpServersByServerSlugCredentialsProfileData, GetMcpServersByServerSlugCredentialsProfileResponses, GetMcpServersByServerSlugCredentialsResponses, GetMcpServersByServerSlugCredentialsServerApikeysData, GetMcpServersByServerSlugCredentialsServerApikeysResponses, GetMcpServersByServerSlugCredentialsServerData, GetMcpServersByServerSlugCredentialsServerResponses, GetMcpServersByServerSlugCredentialsTokenData, GetMcpServersByServerSlugCredentialsTokenResponses, GetMcpServersByServerSlugCredentialsUserApikeysData, GetMcpServersByServerSlugCredentialsUserApikeysResponses, GetMcpServersByServerSlugCredentialsUserData, GetMcpServersByServerSlugCredentialsUserResponses, GetMcpServersByServerSlugData, GetMcpServersByServerSlugFilesByFileIdData, GetMcpServersByServerSlugFilesByFileIdResponses, GetMcpServersByServerSlugFilesData, GetMcpServersByServerSlugFilesResponses, GetMcpServersByServerSlugMembersData, GetMcpServersByServerSlugMembersResponses, GetMcpServersByServerSlugOauthDiscoverData, GetMcpServersByServerSlugOauthDiscoverResponses, GetMcpServersByServerSlugResponses, GetMcpServersByServerSlugRunningStatusData, GetMcpServersByServerSlugRunningStatusResponses, GetMcpServersByServerSlugSourceCodeData, GetMcpServersByServerSlugSourceCodeResponses, GetMcpServersByServerSlugToolsByToolNameData, GetMcpServersByServerSlugToolsByToolNameResponses, GetMcpServersByServerSlugToolsData, GetMcpServersByServerSlugToolsResponses, GetMcpServersData, GetMcpServersResponses, GetProfilesByProfileIdClaimMappingsData, GetProfilesByProfileIdClaimMappingsResponses, GetProfilesByProfileIdData, GetProfilesByProfileIdResponses, GetProfilesByProfileIdToolsData, GetProfilesByProfileIdToolsResponses, GetProfilesData, GetProfilesResponses, GetSandboxesBySandboxIdAuditLogsByIdData, GetSandboxesBySandboxIdAuditLogsByIdResponses, GetSandboxesBySandboxIdAuditLogsData, GetSandboxesBySandboxIdAuditLogsResponses, GetSandboxesBySandboxIdData, GetSandboxesBySandboxIdResponses, GetSandboxesData, GetSandboxesResponses, GetSecretStoresByIdData, GetSecretStoresByIdResponses, GetSecretStoresByStoreIdMappingsData, GetSecretStoresByStoreIdMappingsResponses, GetSecretStoresData, GetSecretStoresResponses, GetTeamsByTeamIdClaimMappingsData, GetTeamsByTeamIdClaimMappingsResponses, GetTeamsByTeamIdData, GetTeamsByTeamIdInvitationsData, GetTeamsByTeamIdInvitationsResponses, GetTeamsByTeamIdMembersData, GetTeamsByTeamIdMembersResponses, GetTeamsByTeamIdResponses, GetTeamsByTeamIdServersData, GetTeamsByTeamIdServersResponses, GetTeamsData, GetTeamsResponses, GetTenantsByTenantIdData, GetTenantsByTenantIdResponses, GetTenantsByTenantIdSubscriptionData, GetTenantsByTenantIdSubscriptionResponses, GetToolsData, GetToolsResponses, GetUsersByUserIdData, GetUsersByUserIdPersonalAccessTokensData, GetUsersByUserIdPersonalAccessTokensResponses, GetUsersByUserIdProfilesData, GetUsersByUserIdProfilesResponses, GetUsersByUserIdResponses, GetUsersData, GetUsersMeData, GetUsersMeResponses, GetUsersResponses, PatchSecretStoresByIdData, PatchSecretStoresByIdResponses, PatchSecretStoresByStoreIdMappingsByMappingNameData, PatchSecretStoresByStoreIdMappingsByMappingNameResponses, PatchUsersByUserIdPersonalAccessTokensByPatIdData, PatchUsersByUserIdPersonalAccessTokensByPatIdResponses, PatchUsersByUserIdProfilesByProfileIdData, PatchUsersByUserIdProfilesByProfileIdResponses, PostClawsChannelsData, PostClawsChannelsResponses, PostClawsGroupsByGroupIdTasksData, PostClawsGroupsByGroupIdTasksResponses, PostEmailVerificationSendCodeData, PostEmailVerificationSendCodeResponses, PostMcpServersByServerSlugCredentialsCopyData, PostMcpServersByServerSlugCredentialsCopyResponses, PostMcpServersByServerSlugFilesData, PostMcpServersByServerSlugFilesResponses, PostMcpServersByServerSlugStartData, PostMcpServersByServerSlugStartResponses, PostMcpServersByServerSlugStopData, PostMcpServersByServerSlugStopResponses, PostMcpServersByServerSlugToolsByToolNameCallData, PostMcpServersByServerSlugToolsByToolNameCallResponses, PostMcpServersData, PostMcpServersResponses, PostProfilesByProfileIdClaimMappingsData, PostProfilesByProfileIdClaimMappingsResponses, PostProfilesData, PostProfilesResponses, PostSandboxesBySandboxIdExecData, PostSandboxesBySandboxIdExecResponses, PostSandboxesBySandboxIdReadFileData, PostSandboxesBySandboxIdReadFileResponses, PostSandboxesBySandboxIdSshSessionData, PostSandboxesBySandboxIdSshSessionResponses, PostSandboxesBySandboxIdWriteFileData, PostSandboxesBySandboxIdWriteFileResponses, PostSandboxesData, PostSandboxesResponses, PostSecretStoresByStoreIdMappingsData, PostSecretStoresByStoreIdMappingsResponses, PostSecretStoresByStoreIdTestData, PostSecretStoresByStoreIdTestResponses, PostSecretStoresData, PostSecretStoresResponses, PostTeamsByTeamIdClaimMappingsData, PostTeamsByTeamIdClaimMappingsResponses, PostTeamsByTeamIdInvitationsData, PostTeamsByTeamIdInvitationsResponses, PostTeamsByTeamIdMembersData, PostTeamsByTeamIdMembersResponses, PostTeamsData, PostTeamsResponses, PostToolsRefreshData, PostToolsRefreshResponses, PostUsersByUserIdPersonalAccessTokensData, PostUsersByUserIdPersonalAccessTokensResponses, PostUsersByUserIdProfilesData, PostUsersByUserIdProfilesResponses, PostUsersData, PostUsersMeRequestEmailVerificationData, PostUsersMeRequestEmailVerificationResponses, PostUsersResponses, PutClawsChannelsByChannelIdConfigData, PutClawsChannelsByChannelIdConfigResponses, PutClawsGroupsByGroupIdData, PutClawsGroupsByGroupIdResponses, PutClawsGroupsByGroupIdTasksByTaskIdData, PutClawsGroupsByGroupIdTasksByTaskIdResponses, PutMcpServersByServerSlugAllToolsIsEnabledData, PutMcpServersByServerSlugAllToolsIsEnabledResponses, PutMcpServersByServerSlugAuthorizationData, PutMcpServersByServerSlugAuthorizationResponses, PutMcpServersByServerSlugConfigData, PutMcpServersByServerSlugConfigResponses, PutMcpServersByServerSlugCredentialsProfilesByProfileIdData, PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, PutMcpServersByServerSlugCredentialsServerData, PutMcpServersByServerSlugCredentialsServerResponses, PutMcpServersByServerSlugCredentialsUserData, PutMcpServersByServerSlugCredentialsUserResponses, PutMcpServersByServerSlugData, PutMcpServersByServerSlugFilesByFileIdData, PutMcpServersByServerSlugFilesByFileIdNameData, PutMcpServersByServerSlugFilesByFileIdNameResponses, PutMcpServersByServerSlugFilesByFileIdResponses, PutMcpServersByServerSlugIsEnabledData, PutMcpServersByServerSlugIsEnabledResponses, PutMcpServersByServerSlugMembersByMemberTypeByMemberIdData, PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, PutMcpServersByServerSlugResponses, PutMcpServersByServerSlugSourceCodeData, PutMcpServersByServerSlugSourceCodeResponses, PutMcpServersByServerSlugToolsByToolNameIsEnabledData, PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses, PutProfilesByProfileIdData, PutProfilesByProfileIdResponses, PutProfilesByProfileIdServersByServerSlugToolsData, PutProfilesByProfileIdServersByServerSlugToolsResponses, PutTeamsByTeamIdData, PutTeamsByTeamIdMembersByUserIdData, PutTeamsByTeamIdMembersByUserIdResponses, PutTeamsByTeamIdResponses, PutUsersByUserIdData, PutUsersByUserIdResponses, PutUsersMeData, PutUsersMeResponses } from './types.gen.js';
+import type { DeleteMcpServersByServerSlugCredentialsByCredentialsIdData, DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses, DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData, DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, DeleteMcpServersByServerSlugCredentialsServerData, DeleteMcpServersByServerSlugCredentialsServerResponses, DeleteMcpServersByServerSlugCredentialsUserData, DeleteMcpServersByServerSlugCredentialsUserResponses, DeleteMcpServersByServerSlugData, DeleteMcpServersByServerSlugFilesByFileIdData, DeleteMcpServersByServerSlugFilesByFileIdResponses, DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdData, DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, DeleteMcpServersByServerSlugResponses, DeleteProfilesByProfileIdClaimMappingsByMappingIdData, DeleteProfilesByProfileIdClaimMappingsByMappingIdResponses, DeleteProfilesByProfileIdData, DeleteProfilesByProfileIdResponses, DeleteSandboxesBySandboxIdData, DeleteSandboxesBySandboxIdResponses, DeleteScimConfigTokensByTokenIdData, DeleteScimConfigTokensByTokenIdResponses, DeleteSecretStoresByIdData, DeleteSecretStoresByIdResponses, DeleteSecretStoresByStoreIdMappingsByMappingNameData, DeleteSecretStoresByStoreIdMappingsByMappingNameResponses, DeleteTeamsByTeamIdClaimMappingsByMappingIdData, DeleteTeamsByTeamIdClaimMappingsByMappingIdResponses, DeleteTeamsByTeamIdData, DeleteTeamsByTeamIdInvitationsByInvitationIdData, DeleteTeamsByTeamIdInvitationsByInvitationIdResponses, DeleteTeamsByTeamIdMembersByUserIdData, DeleteTeamsByTeamIdMembersByUserIdResponses, DeleteTeamsByTeamIdResponses, DeleteUsersByUserIdData, DeleteUsersByUserIdPersonalAccessTokensByPatIdData, DeleteUsersByUserIdPersonalAccessTokensByPatIdResponses, DeleteUsersByUserIdProfilesByProfileIdData, DeleteUsersByUserIdProfilesByProfileIdResponses, DeleteUsersByUserIdResponses, GetAuditLogsByIdData, GetAuditLogsByIdResponses, GetAuditLogsData, GetAuditLogsResponses, GetAuthMeData, GetAuthMeResponses, GetDeploymentsDeploymentLogsData, GetDeploymentsDeploymentLogsResponse, GetDeploymentsDeploymentLogsResponses, GetDeploymentsLogsData, GetDeploymentsLogsResponses, GetDeploymentsMetricsData, GetDeploymentsMetricsResponses, GetDeploymentsStatusData, GetDeploymentsStatusResponses, GetMcpServersAccessPreviewData, GetMcpServersAccessPreviewResponses, GetMcpServersByServerSlugCredentialsAuthorizeUrlData, GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses, GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData, GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysResponses, GetMcpServersByServerSlugCredentialsProfileData, GetMcpServersByServerSlugCredentialsProfileResponses, GetMcpServersByServerSlugCredentialsServerApikeysData, GetMcpServersByServerSlugCredentialsServerApikeysResponses, GetMcpServersByServerSlugCredentialsServerData, GetMcpServersByServerSlugCredentialsServerResponses, GetMcpServersByServerSlugCredentialsTokenData, GetMcpServersByServerSlugCredentialsTokenResponses, GetMcpServersByServerSlugCredentialsUserApikeysData, GetMcpServersByServerSlugCredentialsUserApikeysResponses, GetMcpServersByServerSlugCredentialsUserData, GetMcpServersByServerSlugCredentialsUserResponses, GetMcpServersByServerSlugData, GetMcpServersByServerSlugFilesByFileIdData, GetMcpServersByServerSlugFilesByFileIdResponses, GetMcpServersByServerSlugFilesData, GetMcpServersByServerSlugFilesResponses, GetMcpServersByServerSlugMembersData, GetMcpServersByServerSlugMembersResponses, GetMcpServersByServerSlugOauthDiscoverData, GetMcpServersByServerSlugOauthDiscoverResponses, GetMcpServersByServerSlugResponses, GetMcpServersByServerSlugRunningStatusData, GetMcpServersByServerSlugRunningStatusResponses, GetMcpServersByServerSlugSourceCodeData, GetMcpServersByServerSlugSourceCodeResponses, GetMcpServersByServerSlugToolsByToolNameData, GetMcpServersByServerSlugToolsByToolNameResponses, GetMcpServersByServerSlugToolsData, GetMcpServersByServerSlugToolsResponses, GetMcpServersData, GetMcpServersResponses, GetProfilesByProfileIdClaimMappingsData, GetProfilesByProfileIdClaimMappingsResponses, GetProfilesByProfileIdData, GetProfilesByProfileIdResponses, GetProfilesByProfileIdToolsData, GetProfilesByProfileIdToolsResponses, GetProfilesData, GetProfilesResponses, GetSandboxesBySandboxIdAuditLogsByIdData, GetSandboxesBySandboxIdAuditLogsByIdResponses, GetSandboxesBySandboxIdAuditLogsData, GetSandboxesBySandboxIdAuditLogsResponses, GetSandboxesBySandboxIdData, GetSandboxesBySandboxIdResponses, GetSandboxesData, GetSandboxesResponses, GetScimConfigTokensByTokenIdSecretData, GetScimConfigTokensByTokenIdSecretResponses, GetScimConfigTokensData, GetScimConfigTokensResponses, GetSecretStoresByIdData, GetSecretStoresByIdResponses, GetSecretStoresByStoreIdMappingsData, GetSecretStoresByStoreIdMappingsResponses, GetSecretStoresData, GetSecretStoresResponses, GetTeamsByTeamIdClaimMappingsData, GetTeamsByTeamIdClaimMappingsResponses, GetTeamsByTeamIdData, GetTeamsByTeamIdInvitationsData, GetTeamsByTeamIdInvitationsResponses, GetTeamsByTeamIdMembersData, GetTeamsByTeamIdMembersResponses, GetTeamsByTeamIdResponses, GetTeamsByTeamIdServersData, GetTeamsByTeamIdServersResponses, GetTeamsData, GetTeamsResponses, GetTenantsByTenantIdData, GetTenantsByTenantIdResponses, GetTenantsByTenantIdSubscriptionData, GetTenantsByTenantIdSubscriptionResponses, GetToolsData, GetToolsResponses, GetUsersByUserIdData, GetUsersByUserIdPersonalAccessTokensData, GetUsersByUserIdPersonalAccessTokensResponses, GetUsersByUserIdProfilesData, GetUsersByUserIdProfilesResponses, GetUsersByUserIdResponses, GetUsersData, GetUsersMeData, GetUsersMeResponses, GetUsersResponses, PatchSecretStoresByIdData, PatchSecretStoresByIdResponses, PatchSecretStoresByStoreIdMappingsByMappingNameData, PatchSecretStoresByStoreIdMappingsByMappingNameResponses, PatchUsersByUserIdPersonalAccessTokensByPatIdData, PatchUsersByUserIdPersonalAccessTokensByPatIdResponses, PatchUsersByUserIdProfilesByProfileIdData, PatchUsersByUserIdProfilesByProfileIdResponses, PostEmailVerificationSendCodeData, PostEmailVerificationSendCodeResponses, PostMcpServersByServerSlugCredentialsCopyData, PostMcpServersByServerSlugCredentialsCopyResponses, PostMcpServersByServerSlugFilesData, PostMcpServersByServerSlugFilesResponses, PostMcpServersByServerSlugStartData, PostMcpServersByServerSlugStartResponses, PostMcpServersByServerSlugStopData, PostMcpServersByServerSlugStopResponses, PostMcpServersByServerSlugToolsByToolNameCallData, PostMcpServersByServerSlugToolsByToolNameCallResponses, PostMcpServersData, PostMcpServersResponses, PostProfilesByProfileIdClaimMappingsData, PostProfilesByProfileIdClaimMappingsResponses, PostProfilesData, PostProfilesResponses, PostSandboxesBySandboxIdExecData, PostSandboxesBySandboxIdExecResponses, PostSandboxesBySandboxIdReadFileData, PostSandboxesBySandboxIdReadFileResponses, PostSandboxesBySandboxIdSshSessionData, PostSandboxesBySandboxIdSshSessionResponses, PostSandboxesBySandboxIdWriteFileData, PostSandboxesBySandboxIdWriteFileResponses, PostSandboxesData, PostSandboxesResponses, PostScimConfigTokensData, PostScimConfigTokensResponses, PostSecretStoresByStoreIdMappingsData, PostSecretStoresByStoreIdMappingsResponses, PostSecretStoresByStoreIdTestData, PostSecretStoresByStoreIdTestResponses, PostSecretStoresData, PostSecretStoresResponses, PostTeamsByTeamIdClaimMappingsData, PostTeamsByTeamIdClaimMappingsResponses, PostTeamsByTeamIdInvitationsData, PostTeamsByTeamIdInvitationsResponses, PostTeamsByTeamIdMembersData, PostTeamsByTeamIdMembersResponses, PostTeamsData, PostTeamsResponses, PostToolsRefreshData, PostToolsRefreshResponses, PostUsersByUserIdPersonalAccessTokensData, PostUsersByUserIdPersonalAccessTokensResponses, PostUsersByUserIdProfilesData, PostUsersByUserIdProfilesResponses, PostUsersData, PostUsersMeRequestEmailVerificationData, PostUsersMeRequestEmailVerificationResponses, PostUsersResponses, PutMcpServersByServerSlugAllToolsIsEnabledData, PutMcpServersByServerSlugAllToolsIsEnabledResponses, PutMcpServersByServerSlugCredentialsProfilesByProfileIdData, PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, PutMcpServersByServerSlugCredentialsServerData, PutMcpServersByServerSlugCredentialsServerResponses, PutMcpServersByServerSlugCredentialsUserData, PutMcpServersByServerSlugCredentialsUserResponses, PutMcpServersByServerSlugData, PutMcpServersByServerSlugFilesByFileIdData, PutMcpServersByServerSlugFilesByFileIdNameData, PutMcpServersByServerSlugFilesByFileIdNameResponses, PutMcpServersByServerSlugFilesByFileIdResponses, PutMcpServersByServerSlugIsEnabledData, PutMcpServersByServerSlugIsEnabledResponses, PutMcpServersByServerSlugMembersByMemberTypeByMemberIdData, PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, PutMcpServersByServerSlugResponses, PutMcpServersByServerSlugSourceCodeData, PutMcpServersByServerSlugSourceCodeResponses, PutMcpServersByServerSlugToolsByToolNameIsEnabledData, PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses, PutProfilesByProfileIdData, PutProfilesByProfileIdResponses, PutProfilesByProfileIdServersByServerSlugToolsData, PutProfilesByProfileIdServersByServerSlugToolsResponses, PutTeamsByTeamIdData, PutTeamsByTeamIdMembersByUserIdData, PutTeamsByTeamIdMembersByUserIdResponses, PutTeamsByTeamIdResponses, PutUsersByUserIdData, PutUsersByUserIdResponses, PutUsersMeData, PutUsersMeResponses } from './types.gen.js';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -247,29 +247,9 @@ export const postMcpServersByServerSlugStop = <ThrowOnError extends boolean = tr
     ...options
 });
 
-export const putMcpServersByServerSlugConfig = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugConfigData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugConfigResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/mcp-servers/{serverSlug}/config',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
 export const putMcpServersByServerSlugIsEnabled = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugIsEnabledData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugIsEnabledResponses, unknown, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
     url: '/mcp-servers/{serverSlug}/isEnabled',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-export const putMcpServersByServerSlugAuthorization = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugAuthorizationData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugAuthorizationResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/mcp-servers/{serverSlug}/authorization',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -461,24 +441,6 @@ export const postMcpServersByServerSlugCredentialsCopy = <ThrowOnError extends b
 export const getMcpServersByServerSlugCredentialsAuthorizeUrl = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsAuthorizeUrlData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses, unknown, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
     url: '/mcp-servers/{serverSlug}/credentials/authorize-url',
-    ...options
-});
-
-/**
- * Delete all credentials associated with this server. Requires manage permission on the server.
- */
-export const deleteMcpServersByServerSlugCredentials = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugCredentialsData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugCredentialsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/mcp-servers/{serverSlug}/credentials',
-    ...options
-});
-
-/**
- * Get a list of all the credentials associated with the server (user-, profile-, and default credentials).
- */
-export const getMcpServersByServerSlugCredentials = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/mcp-servers/{serverSlug}/credentials',
     ...options
 });
 
@@ -983,122 +945,6 @@ export const getSandboxesBySandboxIdAuditLogsById = <ThrowOnError extends boolea
     ...options
 });
 
-export const getClawsGroups = <ThrowOnError extends boolean = true>(options?: Options<GetClawsGroupsData, ThrowOnError>) => (options?.client ?? client).get<GetClawsGroupsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups',
-    ...options
-});
-
-export const getClawsChannels = <ThrowOnError extends boolean = true>(options?: Options<GetClawsChannelsData, ThrowOnError>) => (options?.client ?? client).get<GetClawsChannelsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/channels',
-    ...options
-});
-
-export const postClawsChannels = <ThrowOnError extends boolean = true>(options?: Options<PostClawsChannelsData, ThrowOnError>) => (options?.client ?? client).post<PostClawsChannelsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/channels',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
-
-export const putClawsChannelsByChannelIdConfig = <ThrowOnError extends boolean = true>(options: Options<PutClawsChannelsByChannelIdConfigData, ThrowOnError>) => (options.client ?? client).put<PutClawsChannelsByChannelIdConfigResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/channels/{channelId}/config',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-export const deleteClawsChannelsByChannelId = <ThrowOnError extends boolean = true>(options: Options<DeleteClawsChannelsByChannelIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteClawsChannelsByChannelIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/channels/{channelId}',
-    ...options
-});
-
-export const getClawsIdentityLinks = <ThrowOnError extends boolean = true>(options?: Options<GetClawsIdentityLinksData, ThrowOnError>) => (options?.client ?? client).get<GetClawsIdentityLinksResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/identity-links',
-    ...options
-});
-
-export const getClawsLink = <ThrowOnError extends boolean = true>(options: Options<GetClawsLinkData, ThrowOnError>) => (options.client ?? client).get<GetClawsLinkResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/link',
-    ...options
-});
-
-export const getClawsLinkCallback = <ThrowOnError extends boolean = true>(options: Options<GetClawsLinkCallbackData, ThrowOnError>) => (options.client ?? client).get<GetClawsLinkCallbackResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/link-callback',
-    ...options
-});
-
-export const deleteClawsIdentityLinksByLinkId = <ThrowOnError extends boolean = true>(options: Options<DeleteClawsIdentityLinksByLinkIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteClawsIdentityLinksByLinkIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/identity-links/{linkId}',
-    ...options
-});
-
-export const deleteClawsGroupsByGroupId = <ThrowOnError extends boolean = true>(options: Options<DeleteClawsGroupsByGroupIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteClawsGroupsByGroupIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups/{groupId}',
-    ...options
-});
-
-export const getClawsGroupsByGroupId = <ThrowOnError extends boolean = true>(options: Options<GetClawsGroupsByGroupIdData, ThrowOnError>) => (options.client ?? client).get<GetClawsGroupsByGroupIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups/{groupId}',
-    ...options
-});
-
-export const putClawsGroupsByGroupId = <ThrowOnError extends boolean = true>(options: Options<PutClawsGroupsByGroupIdData, ThrowOnError>) => (options.client ?? client).put<PutClawsGroupsByGroupIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups/{groupId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-export const getClawsGroupsByGroupIdTasks = <ThrowOnError extends boolean = true>(options: Options<GetClawsGroupsByGroupIdTasksData, ThrowOnError>) => (options.client ?? client).get<GetClawsGroupsByGroupIdTasksResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups/{groupId}/tasks',
-    ...options
-});
-
-export const postClawsGroupsByGroupIdTasks = <ThrowOnError extends boolean = true>(options: Options<PostClawsGroupsByGroupIdTasksData, ThrowOnError>) => (options.client ?? client).post<PostClawsGroupsByGroupIdTasksResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups/{groupId}/tasks',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-export const deleteClawsGroupsByGroupIdTasksByTaskId = <ThrowOnError extends boolean = true>(options: Options<DeleteClawsGroupsByGroupIdTasksByTaskIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteClawsGroupsByGroupIdTasksByTaskIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups/{groupId}/tasks/{taskId}',
-    ...options
-});
-
-export const putClawsGroupsByGroupIdTasksByTaskId = <ThrowOnError extends boolean = true>(options: Options<PutClawsGroupsByGroupIdTasksByTaskIdData, ThrowOnError>) => (options.client ?? client).put<PutClawsGroupsByGroupIdTasksByTaskIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/claws/groups/{groupId}/tasks/{taskId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
 /**
  * Send an email verification code
  */
@@ -1110,4 +956,32 @@ export const postEmailVerificationSendCode = <ThrowOnError extends boolean = tru
         'Content-Type': 'application/json',
         ...options?.headers
     }
+});
+
+export const getScimConfigTokens = <ThrowOnError extends boolean = true>(options?: Options<GetScimConfigTokensData, ThrowOnError>) => (options?.client ?? client).get<GetScimConfigTokensResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+    url: '/scim-config/tokens',
+    ...options
+});
+
+export const postScimConfigTokens = <ThrowOnError extends boolean = true>(options?: Options<PostScimConfigTokensData, ThrowOnError>) => (options?.client ?? client).post<PostScimConfigTokensResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+    url: '/scim-config/tokens',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
+
+export const getScimConfigTokensByTokenIdSecret = <ThrowOnError extends boolean = true>(options: Options<GetScimConfigTokensByTokenIdSecretData, ThrowOnError>) => (options.client ?? client).get<GetScimConfigTokensByTokenIdSecretResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+    url: '/scim-config/tokens/{tokenId}/secret',
+    ...options
+});
+
+export const deleteScimConfigTokensByTokenId = <ThrowOnError extends boolean = true>(options: Options<DeleteScimConfigTokensByTokenIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteScimConfigTokensByTokenIdResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+    url: '/scim-config/tokens/{tokenId}',
+    ...options
 });

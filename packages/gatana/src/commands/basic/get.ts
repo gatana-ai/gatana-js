@@ -31,6 +31,7 @@ export function createGetCommand(gatana: Gatana, gatana2: Gatana2): Command {
 
   cmd.addCommand(
     new Command('creds')
+      .alias('credential')
       .alias('credentials')
       .description('Get credentials for a server')
       .argument('[id]', 'Credential ID (omit to list all)')

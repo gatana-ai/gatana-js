@@ -20,15 +20,14 @@ export function createDeleteCommand(gatana: Gatana, gatana2: Gatana2): Command {
     new Command('credentials')
       .alias('creds')
       .description('Delete credentials for a server')
-      .argument('[id]', 'Credential ID (required unless --all is used)')
+      .argument('<id>', 'Credential ID')
       .requiredOption('-s, --server <slug>', 'Server slug')
-      .option('--all', 'Delete all credentials for the server')
-      .action(async (id: string | undefined, options: { server: string; all?: boolean }) => {
-        if (!id && !options.all) {
-          console.error('Error: provide a credential ID or use --all to delete all credentials.');
+      .action(async (id: string, options: { server: string }) => {
+        if (!id) {
+          console.error('Error: provide a credential ID.');
           process.exit(1);
         }
-        await deleteCredentialsResource(gatana, options.server, options.all ? undefined : id);
+        await deleteCredentialsResource(gatana, options.server, id);
       })
   );
 

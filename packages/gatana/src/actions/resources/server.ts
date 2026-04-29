@@ -58,16 +58,15 @@ export async function describeServerResource(gatana: Gatana, gatana2: Gatana2, s
     const { data: logsFull } = await getAuditLogs({
       query: { entityTypes: ['mcp_server', 'mcp'], limit: '5', entityId: server.id.toString() },
     });
-    const { data: credentialsFull } = await gatana.api.getMcpServersByServerSlugCredentials({
-      path: { serverSlug: slug },
-      query: { all: 'true' },
+    const { data: credentialsFull } = await gatana2.api.getCredentials({
+      query: { serverId: server.id },
     });
     const logs = logsFull?.data.map(x => ({
       eventName: x.eventName,
       age: formatAge(x.createdAt),
       tool: x.eventName === 'tools/call' ? _.get(x, 'details.toolName', 'n/a') : undefined,
     }));
-    const credentials = credentialsFull?.credentials.map((c: ServerCredentialsDto) => ({
+    const credentials = credentialsFull?.credentials.map(c => ({
       id: c.id,
       scope: c.scope,
       owner: c.scope === 'server' ? '<self>' : (c.profileName ?? c.userEmail ?? '<unknown>'),

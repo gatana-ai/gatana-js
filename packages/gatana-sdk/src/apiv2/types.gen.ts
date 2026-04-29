@@ -304,65 +304,65 @@ export type Schema74 = string;
 
 export type Schema75 = unknown;
 
-export type Schema76 = string;
-
 export type V2ListServersResponse = {
-    servers: Schema77;
+    servers: Schema76;
 };
 
 export type V2ServerDto = Server;
 
 export type Server = {
-    id: Schema78;
-    slug: Schema79;
-    tenantId: Schema80;
-    description: Schema81;
+    id: Schema77;
+    slug: Schema78;
+    tenantId: Schema79;
+    description: Schema80;
     authorization: ServerAuthorizationOutput;
-    transportConfig: Schema85;
-    oauthClientConfiguration: Schema106;
-    oauthMetadata: Schema112;
+    transportConfig: Schema84;
+    oauthClientConfiguration: Schema105;
+    oauthMetadata: Schema111;
     visibility: ServerVisibility;
-    isEnabled: Schema116;
-    lastToolRefreshAt: Schema117;
-    timeoutProtocol: Schema118;
-    timeoutTotal: Schema119;
-    resetTimeoutOnProgressNotification: Schema120;
-    isOutputCompressionEnabled: Schema121;
-    isOutputCompressionTransformEnabled: Schema122;
-    outputCompressionThresholdBytes: Schema123;
-    firewallRules: Schema124;
-    createdAt: Schema125;
-    updatedAt: Schema126;
+    isEnabled: Schema115;
+    lastToolRefreshAt: Schema116;
+    timeoutProtocol: Schema117;
+    timeoutTotal: Schema118;
+    resetTimeoutOnProgressNotification: Schema119;
+    isOutputCompressionEnabled: Schema120;
+    isOutputCompressionTransformEnabled: Schema121;
+    outputCompressionThresholdBytes: Schema122;
+    firewallRules: Schema123;
+    createdAt: Schema124;
+    updatedAt: Schema125;
 };
 
 export type CredentialDtoV2 = {
-    id: Schema128;
-    tenantId: Schema129;
-    scope: Schema130;
-    userId: Schema131;
-    profileId: Schema132;
-    lastUsedAt: Schema133;
-    authorizedAt: Schema134;
-    type: Schema135;
-    createdAt: Schema136;
-    updatedAt: Schema137;
-    serverSlug: Schema138;
-    userEmail: Schema139;
-    userName: Schema140;
-    profileName: Schema141;
+    id: Schema127;
+    tenantId: Schema128;
+    scope: Schema129;
+    userId: Schema130;
+    profileId: Schema131;
+    lastUsedAt: Schema132;
+    authorizedAt: Schema133;
+    type: Schema134;
+    createdAt: Schema135;
+    updatedAt: Schema136;
+    serverSlug: Schema137;
+    userEmail: Schema138;
+    userName: Schema139;
+    profileName: Schema140;
 };
 
 export type ServerCredentialsOuth = {
-    type: Schema142;
-    tokenSet: Schema143;
+    type: Schema141;
+    tokenSet: Schema142;
 };
 
 export type ServerCredentialsApiKeys = {
-    type: Schema144;
-    apikeys: Schema145;
+    type: Schema143;
+    apikeys: Schema144;
 };
 
-export type Schema77 = Array<Server>;
+export type Schema76 = Array<Server>;
+
+export type Schema77 = string;
 
 export type Schema78 = string;
 
@@ -370,100 +370,98 @@ export type Schema79 = string;
 
 export type Schema80 = string;
 
-export type Schema81 = string;
+export type Schema81 = 'none' | 'oauth' | 'apikey';
 
-export type Schema82 = 'none' | 'oauth' | 'apikey';
+export type Schema82 = 'server' | 'user';
 
-export type Schema83 = 'server' | 'user';
+export type Schema83 = Array<string>;
 
-export type Schema84 = Array<string>;
-
-export type Schema85 = HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
+export type Schema84 = HttpStreamingTransportConfigOutput | StdioTransportConfigOutput | SseTransportConfigOutput | {
     type: 'self';
     id: string;
 } | HostedTransportConfigOutput;
 
-export type Schema86 = 'httpstreaming';
+export type Schema85 = 'httpstreaming';
 
-export type Schema87 = string;
+export type Schema86 = string;
 
-export type Schema88 = Array<[
+export type Schema87 = Array<[
     string,
     string
 ]>;
 
-export type Schema89 = 'stdio';
+export type Schema88 = 'stdio';
+
+export type Schema89 = string;
 
 export type Schema90 = string;
 
-export type Schema91 = string;
-
-export type Schema92 = Array<[
+export type Schema91 = Array<[
     string,
     string
 ]>;
 
-export type Schema93 = 'sse' | 'httpstreaming' | 'stdio';
+export type Schema92 = 'sse' | 'httpstreaming' | 'stdio';
 
-export type Schema94 = number | null;
+export type Schema93 = number | null;
 
-export type Schema95 = string | null;
+export type Schema94 = string | null;
 
-export type Schema96 = {
-    cpu?: Schema97;
-    memory?: Schema98;
+export type Schema95 = {
+    cpu?: Schema96;
+    memory?: Schema97;
 } | null;
+
+export type Schema96 = string;
 
 export type Schema97 = string;
 
-export type Schema98 = string;
+export type Schema98 = 'sse';
 
-export type Schema99 = 'sse';
+export type Schema99 = string;
 
-export type Schema100 = string;
-
-export type Schema101 = Array<[
+export type Schema100 = Array<[
     string,
     string
 ]>;
 
-export type Schema102 = 'hosted';
+export type Schema101 = 'hosted';
 
-export type Schema103 = 'node24';
+export type Schema102 = 'node24';
 
-export type Schema104 = Array<[
+export type Schema103 = Array<[
     string,
     string
 ]>;
 
-export type Schema105 = {
-    cpu?: Schema97;
-    memory?: Schema98;
+export type Schema104 = {
+    cpu?: Schema96;
+    memory?: Schema97;
 } | null;
 
-export type Schema106 = null | ServerOAuthClientConfigurationOutput;
+export type Schema105 = null | ServerOAuthClientConfigurationOutput;
+
+export type Schema106 = string;
 
 export type Schema107 = string;
 
-export type Schema108 = string;
+export type Schema108 = 'authorization_code' | 'device_code';
 
-export type Schema109 = 'authorization_code' | 'device_code';
+export type Schema109 = 'client_secret_basic' | 'client_secret_post' | 'none' | string;
 
-export type Schema110 = 'client_secret_basic' | 'client_secret_post' | 'none' | string;
+export type Schema110 = string;
 
-export type Schema111 = string;
+export type Schema111 = null | ServerOAuthMetadataOutput;
 
-export type Schema112 = null | ServerOAuthMetadataOutput;
+export type Schema112 = boolean;
 
-export type Schema113 = boolean;
-
-export type Schema114 = {
+export type Schema113 = {
     id: string;
     availableScopes: Array<string>;
     metadataUrl: string;
 };
 
-export type Schema115 = {
+export type Schema114 = {
     issuer: string;
     authorizeEndpoint: string;
     deviceAuthorizationEndpoint: string;
@@ -479,23 +477,23 @@ export type Schema115 = {
     availableScopes: Array<string>;
 };
 
-export type Schema116 = boolean;
+export type Schema115 = boolean;
 
-export type Schema117 = string | null;
+export type Schema116 = string | null;
+
+export type Schema117 = number;
 
 export type Schema118 = number;
 
-export type Schema119 = number;
+export type Schema119 = boolean;
 
 export type Schema120 = boolean;
 
 export type Schema121 = boolean;
 
-export type Schema122 = boolean;
+export type Schema122 = number;
 
-export type Schema123 = number;
-
-export type Schema124 = Array<{
+export type Schema123 = Array<{
     /**
      * CEL representing the condition
      */
@@ -503,106 +501,106 @@ export type Schema124 = Array<{
     action: 'deny' | 'modify' | 'log';
 }>;
 
+export type Schema124 = string;
+
 export type Schema125 = string;
 
-export type Schema126 = string;
-
-export type Schema127 = {
+export type Schema126 = {
     credentials: Array<CredentialDtoV2>;
 };
 
+export type Schema127 = string;
+
 export type Schema128 = string;
 
-export type Schema129 = string;
+export type Schema129 = 'server' | 'user' | 'profile';
 
-export type Schema130 = 'server' | 'user' | 'profile';
+export type Schema130 = string | null;
 
 export type Schema131 = string | null;
 
 export type Schema132 = string | null;
 
-export type Schema133 = string | null;
+export type Schema133 = string;
 
-export type Schema134 = string;
+export type Schema134 = 'oauth' | 'apikey';
 
-export type Schema135 = 'oauth' | 'apikey';
+export type Schema135 = string;
 
 export type Schema136 = string;
 
 export type Schema137 = string;
 
-export type Schema138 = string;
+export type Schema138 = string | null;
 
 export type Schema139 = string | null;
 
 export type Schema140 = string | null;
 
-export type Schema141 = string | null;
+export type Schema141 = 'oauth';
 
-export type Schema142 = 'oauth';
-
-export type Schema143 = {
+export type Schema142 = {
     accessToken: string;
     accessTokenExpiresAt?: number;
     idToken?: string;
     refreshToken?: string;
 };
 
-export type Schema144 = 'apikey';
+export type Schema143 = 'apikey';
 
-export type Schema145 = Array<[
+export type Schema144 = Array<[
     string,
     string
 ]>;
 
 export type ServerAuthorizationOutput = {
-    method: Schema82;
-    credentialsScope: Schema83;
-    apikeys?: Schema84;
+    method: Schema81;
+    credentialsScope: Schema82;
+    apikeys?: Schema83;
 };
 
 export type HttpStreamingTransportConfigOutput = {
-    type: Schema86;
-    url: Schema87;
-    headers?: Schema88;
+    type: Schema85;
+    url: Schema86;
+    headers?: Schema87;
 };
 
 export type StdioTransportConfigOutput = {
-    type: Schema89;
-    command: Schema90;
-    dockerImage?: Schema91;
-    env?: Schema92;
-    transport: Schema93;
-    httpPort?: Schema94;
-    urlPath?: Schema95;
-    limits?: Schema96;
+    type: Schema88;
+    command: Schema89;
+    dockerImage?: Schema90;
+    env?: Schema91;
+    transport: Schema92;
+    httpPort?: Schema93;
+    urlPath?: Schema94;
+    limits?: Schema95;
 };
 
 export type SseTransportConfigOutput = {
-    type: Schema99;
-    url: Schema100;
-    headers?: Schema101;
+    type: Schema98;
+    url: Schema99;
+    headers?: Schema100;
 };
 
 export type HostedTransportConfigOutput = {
-    type: Schema102;
-    runtime: Schema103;
-    env?: Schema104;
-    limits?: Schema105;
+    type: Schema101;
+    runtime: Schema102;
+    env?: Schema103;
+    limits?: Schema104;
 };
 
 export type ServerOAuthClientConfigurationOutput = {
-    clientId: Schema107;
-    clientSecret: Schema108;
-    grantType: Schema109;
-    clientAuthMethod: Schema110;
-    scopes: Schema111;
+    clientId: Schema106;
+    clientSecret: Schema107;
+    grantType: Schema108;
+    clientAuthMethod: Schema109;
+    scopes: Schema110;
 };
 
 export type ServerOAuthMetadataOutput = {
-    requiresAuthorization: Schema113;
-    resource?: Schema114;
-    as?: Schema115;
+    requiresAuthorization: Schema112;
+    resource?: Schema113;
+    as?: Schema114;
 };
 
 export type GetServersData = {
@@ -711,10 +709,7 @@ export type GetCredentialsData = {
     body?: never;
     path?: never;
     query?: {
-        /**
-         * Optional slug of the server to filter credentials by
-         */
-        serverSlug?: Schema76;
+        serverId?: string;
     };
     url: '/credentials';
 };
@@ -723,7 +718,7 @@ export type GetCredentialsResponses = {
     /**
      * Successful response
      */
-    200: Schema127;
+    200: Schema126;
 };
 
 export type GetCredentialsResponse = GetCredentialsResponses[keyof GetCredentialsResponses];
@@ -741,7 +736,7 @@ export type DeleteCredentialsByIdResponses = {
     /**
      * Successful response
      */
-    200: Schema127;
+    200: Schema126;
 };
 
 export type DeleteCredentialsByIdResponse = DeleteCredentialsByIdResponses[keyof DeleteCredentialsByIdResponses];

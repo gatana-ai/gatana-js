@@ -8,8 +8,7 @@ const credentialsTableColumns: TableColumn[] = [
   { name: 'serverSlug', title: 'Server', alignment: 'left' },
   { name: 'scope', title: 'Scope', alignment: 'left' },
   { name: 'type', title: 'Type', alignment: 'left' },
-  { title: 'Owner Type', valueGet: row => (row.userEmail ? 'User' : 'Profile'), alignment: 'left' },
-  { title: 'Owner', valueGet: row => row.userEmail ?? row.profileName ?? '<none>', alignment: 'left' },
+  { title: 'Owner', valueGet: row => row.userEmail ?? row.profileName ?? '<server>', alignment: 'left' },
   { title: 'Last Used', valueGet: row => formatAge(row.lastUsedAt), alignment: 'left' },
   { title: 'Authorized', valueGet: row => formatAge(row.authorizedAt), alignment: 'left' },
 ];
@@ -26,7 +25,13 @@ export async function getCredentialsResource(
   withEffectiveCredentials?: boolean
 ): Promise<void> {
   try {
-    const { data } = await gatana2.api.getCredentials({ query: { serverSlug } });
+    let serverId: string | undefined = undefined;
+    if (serverSlug) {
+      const { data: serverData } = await gatana2.api.getServersBySlug({ path: { slug: serverSlug } });
+      serverId = serverData?.id;
+    }
+
+    const { data } = await gatana2.api.getCredentials({ query: { serverId } });
 
     const credentials = (data as any)?.credentials ?? [];
 
@@ -197,21 +202,13 @@ export async function createCredentialsResource(
  * Delete a credential by ID, or all credentials for a server.
  * `gatana delete credentials -s <slug> [id]`
  */
-export async function deleteCredentialsResource(gatana: Gatana, serverSlug: string, id?: string): Promise<void> {
+export async function deleteCredentialsResource(gatana: Gatana, serverSlug: string, id: string): Promise<void> {
   try {
-    if (id) {
-      await gatana.api.deleteMcpServersByServerSlugCredentialsByCredentialsId({
-        path: { serverSlug, credentialsId: id },
-      });
+    await gatana.api.deleteMcpServersByServerSlugCredentialsByCredentialsId({
+      path: { serverSlug, credentialsId: id },
+    });
 
-      outputSuccess(`Credential '${id}' deleted from server '${serverSlug}'.`);
-    } else {
-      const { data } = await gatana.api.deleteMcpServersByServerSlugCredentials({
-        path: { serverSlug },
-      });
-
-      outputSuccess(`Deleted ${data?.deletedCount ?? 0} credentials from server '${serverSlug}'.`);
-    }
+    outputSuccess(`Credential '${id}' deleted from server '${serverSlug}'.`);
   } catch (error) {
     outputError(error);
   }
