@@ -199,6 +199,8 @@ export async function deployServerResource(
     } else {
       await waitForDeploymentDone(gatana, slug);
     }
+    // sleep for 250ms - this is a workaround to ensure that the tools are available when we call the refresh endpoint, as there can be a slight delay after deployment even once the deployment is marked as done
+    await new Promise(resolve => setTimeout(resolve, 250));
     await gatana.api.postToolsRefresh({ query: { serverSlug: slug }, headers: { accept: 'text/event-stream' } });
     const {
       data: { tools },
