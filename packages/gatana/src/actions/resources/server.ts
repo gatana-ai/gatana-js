@@ -1,6 +1,6 @@
 import { Gatana, Gatana2 } from 'gatana-sdk';
 import { ServerCredentialsDto, getAuditLogs, getDeploymentsStatus } from 'gatana-sdk/api';
-import { getServersBySlug } from 'gatana-sdk/apiv2';
+import { Server } from 'gatana-sdk/apiv2';
 import {
   getErrorMessage,
   createServer,
@@ -33,7 +33,7 @@ const serverTableColumns: TableColumn[] = [
 export async function getServerResource(gatana: Gatana, gatana2: Gatana2, slug?: string): Promise<void> {
   try {
     if (slug) {
-      const { data: server } = await getServersBySlug({ path: { slug } });
+      const { data: server } = await gatana2.api.getServersBySlug({ path: { slug } });
       output(server, { defaultFormat: 'yaml' });
     } else {
       const { data } = await gatana2.api.getServers();
@@ -50,7 +50,7 @@ export async function getServerResource(gatana: Gatana, gatana2: Gatana2, slug?:
  */
 export async function describeServerResource(gatana: Gatana, gatana2: Gatana2, slug: string): Promise<void> {
   try {
-    const { data: server } = await getServersBySlug({ path: { slug } });
+    const { data: server } = await gatana2.api.getServersBySlug({ path: { slug } });
     if (!server) {
       outputError(`Server '${slug}' not found.`);
       return;
@@ -143,6 +143,7 @@ export async function deleteServerResource(gatana: Gatana, gatana2: Gatana2, ser
  */
 export async function deployServerResource(
   gatana: Gatana,
+  gatana2: Gatana2,
   serverSlug: string | undefined,
   deploymentPath: string,
   options: { noWait: boolean; force: boolean; create: boolean; noLogs: boolean }
@@ -170,11 +171,18 @@ export async function deployServerResource(
     outputInfo('Creating deployment package...');
     zipPath = await createZipFromDirectory(deploymentPath);
 
-    const server = await getServersBySlug({ path: { slug } });
-    if (!server.data) {
+    const {
+      data: { servers },
+    } = await gatana2.api.getServers();
+    if (!servers.find(x => x.slug === slug)) {
       if (options.create) {
         outputInfo(`Server '${slug}' not found. Creating new server...`);
-        await createServer(gatana, slug, 'hosted');
+        await gatana2.api.postServers({
+          body: {
+            slug,
+            transportConfig: { type: 'hosted', runtime: 'node24' },
+          },
+        });
       } else {
         outputError(`Server '${slug}' not found. Use --create to create a new server if it does not exist.`);
         process.exit(1);
@@ -191,6 +199,12 @@ export async function deployServerResource(
     } else {
       await waitForDeploymentDone(gatana, slug);
     }
+    await gatana.api.postToolsRefresh({ query: { serverSlug: slug }, headers: { accept: 'text/event-stream' } });
+    const {
+      data: { tools },
+    } = await gatana.api.getMcpServersByServerSlugTools({ path: { serverSlug: slug } });
+    output(tools.map(x => ({ tool: x.toolName })));
+    outputSuccess(`\nDeployment successful. ${tools.length ?? 0} tool(s) available on server '${slug}'.`);
   } catch (error) {
     outputError(error);
   } finally {

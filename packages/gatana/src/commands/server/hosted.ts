@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { Gatana } from 'gatana-sdk';
+import { Gatana, Gatana2 } from 'gatana-sdk';
 import _ from 'lodash';
 import { deployServerResource } from '../../actions/resources/server.js';
 import {
@@ -13,7 +13,7 @@ function collectParams(value: string, previous: string[]): string[] {
   return previous.concat([value]);
 }
 
-export function createHostedCommand(gatana: Gatana): Command {
+export function createHostedCommand(gatana: Gatana, gatana2: Gatana2): Command {
   const cmd = new Command('hosted').description('Manage hosted servers (FaaS)');
 
   cmd.addCommand(
@@ -67,7 +67,7 @@ export function createHostedCommand(gatana: Gatana): Command {
           path: string,
           options: { noWait: boolean; force: boolean; create: boolean; noLogs: boolean }
         ) => {
-          await deployServerResource(gatana, name, path, options);
+          await deployServerResource(gatana, gatana2, name, path, options);
         }
       )
   );

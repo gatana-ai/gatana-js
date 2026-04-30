@@ -35,7 +35,7 @@ export function registerRootCommands(
   program.addCommand(createToolsCommand(gatana, gatana2));
   program.addCommand(createDeployCommand(gatana));
   program.addCommand(createCredsCommand(gatana));
-  program.addCommand(createHostedCommand(gatana));
+  program.addCommand(createHostedCommand(gatana, gatana2));
   program.addCommand(createSandboxCommand(gatana));
 
   program.commandsGroup('Utility Commands:');
