@@ -85,16 +85,16 @@ export type TransportType = 'hosted' | 'stdio' | 'httpstreaming' | 'sse';
 export async function createServerResource(
   gatana: Gatana,
   gatana2: Gatana2,
-  options: { name?: string; transportType?: TransportType }
+  options: { slug?: string; transportType?: TransportType }
 ): Promise<void> {
   try {
-    let serverName = options.name;
-    if (!serverName) {
-      serverName = await input({
-        message: 'Enter the name for the new hosted server:',
+    let slug = options.slug;
+    if (!slug) {
+      slug = await input({
+        message: 'Enter the slug for the server:',
         validate: val => {
-          if (!val.trim()) return 'Server name is required';
-          if (val.length < 3) return 'Server name must be at least 3 characters long';
+          if (!val.trim()) return 'Server slug is required';
+          if (val.length < 3) return 'Server slug must be at least 3 characters long';
           return true;
         },
       });
@@ -113,7 +113,12 @@ export async function createServerResource(
       })) as TransportType;
     }
 
-    const serverInfo = await createServer(gatana, serverName, transportType);
+    const finalSlug = slug
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+    const serverInfo = await createServer(gatana, finalSlug, transportType);
 
     outputSuccess(`Created server ${serverInfo.slug}`);
   } catch (error) {

@@ -10,9 +10,11 @@ export function createCreateCommand(gatana: Gatana, gatana2: Gatana2): Command {
   cmd.addCommand(
     new Command('server')
       .description('Create a new hosted server')
-      .option('-n, --name <name>', 'Server name')
-      .addOption(new Option('-t, --type <type>', 'Transport type').choices(['hosted', 'stdio', 'httpstreaming', 'sse']))
-      .action(async (options: { name?: string; transportType?: 'hosted' | 'stdio' | 'httpstreaming' | 'sse' }) => {
+      .option('-s, --slug <slug>', 'Server slug')
+      .addOption(
+        new Option('-t, --transport-type <type>', 'Transport type').choices(['hosted', 'stdio', 'httpstreaming', 'sse'])
+      )
+      .action(async (options: { slug?: string; transportType?: 'hosted' | 'stdio' | 'httpstreaming' | 'sse' }) => {
         await createServerResource(gatana, gatana2, options);
       })
   );
