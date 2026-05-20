@@ -7,9 +7,9 @@ export type ClientOptions = {
 export type V2CreateServerRequest = {
     slug: Schema0;
     transportConfig: Schema1;
-    description?: Schema22;
+    description?: Schema23;
     authorization?: ServerAuthorization;
-    oauthMetadata?: Schema27;
+    oauthMetadata?: Schema28;
     oauthClientConfiguration?: Schema31;
     isEnabled?: Schema37;
     timeoutProtocol?: Schema38;
@@ -41,30 +41,30 @@ export type StdioTransportConfig = {
     transport: Schema9;
     httpPort?: Schema10;
     urlPath?: Schema11;
-    limits?: Schema12;
+    healthCheck?: Schema12;
+    limits?: Schema13;
 };
 
 export type SseTransportConfig = {
-    type: Schema15;
-    url: Schema16;
-    headers?: Schema17;
+    type: Schema16;
+    url: Schema17;
+    headers?: Schema18;
 };
 
 export type HostedTransportConfig = {
-    type: Schema18;
-    runtime: Schema19;
-    env?: Schema20;
-    limits?: Schema21;
+    type: Schema19;
+    runtime: Schema20;
+    env?: Schema21;
+    limits?: Schema22;
 };
 
 export type ServerAuthorization = {
-    method: Schema24;
-    credentialsScope: Schema25;
-    apikeys?: Schema26;
+    method: Schema25;
+    credentialsScope: Schema26;
+    apikeys?: Schema27;
 };
 
 export type ServerOAuthMetadata = {
-    requiresAuthorization: Schema28;
     resource?: Schema29;
     as?: Schema30;
 };
@@ -138,50 +138,56 @@ export type Schema10 = number | null;
 export type Schema11 = string | null;
 
 export type Schema12 = {
-    cpu?: Schema13;
-    memory?: Schema14;
-} | null;
+    enabled: boolean;
+    url?: string;
+    delaySeconds: number | null;
+    intervalSeconds: number | null;
+    failureThreshold: number | null;
+};
 
-export type Schema13 = string;
+export type Schema13 = {
+    cpu?: Schema14;
+    memory?: Schema15;
+} | null;
 
 export type Schema14 = string;
 
-export type Schema15 = 'sse';
+export type Schema15 = string;
 
-export type Schema16 = string;
+export type Schema16 = 'sse';
 
-export type Schema17 = Array<[
+export type Schema17 = string;
+
+export type Schema18 = Array<[
     string,
     string
 ]>;
 
-export type Schema18 = 'hosted';
+export type Schema19 = 'hosted';
 
-export type Schema19 = 'node24';
+export type Schema20 = 'node24';
 
-export type Schema20 = Array<[
+export type Schema21 = Array<[
     string,
     string
 ]>;
 
-export type Schema21 = {
-    cpu?: Schema13;
-    memory?: Schema14;
+export type Schema22 = {
+    cpu?: Schema14;
+    memory?: Schema15;
 } | null;
 
-export type Schema22 = string;
+export type Schema23 = string;
 
-export type Schema23 = ServerAuthorization;
+export type Schema24 = ServerAuthorization;
 
-export type Schema24 = 'none' | 'oauth' | 'apikey';
+export type Schema25 = 'none' | 'oauth' | 'apikey';
 
-export type Schema25 = 'server' | 'user';
+export type Schema26 = 'server' | 'user';
 
-export type Schema26 = Array<string>;
+export type Schema27 = Array<string>;
 
-export type Schema27 = ServerOAuthMetadata | null;
-
-export type Schema28 = boolean;
+export type Schema28 = ServerOAuthMetadata | null;
 
 export type Schema29 = {
     id?: string;
@@ -317,8 +323,8 @@ export type Server = {
     description: Schema80;
     authorization: ServerAuthorizationOutput;
     transportConfig: Schema84;
-    oauthClientConfiguration: Schema105;
-    oauthMetadata: Schema111;
+    oauthClientConfiguration: Schema106;
+    oauthMetadata: Schema112;
     visibility: ServerVisibility;
     isEnabled: Schema115;
     lastToolRefreshAt: Schema116;
@@ -408,52 +414,58 @@ export type Schema93 = number | null;
 export type Schema94 = string | null;
 
 export type Schema95 = {
-    cpu?: Schema96;
-    memory?: Schema97;
-} | null;
+    enabled: boolean;
+    url: string;
+    delaySeconds: number | null;
+    intervalSeconds: number | null;
+    failureThreshold: number | null;
+};
 
-export type Schema96 = string;
+export type Schema96 = {
+    cpu?: Schema97;
+    memory?: Schema98;
+} | null;
 
 export type Schema97 = string;
 
-export type Schema98 = 'sse';
+export type Schema98 = string;
 
-export type Schema99 = string;
+export type Schema99 = 'sse';
 
-export type Schema100 = Array<[
+export type Schema100 = string;
+
+export type Schema101 = Array<[
     string,
     string
 ]>;
 
-export type Schema101 = 'hosted';
+export type Schema102 = 'hosted';
 
-export type Schema102 = 'node24';
+export type Schema103 = 'node24';
 
-export type Schema103 = Array<[
+export type Schema104 = Array<[
     string,
     string
 ]>;
 
-export type Schema104 = {
-    cpu?: Schema96;
-    memory?: Schema97;
+export type Schema105 = {
+    cpu?: Schema97;
+    memory?: Schema98;
 } | null;
 
-export type Schema105 = null | ServerOAuthClientConfigurationOutput;
-
-export type Schema106 = string;
+export type Schema106 = null | ServerOAuthClientConfigurationOutput;
 
 export type Schema107 = string;
 
-export type Schema108 = 'authorization_code' | 'device_code';
+export type Schema108 = string;
 
-export type Schema109 = 'client_secret_basic' | 'client_secret_post' | 'none' | string;
+export type Schema109 = 'authorization_code' | 'device_code';
 
-export type Schema110 = string;
+export type Schema110 = 'client_secret_basic' | 'client_secret_post' | 'none' | string;
 
-export type Schema111 = null | ServerOAuthMetadataOutput;
+export type Schema111 = string;
 
-export type Schema112 = boolean;
+export type Schema112 = null | ServerOAuthMetadataOutput;
 
 export type Schema113 = {
     id: string;
@@ -573,32 +585,32 @@ export type StdioTransportConfigOutput = {
     transport: Schema92;
     httpPort?: Schema93;
     urlPath?: Schema94;
-    limits?: Schema95;
+    healthCheck?: Schema95;
+    limits?: Schema96;
 };
 
 export type SseTransportConfigOutput = {
-    type: Schema98;
-    url: Schema99;
-    headers?: Schema100;
+    type: Schema99;
+    url: Schema100;
+    headers?: Schema101;
 };
 
 export type HostedTransportConfigOutput = {
-    type: Schema101;
-    runtime: Schema102;
-    env?: Schema103;
-    limits?: Schema104;
+    type: Schema102;
+    runtime: Schema103;
+    env?: Schema104;
+    limits?: Schema105;
 };
 
 export type ServerOAuthClientConfigurationOutput = {
-    clientId: Schema106;
-    clientSecret: Schema107;
-    grantType: Schema108;
-    clientAuthMethod: Schema109;
-    scopes: Schema110;
+    clientId: Schema107;
+    clientSecret: Schema108;
+    grantType: Schema109;
+    clientAuthMethod: Schema110;
+    scopes: Schema111;
 };
 
 export type ServerOAuthMetadataOutput = {
-    requiresAuthorization: Schema112;
     resource?: Schema113;
     as?: Schema114;
 };
