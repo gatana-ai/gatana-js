@@ -39,8 +39,8 @@ importers:
         specifier: ^4.0.0
         version: 4.1.0
       gatana-sdk:
-        specifier: workspace:*
-        version: link:../gatana-sdk
+        specifier: ^2.3.8
+        version: 2.3.8
       js-yaml:
         specifier: ^4.1.1
         version: 4.1.1
@@ -965,6 +965,9 @@ packages:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+
+  gatana-sdk@2.3.8:
+    resolution: {integrity: sha512-j2aM3ZlhqPrRTiCNRlyh5zH73Rto4N6e9KVcARvcBmj7BVhXo6RQ427+mWLi5xZ8W9RLgFzs4kKEmYFj5oKHXw==}
 
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
@@ -2205,6 +2208,18 @@ snapshots:
 
   fsevents@2.3.3:
     optional: true
+
+  gatana-sdk@2.3.8:
+    dependencies:
+      '@types/eventsource': 1.1.15
+      '@types/lodash': 4.17.24
+      debug: 4.4.3
+      eventsource: 4.1.0
+      lodash: 4.17.23
+      openid-client: 6.8.2
+      zod: 4.3.6
+    transitivePeerDependencies:
+      - supports-color
 
   get-caller-file@2.0.5: {}
 
