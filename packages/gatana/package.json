@@ -1,6 +1,6 @@
 {
   "name": "gatana",
-  "version": "3.1.13",
+  "version": "3.1.14",
   "description": "CLI tool for Gatana - AI agent management and querying",
   "homepage": "https://github.com/gatana-ai/gatana-js#readme",
   "bugs": {
