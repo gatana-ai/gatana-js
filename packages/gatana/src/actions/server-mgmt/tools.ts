@@ -6,7 +6,7 @@ export async function callTool(
   gatana2: Gatana2,
   toolName: string,
   args: Record<string, any> = {},
-  part?: 'unstructured' | 'structured'
+  part?: 'unstructured' | 'structured' | 'text'
 ): Promise<void> {
   const splitIndex = toolName.indexOf('_');
   if (splitIndex === -1) {
@@ -52,9 +52,20 @@ export async function callTool(
     process.exit(1);
   }
 
-  if (part === 'structured') {
-    output(result.structuredContent, { defaultFormat: 'yaml' });
+  if (part === 'text') {
+    const text = result.content?.find(x => x.type === 'text')?.text;
+    if (text) {
+      output(text);
+    } else {
+      outputError('no text content found in tool response');
+    }
     return;
   }
+
+  if (part === 'structured') {
+    output(result.structuredContent || {}, { defaultFormat: 'yaml' });
+    return;
+  }
+
   output(result.content, { defaultFormat: 'yaml' });
 }

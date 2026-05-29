@@ -31,8 +31,8 @@ Examples:
     .option('-a, --arg <kv...>', 'Inline argument: JSON string or dot-notation key=value pairs')
     .addOption(
       new Option('-p, --part <type>', 'Output part of the raw response')
-        .choices(['structured', 'unstructured'])
-        .default('structured')
+        .choices(['text', 'structured', 'unstructured'])
+        .default('text')
     )
     .action(async (toolName: string, options: { file?: string; arg?: string[]; part?: string }) => {
       const args = options.file ? JSON.parse(readFileSync(options.file, 'utf-8')) : {};
@@ -59,7 +59,13 @@ Examples:
           }
         }
       }
-      await callTool(gatana, gatana2, toolName, args, (options.part || 'structured') as 'unstructured' | 'structured');
+      await callTool(
+        gatana,
+        gatana2,
+        toolName,
+        args,
+        (options.part || 'text') as 'text' | 'structured' | 'unstructured'
+      );
     })
     .showHelpAfterError(true);
 
