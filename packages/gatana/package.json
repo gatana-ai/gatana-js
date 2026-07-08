@@ -32,7 +32,7 @@
     "console-table-printer": "^2.14.6",
     "debug": "^4.4.1",
     "eventsource": "^4.0.0",
-    "gatana-sdk": "^2.3.8",
+    "gatana-sdk": "workspace:*",
     "js-yaml": "^4.1.1",
     "lodash": "^4.17.21",
     "open": "^10.2.0",

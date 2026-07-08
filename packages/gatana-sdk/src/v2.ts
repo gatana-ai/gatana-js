@@ -18,14 +18,14 @@ const debug = createDebug('gatana');
 export class Gatana2 {
   public api = sdk;
   public readonly config: GatanaConfig;
-  constructor(arg?: { options?: GatanaOptions; configLoader?: ConfigLoader; isCli?: boolean }) {
+  constructor(arg?: { options?: GatanaOptions; config?: GatanaConfig; configLoader?: ConfigLoader; isCli?: boolean }) {
     // Try to get config from file if not provided via options or env vars
     const configLoader =
-      arg?.configLoader ||
+      (!arg?.config && arg?.configLoader) ||
       new ConfigLoader([new OptionsConfigStrategy(arg?.options), new EnvConfigStrategy(), new FileConfigStrategy()]);
 
     try {
-      this.config = configLoader.getConfig();
+      this.config = arg?.config || configLoader.getConfig();
 
       const clientConfig = {
         baseUrl: new URL('/api/v2/', this.config.baseUrl).toString(),
@@ -36,7 +36,7 @@ export class Gatana2 {
       // Add verbose request/response logging via debug
       const debugHttp = createDebug('gatana:http');
       client.interceptors.request.use(request => {
-        debugHttp(`→ ${request.method} ${request.url}`);
+        debugHttp(`→ ${request.method} ${request.url}`, { body: request.body });
         return request;
       });
       client.interceptors.response.use((response, request) => {
@@ -48,7 +48,7 @@ export class Gatana2 {
         return error;
       });
 
-      debug('Gatana initialized with config', clientConfig);
+      debug('Gatana v2 initialized with config', clientConfig);
     } catch (error: any) {
       debug('Failed to initialize', error);
       if (arg?.isCli && error.message === 'No valid configuration found from any strategy') {

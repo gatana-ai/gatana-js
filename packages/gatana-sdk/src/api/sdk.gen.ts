@@ -2,992 +2,2009 @@
 
 import { client } from './client.gen.js';
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client/index.js';
-import type { DeleteMcpServersByServerSlugCredentialsByCredentialsIdData, DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses, DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData, DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, DeleteMcpServersByServerSlugCredentialsServerData, DeleteMcpServersByServerSlugCredentialsServerResponses, DeleteMcpServersByServerSlugCredentialsUserData, DeleteMcpServersByServerSlugCredentialsUserResponses, DeleteMcpServersByServerSlugData, DeleteMcpServersByServerSlugFilesByFileIdData, DeleteMcpServersByServerSlugFilesByFileIdResponses, DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdData, DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, DeleteMcpServersByServerSlugResponses, DeleteProfilesByProfileIdClaimMappingsByMappingIdData, DeleteProfilesByProfileIdClaimMappingsByMappingIdResponses, DeleteProfilesByProfileIdData, DeleteProfilesByProfileIdResponses, DeleteSandboxesBySandboxIdData, DeleteSandboxesBySandboxIdResponses, DeleteScimConfigTokensByTokenIdData, DeleteScimConfigTokensByTokenIdResponses, DeleteSecretStoresByIdData, DeleteSecretStoresByIdResponses, DeleteSecretStoresByStoreIdMappingsByMappingNameData, DeleteSecretStoresByStoreIdMappingsByMappingNameResponses, DeleteTeamsByTeamIdClaimMappingsByMappingIdData, DeleteTeamsByTeamIdClaimMappingsByMappingIdResponses, DeleteTeamsByTeamIdData, DeleteTeamsByTeamIdInvitationsByInvitationIdData, DeleteTeamsByTeamIdInvitationsByInvitationIdResponses, DeleteTeamsByTeamIdMembersByUserIdData, DeleteTeamsByTeamIdMembersByUserIdResponses, DeleteTeamsByTeamIdResponses, DeleteUsersByUserIdData, DeleteUsersByUserIdPersonalAccessTokensByPatIdData, DeleteUsersByUserIdPersonalAccessTokensByPatIdResponses, DeleteUsersByUserIdProfilesByProfileIdData, DeleteUsersByUserIdProfilesByProfileIdResponses, DeleteUsersByUserIdResponses, GetAuditLogsByIdData, GetAuditLogsByIdResponses, GetAuditLogsData, GetAuditLogsResponses, GetAuthMeData, GetAuthMeResponses, GetDeploymentsDeploymentLogsData, GetDeploymentsDeploymentLogsResponse, GetDeploymentsDeploymentLogsResponses, GetDeploymentsLogsData, GetDeploymentsLogsResponses, GetDeploymentsMetricsData, GetDeploymentsMetricsResponses, GetDeploymentsStatusData, GetDeploymentsStatusResponses, GetMcpServersAccessPreviewData, GetMcpServersAccessPreviewResponses, GetMcpServersByServerSlugCredentialsAuthorizeUrlData, GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses, GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData, GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysResponses, GetMcpServersByServerSlugCredentialsProfileData, GetMcpServersByServerSlugCredentialsProfileResponses, GetMcpServersByServerSlugCredentialsServerApikeysData, GetMcpServersByServerSlugCredentialsServerApikeysResponses, GetMcpServersByServerSlugCredentialsServerData, GetMcpServersByServerSlugCredentialsServerResponses, GetMcpServersByServerSlugCredentialsTokenData, GetMcpServersByServerSlugCredentialsTokenResponses, GetMcpServersByServerSlugCredentialsUserApikeysData, GetMcpServersByServerSlugCredentialsUserApikeysResponses, GetMcpServersByServerSlugCredentialsUserData, GetMcpServersByServerSlugCredentialsUserResponses, GetMcpServersByServerSlugData, GetMcpServersByServerSlugFilesByFileIdData, GetMcpServersByServerSlugFilesByFileIdResponses, GetMcpServersByServerSlugFilesData, GetMcpServersByServerSlugFilesResponses, GetMcpServersByServerSlugMembersData, GetMcpServersByServerSlugMembersResponses, GetMcpServersByServerSlugOauthDiscoverData, GetMcpServersByServerSlugOauthDiscoverResponses, GetMcpServersByServerSlugResponses, GetMcpServersByServerSlugRunningStatusData, GetMcpServersByServerSlugRunningStatusResponses, GetMcpServersByServerSlugSourceCodeData, GetMcpServersByServerSlugSourceCodeResponses, GetMcpServersByServerSlugToolsByToolNameData, GetMcpServersByServerSlugToolsByToolNameResponses, GetMcpServersByServerSlugToolsData, GetMcpServersByServerSlugToolsResponses, GetMcpServersData, GetMcpServersResponses, GetProfilesByProfileIdClaimMappingsData, GetProfilesByProfileIdClaimMappingsResponses, GetProfilesByProfileIdData, GetProfilesByProfileIdDirectAssignmentsData, GetProfilesByProfileIdDirectAssignmentsResponses, GetProfilesByProfileIdResponses, GetProfilesByProfileIdToolsData, GetProfilesByProfileIdToolsResponses, GetProfilesData, GetProfilesResponses, GetSandboxesBySandboxIdAuditLogsByIdData, GetSandboxesBySandboxIdAuditLogsByIdResponses, GetSandboxesBySandboxIdAuditLogsData, GetSandboxesBySandboxIdAuditLogsResponses, GetSandboxesBySandboxIdData, GetSandboxesBySandboxIdResponses, GetSandboxesData, GetSandboxesResponses, GetScimConfigTokensByTokenIdSecretData, GetScimConfigTokensByTokenIdSecretResponses, GetScimConfigTokensData, GetScimConfigTokensResponses, GetSecretStoresByIdData, GetSecretStoresByIdResponses, GetSecretStoresByStoreIdMappingsData, GetSecretStoresByStoreIdMappingsResponses, GetSecretStoresData, GetSecretStoresResponses, GetTeamsByTeamIdClaimMappingsData, GetTeamsByTeamIdClaimMappingsResponses, GetTeamsByTeamIdData, GetTeamsByTeamIdInvitationsData, GetTeamsByTeamIdInvitationsResponses, GetTeamsByTeamIdMembersData, GetTeamsByTeamIdMembersResponses, GetTeamsByTeamIdResponses, GetTeamsByTeamIdServersData, GetTeamsByTeamIdServersResponses, GetTeamsData, GetTeamsResponses, GetTenantsByTenantIdData, GetTenantsByTenantIdResponses, GetTenantsByTenantIdSubscriptionData, GetTenantsByTenantIdSubscriptionResponses, GetToolsData, GetToolsResponses, GetUsersByUserIdData, GetUsersByUserIdPersonalAccessTokensData, GetUsersByUserIdPersonalAccessTokensResponses, GetUsersByUserIdProfilesData, GetUsersByUserIdProfilesResponses, GetUsersByUserIdResponses, GetUsersData, GetUsersMeData, GetUsersMeResponses, GetUsersResponses, PatchSecretStoresByIdData, PatchSecretStoresByIdResponses, PatchSecretStoresByStoreIdMappingsByMappingNameData, PatchSecretStoresByStoreIdMappingsByMappingNameResponses, PatchUsersByUserIdPersonalAccessTokensByPatIdData, PatchUsersByUserIdPersonalAccessTokensByPatIdResponses, PatchUsersByUserIdProfilesByProfileIdData, PatchUsersByUserIdProfilesByProfileIdResponses, PostEmailVerificationSendCodeData, PostEmailVerificationSendCodeResponses, PostMcpServersByServerSlugCredentialsCopyData, PostMcpServersByServerSlugCredentialsCopyResponses, PostMcpServersByServerSlugFilesData, PostMcpServersByServerSlugFilesResponses, PostMcpServersByServerSlugStartData, PostMcpServersByServerSlugStartResponses, PostMcpServersByServerSlugStopData, PostMcpServersByServerSlugStopResponses, PostMcpServersByServerSlugToolsByToolNameCallData, PostMcpServersByServerSlugToolsByToolNameCallResponses, PostMcpServersData, PostMcpServersResponses, PostProfilesByProfileIdClaimMappingsData, PostProfilesByProfileIdClaimMappingsResponses, PostProfilesData, PostProfilesResponses, PostSandboxesBySandboxIdExecData, PostSandboxesBySandboxIdExecResponses, PostSandboxesBySandboxIdReadFileData, PostSandboxesBySandboxIdReadFileResponses, PostSandboxesBySandboxIdSshSessionData, PostSandboxesBySandboxIdSshSessionResponses, PostSandboxesBySandboxIdWriteFileData, PostSandboxesBySandboxIdWriteFileResponses, PostSandboxesData, PostSandboxesResponses, PostScimConfigTokensData, PostScimConfigTokensResponses, PostSecretStoresByStoreIdMappingsData, PostSecretStoresByStoreIdMappingsResponses, PostSecretStoresByStoreIdTestData, PostSecretStoresByStoreIdTestResponses, PostSecretStoresData, PostSecretStoresResponses, PostTeamsByTeamIdClaimMappingsData, PostTeamsByTeamIdClaimMappingsResponses, PostTeamsByTeamIdInvitationsData, PostTeamsByTeamIdInvitationsResponses, PostTeamsByTeamIdMembersData, PostTeamsByTeamIdMembersResponses, PostTeamsData, PostTeamsResponses, PostToolsRefreshData, PostToolsRefreshResponses, PostUsersByUserIdPersonalAccessTokensData, PostUsersByUserIdPersonalAccessTokensResponses, PostUsersByUserIdProfilesData, PostUsersByUserIdProfilesResponses, PostUsersData, PostUsersMeRequestEmailVerificationData, PostUsersMeRequestEmailVerificationResponses, PostUsersResponses, PutMcpServersByServerSlugAllToolsIsEnabledData, PutMcpServersByServerSlugAllToolsIsEnabledResponses, PutMcpServersByServerSlugCredentialsProfilesByProfileIdData, PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, PutMcpServersByServerSlugCredentialsServerData, PutMcpServersByServerSlugCredentialsServerResponses, PutMcpServersByServerSlugCredentialsUserData, PutMcpServersByServerSlugCredentialsUserResponses, PutMcpServersByServerSlugData, PutMcpServersByServerSlugFilesByFileIdData, PutMcpServersByServerSlugFilesByFileIdNameData, PutMcpServersByServerSlugFilesByFileIdNameResponses, PutMcpServersByServerSlugFilesByFileIdResponses, PutMcpServersByServerSlugIsEnabledData, PutMcpServersByServerSlugIsEnabledResponses, PutMcpServersByServerSlugMembersByMemberTypeByMemberIdData, PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, PutMcpServersByServerSlugResponses, PutMcpServersByServerSlugSourceCodeData, PutMcpServersByServerSlugSourceCodeResponses, PutMcpServersByServerSlugToolsByToolNameIsEnabledData, PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses, PutProfilesByProfileIdData, PutProfilesByProfileIdResponses, PutProfilesByProfileIdServersByServerSlugToolsData, PutProfilesByProfileIdServersByServerSlugToolsResponses, PutTeamsByTeamIdData, PutTeamsByTeamIdMembersByUserIdData, PutTeamsByTeamIdMembersByUserIdResponses, PutTeamsByTeamIdResponses, PutUsersByUserIdData, PutUsersByUserIdResponses, PutUsersMeData, PutUsersMeResponses } from './types.gen.js';
+import type {
+  DeleteMcpServersByServerSlugCredentialsByCredentialsIdData,
+  DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses,
+  DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData,
+  DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses,
+  DeleteMcpServersByServerSlugCredentialsServerData,
+  DeleteMcpServersByServerSlugCredentialsServerResponses,
+  DeleteMcpServersByServerSlugCredentialsUserData,
+  DeleteMcpServersByServerSlugCredentialsUserResponses,
+  DeleteMcpServersByServerSlugData,
+  DeleteMcpServersByServerSlugFilesByFileIdData,
+  DeleteMcpServersByServerSlugFilesByFileIdResponses,
+  DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdData,
+  DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses,
+  DeleteMcpServersByServerSlugResponses,
+  DeleteProfilesByProfileIdClaimMappingsByMappingIdData,
+  DeleteProfilesByProfileIdClaimMappingsByMappingIdResponses,
+  DeleteProfilesByProfileIdData,
+  DeleteProfilesByProfileIdResponses,
+  DeleteSandboxesBySandboxIdData,
+  DeleteSandboxesBySandboxIdResponses,
+  DeleteScimConfigTokensByTokenIdData,
+  DeleteScimConfigTokensByTokenIdResponses,
+  DeleteSecretStoresByIdData,
+  DeleteSecretStoresByIdResponses,
+  DeleteSecretStoresByStoreIdMappingsByMappingNameData,
+  DeleteSecretStoresByStoreIdMappingsByMappingNameResponses,
+  DeleteTeamsByTeamIdClaimMappingsByMappingIdData,
+  DeleteTeamsByTeamIdClaimMappingsByMappingIdResponses,
+  DeleteTeamsByTeamIdData,
+  DeleteTeamsByTeamIdInvitationsByInvitationIdData,
+  DeleteTeamsByTeamIdInvitationsByInvitationIdResponses,
+  DeleteTeamsByTeamIdMembersByUserIdData,
+  DeleteTeamsByTeamIdMembersByUserIdResponses,
+  DeleteTeamsByTeamIdResponses,
+  DeleteUsersByUserIdData,
+  DeleteUsersByUserIdPersonalAccessTokensByPatIdData,
+  DeleteUsersByUserIdPersonalAccessTokensByPatIdResponses,
+  DeleteUsersByUserIdProfilesByProfileIdData,
+  DeleteUsersByUserIdProfilesByProfileIdResponses,
+  DeleteUsersByUserIdResponses,
+  GetAuditLogsByIdData,
+  GetAuditLogsByIdResponses,
+  GetAuditLogsData,
+  GetAuditLogsResponses,
+  GetAuthMeData,
+  GetAuthMeResponses,
+  GetDeploymentsDeploymentLogsData,
+  GetDeploymentsDeploymentLogsResponse,
+  GetDeploymentsDeploymentLogsResponses,
+  GetDeploymentsLogsData,
+  GetDeploymentsLogsResponses,
+  GetDeploymentsMetricsData,
+  GetDeploymentsMetricsResponses,
+  GetDeploymentsStatusData,
+  GetDeploymentsStatusResponses,
+  GetMcpServersAccessPreviewData,
+  GetMcpServersAccessPreviewResponses,
+  GetMcpServersByServerSlugCredentialsAuthorizeUrlData,
+  GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses,
+  GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData,
+  GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysResponses,
+  GetMcpServersByServerSlugCredentialsProfileData,
+  GetMcpServersByServerSlugCredentialsProfileResponses,
+  GetMcpServersByServerSlugCredentialsServerApikeysData,
+  GetMcpServersByServerSlugCredentialsServerApikeysResponses,
+  GetMcpServersByServerSlugCredentialsServerData,
+  GetMcpServersByServerSlugCredentialsServerResponses,
+  GetMcpServersByServerSlugCredentialsTokenData,
+  GetMcpServersByServerSlugCredentialsTokenResponses,
+  GetMcpServersByServerSlugCredentialsUserApikeysData,
+  GetMcpServersByServerSlugCredentialsUserApikeysResponses,
+  GetMcpServersByServerSlugCredentialsUserData,
+  GetMcpServersByServerSlugCredentialsUserResponses,
+  GetMcpServersByServerSlugData,
+  GetMcpServersByServerSlugFilesByFileIdData,
+  GetMcpServersByServerSlugFilesByFileIdResponses,
+  GetMcpServersByServerSlugFilesData,
+  GetMcpServersByServerSlugFilesResponses,
+  GetMcpServersByServerSlugMembersData,
+  GetMcpServersByServerSlugMembersResponses,
+  GetMcpServersByServerSlugOauthDiscoverData,
+  GetMcpServersByServerSlugOauthDiscoverResponses,
+  GetMcpServersByServerSlugResponses,
+  GetMcpServersByServerSlugRunningStatusData,
+  GetMcpServersByServerSlugRunningStatusResponses,
+  GetMcpServersByServerSlugSourceCodeData,
+  GetMcpServersByServerSlugSourceCodeResponses,
+  GetMcpServersByServerSlugToolsByToolNameData,
+  GetMcpServersByServerSlugToolsByToolNameResponses,
+  GetMcpServersByServerSlugToolsData,
+  GetMcpServersByServerSlugToolsResponses,
+  GetMcpServersData,
+  GetMcpServersResponses,
+  GetProfilesByProfileIdClaimMappingsData,
+  GetProfilesByProfileIdClaimMappingsResponses,
+  GetProfilesByProfileIdData,
+  GetProfilesByProfileIdDirectAssignmentsData,
+  GetProfilesByProfileIdDirectAssignmentsResponses,
+  GetProfilesByProfileIdResponses,
+  GetProfilesByProfileIdToolsData,
+  GetProfilesByProfileIdToolsResponses,
+  GetProfilesData,
+  GetProfilesResponses,
+  GetSandboxesBySandboxIdAuditLogsByIdData,
+  GetSandboxesBySandboxIdAuditLogsByIdResponses,
+  GetSandboxesBySandboxIdAuditLogsData,
+  GetSandboxesBySandboxIdAuditLogsResponses,
+  GetSandboxesBySandboxIdData,
+  GetSandboxesBySandboxIdResponses,
+  GetSandboxesData,
+  GetSandboxesResponses,
+  GetScimConfigTokensByTokenIdSecretData,
+  GetScimConfigTokensByTokenIdSecretResponses,
+  GetScimConfigTokensData,
+  GetScimConfigTokensResponses,
+  GetSecretStoresByIdData,
+  GetSecretStoresByIdResponses,
+  GetSecretStoresByStoreIdMappingsData,
+  GetSecretStoresByStoreIdMappingsResponses,
+  GetSecretStoresData,
+  GetSecretStoresResponses,
+  GetTeamsByTeamIdClaimMappingsData,
+  GetTeamsByTeamIdClaimMappingsResponses,
+  GetTeamsByTeamIdData,
+  GetTeamsByTeamIdInvitationsData,
+  GetTeamsByTeamIdInvitationsResponses,
+  GetTeamsByTeamIdMembersData,
+  GetTeamsByTeamIdMembersResponses,
+  GetTeamsByTeamIdResponses,
+  GetTeamsByTeamIdServersData,
+  GetTeamsByTeamIdServersResponses,
+  GetTeamsData,
+  GetTeamsResponses,
+  GetTenantsByTenantIdData,
+  GetTenantsByTenantIdResponses,
+  GetTenantsByTenantIdSubscriptionData,
+  GetTenantsByTenantIdSubscriptionResponses,
+  GetToolsData,
+  GetToolsResponses,
+  GetUsersByUserIdData,
+  GetUsersByUserIdPersonalAccessTokensData,
+  GetUsersByUserIdPersonalAccessTokensResponses,
+  GetUsersByUserIdProfilesData,
+  GetUsersByUserIdProfilesResponses,
+  GetUsersByUserIdResponses,
+  GetUsersData,
+  GetUsersMeData,
+  GetUsersMeResponses,
+  GetUsersResponses,
+  PatchSecretStoresByIdData,
+  PatchSecretStoresByIdResponses,
+  PatchSecretStoresByStoreIdMappingsByMappingNameData,
+  PatchSecretStoresByStoreIdMappingsByMappingNameResponses,
+  PatchUsersByUserIdPersonalAccessTokensByPatIdData,
+  PatchUsersByUserIdPersonalAccessTokensByPatIdResponses,
+  PatchUsersByUserIdProfilesByProfileIdData,
+  PatchUsersByUserIdProfilesByProfileIdResponses,
+  PostEmailVerificationSendCodeData,
+  PostEmailVerificationSendCodeResponses,
+  PostInstallPredefinedByIdData,
+  PostInstallPredefinedByIdResponses,
+  PostMcpServersByServerSlugCredentialsCopyData,
+  PostMcpServersByServerSlugCredentialsCopyResponses,
+  PostMcpServersByServerSlugFilesData,
+  PostMcpServersByServerSlugFilesResponses,
+  PostMcpServersByServerSlugOpenapiTestData,
+  PostMcpServersByServerSlugOpenapiTestResponses,
+  PostMcpServersByServerSlugStartData,
+  PostMcpServersByServerSlugStartResponses,
+  PostMcpServersByServerSlugStopData,
+  PostMcpServersByServerSlugStopResponses,
+  PostMcpServersByServerSlugToolsByToolNameCallData,
+  PostMcpServersByServerSlugToolsByToolNameCallResponses,
+  PostMcpServersData,
+  PostMcpServersResponses,
+  PostProfilesByProfileIdClaimMappingsData,
+  PostProfilesByProfileIdClaimMappingsResponses,
+  PostProfilesData,
+  PostProfilesResponses,
+  PostSandboxesBySandboxIdExecData,
+  PostSandboxesBySandboxIdExecResponses,
+  PostSandboxesBySandboxIdReadFileData,
+  PostSandboxesBySandboxIdReadFileResponses,
+  PostSandboxesBySandboxIdSshSessionData,
+  PostSandboxesBySandboxIdSshSessionResponses,
+  PostSandboxesBySandboxIdWriteFileData,
+  PostSandboxesBySandboxIdWriteFileResponses,
+  PostSandboxesData,
+  PostSandboxesResponses,
+  PostScimConfigTokensData,
+  PostScimConfigTokensResponses,
+  PostSecretStoresByStoreIdMappingsData,
+  PostSecretStoresByStoreIdMappingsResponses,
+  PostSecretStoresByStoreIdTestData,
+  PostSecretStoresByStoreIdTestResponses,
+  PostSecretStoresData,
+  PostSecretStoresResponses,
+  PostTeamsByTeamIdClaimMappingsData,
+  PostTeamsByTeamIdClaimMappingsResponses,
+  PostTeamsByTeamIdInvitationsData,
+  PostTeamsByTeamIdInvitationsResponses,
+  PostTeamsByTeamIdMembersData,
+  PostTeamsByTeamIdMembersResponses,
+  PostTeamsData,
+  PostTeamsResponses,
+  PostToolsRefreshData,
+  PostToolsRefreshResponses,
+  PostUsersByUserIdPersonalAccessTokensData,
+  PostUsersByUserIdPersonalAccessTokensResponses,
+  PostUsersByUserIdProfilesData,
+  PostUsersByUserIdProfilesResponses,
+  PostUsersData,
+  PostUsersMeRequestEmailVerificationData,
+  PostUsersMeRequestEmailVerificationResponses,
+  PostUsersResponses,
+  PutMcpServersByServerSlugAllToolsIsEnabledData,
+  PutMcpServersByServerSlugAllToolsIsEnabledResponses,
+  PutMcpServersByServerSlugCredentialsProfilesByProfileIdData,
+  PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponses,
+  PutMcpServersByServerSlugCredentialsServerData,
+  PutMcpServersByServerSlugCredentialsServerResponses,
+  PutMcpServersByServerSlugCredentialsUserData,
+  PutMcpServersByServerSlugCredentialsUserResponses,
+  PutMcpServersByServerSlugData,
+  PutMcpServersByServerSlugFilesByFileIdData,
+  PutMcpServersByServerSlugFilesByFileIdNameData,
+  PutMcpServersByServerSlugFilesByFileIdNameResponses,
+  PutMcpServersByServerSlugFilesByFileIdResponses,
+  PutMcpServersByServerSlugIsEnabledData,
+  PutMcpServersByServerSlugIsEnabledResponses,
+  PutMcpServersByServerSlugMembersByMemberTypeByMemberIdData,
+  PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses,
+  PutMcpServersByServerSlugResponses,
+  PutMcpServersByServerSlugSourceCodeData,
+  PutMcpServersByServerSlugSourceCodeResponses,
+  PutMcpServersByServerSlugToolsByToolNameIsEnabledData,
+  PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses,
+  PutProfilesByProfileIdData,
+  PutProfilesByProfileIdResponses,
+  PutProfilesByProfileIdServersByServerSlugToolsData,
+  PutProfilesByProfileIdServersByServerSlugToolsResponses,
+  PutTeamsByTeamIdData,
+  PutTeamsByTeamIdMembersByUserIdData,
+  PutTeamsByTeamIdMembersByUserIdResponses,
+  PutTeamsByTeamIdResponses,
+  PutUsersByUserIdData,
+  PutUsersByUserIdResponses,
+  PutUsersMeData,
+  PutUsersMeResponses,
+} from './types.gen.js';
 
-export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: Record<string, unknown>;
+export type Options<
+  TData extends TDataShape = TDataShape,
+  ThrowOnError extends boolean = boolean,
+  TResponse = unknown,
+> = Options2<TData, ThrowOnError, TResponse> & {
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: Record<string, unknown>;
 };
 
 /**
  * Get metadata about the authenticated user
  */
-export const getAuthMe = <ThrowOnError extends boolean = true>(options?: Options<GetAuthMeData, ThrowOnError>) => (options?.client ?? client).get<GetAuthMeResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getAuthMe = <ThrowOnError extends boolean = true>(options?: Options<GetAuthMeData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetAuthMeResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/auth/me',
-    ...options
-});
+    ...options,
+  });
 
-export const getAuditLogsById = <ThrowOnError extends boolean = true>(options: Options<GetAuditLogsByIdData, ThrowOnError>) => (options.client ?? client).get<GetAuditLogsByIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getAuditLogsById = <ThrowOnError extends boolean = true>(
+  options: Options<GetAuditLogsByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetAuditLogsByIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/audit-logs/{id}',
-    ...options
-});
+    ...options,
+  });
 
-export const getAuditLogs = <ThrowOnError extends boolean = true>(options?: Options<GetAuditLogsData, ThrowOnError>) => (options?.client ?? client).get<GetAuditLogsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getAuditLogs = <ThrowOnError extends boolean = true>(options?: Options<GetAuditLogsData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetAuditLogsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/audit-logs',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Get current the current authenticated user
  */
-export const getUsersMe = <ThrowOnError extends boolean = true>(options?: Options<GetUsersMeData, ThrowOnError>) => (options?.client ?? client).get<GetUsersMeResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getUsersMe = <ThrowOnError extends boolean = true>(options?: Options<GetUsersMeData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetUsersMeResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/me',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Update the current authenticated user
  */
-export const putUsersMe = <ThrowOnError extends boolean = true>(options?: Options<PutUsersMeData, ThrowOnError>) => (options?.client ?? client).put<PutUsersMeResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putUsersMe = <ThrowOnError extends boolean = true>(options?: Options<PutUsersMeData, ThrowOnError>) =>
+  (options?.client ?? client).put<PutUsersMeResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/me',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
 /**
  * Send a verification code to a new email address before changing it
  */
-export const postUsersMeRequestEmailVerification = <ThrowOnError extends boolean = true>(options?: Options<PostUsersMeRequestEmailVerificationData, ThrowOnError>) => (options?.client ?? client).post<PostUsersMeRequestEmailVerificationResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postUsersMeRequestEmailVerification = <ThrowOnError extends boolean = true>(
+  options?: Options<PostUsersMeRequestEmailVerificationData, ThrowOnError>
+) =>
+  (options?.client ?? client).post<PostUsersMeRequestEmailVerificationResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/me/request-email-verification',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
-export const getUsers = <ThrowOnError extends boolean = true>(options?: Options<GetUsersData, ThrowOnError>) => (options?.client ?? client).get<GetUsersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/users',
-    ...options
-});
-
-export const postUsers = <ThrowOnError extends boolean = true>(options?: Options<PostUsersData, ThrowOnError>) => (options?.client ?? client).post<PostUsersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getUsers = <ThrowOnError extends boolean = true>(options?: Options<GetUsersData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetUsersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users',
     ...options,
+  });
+
+export const postUsers = <ThrowOnError extends boolean = true>(options?: Options<PostUsersData, ThrowOnError>) =>
+  (options?.client ?? client).post<PostUsersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
+    url: '/users',
+    ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
-export const deleteUsersByUserId = <ThrowOnError extends boolean = true>(options: Options<DeleteUsersByUserIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteUsersByUserIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteUsersByUserId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteUsersByUserIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteUsersByUserIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}',
-    ...options
-});
+    ...options,
+  });
 
-export const getUsersByUserId = <ThrowOnError extends boolean = true>(options: Options<GetUsersByUserIdData, ThrowOnError>) => (options.client ?? client).get<GetUsersByUserIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getUsersByUserId = <ThrowOnError extends boolean = true>(
+  options: Options<GetUsersByUserIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetUsersByUserIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}',
-    ...options
-});
+    ...options,
+  });
 
-export const putUsersByUserId = <ThrowOnError extends boolean = true>(options: Options<PutUsersByUserIdData, ThrowOnError>) => (options.client ?? client).put<PutUsersByUserIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putUsersByUserId = <ThrowOnError extends boolean = true>(
+  options: Options<PutUsersByUserIdData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutUsersByUserIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getUsersByUserIdProfiles = <ThrowOnError extends boolean = true>(options: Options<GetUsersByUserIdProfilesData, ThrowOnError>) => (options.client ?? client).get<GetUsersByUserIdProfilesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getUsersByUserIdProfiles = <ThrowOnError extends boolean = true>(
+  options: Options<GetUsersByUserIdProfilesData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetUsersByUserIdProfilesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/profiles',
-    ...options
-});
+    ...options,
+  });
 
-export const postUsersByUserIdProfiles = <ThrowOnError extends boolean = true>(options: Options<PostUsersByUserIdProfilesData, ThrowOnError>) => (options.client ?? client).post<PostUsersByUserIdProfilesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postUsersByUserIdProfiles = <ThrowOnError extends boolean = true>(
+  options: Options<PostUsersByUserIdProfilesData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostUsersByUserIdProfilesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/profiles',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteUsersByUserIdProfilesByProfileId = <ThrowOnError extends boolean = true>(options: Options<DeleteUsersByUserIdProfilesByProfileIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteUsersByUserIdProfilesByProfileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteUsersByUserIdProfilesByProfileId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteUsersByUserIdProfilesByProfileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteUsersByUserIdProfilesByProfileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/profiles/{profileId}',
-    ...options
-});
+    ...options,
+  });
 
-export const patchUsersByUserIdProfilesByProfileId = <ThrowOnError extends boolean = true>(options: Options<PatchUsersByUserIdProfilesByProfileIdData, ThrowOnError>) => (options.client ?? client).patch<PatchUsersByUserIdProfilesByProfileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const patchUsersByUserIdProfilesByProfileId = <ThrowOnError extends boolean = true>(
+  options: Options<PatchUsersByUserIdProfilesByProfileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<PatchUsersByUserIdProfilesByProfileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/profiles/{profileId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getUsersByUserIdPersonalAccessTokens = <ThrowOnError extends boolean = true>(options: Options<GetUsersByUserIdPersonalAccessTokensData, ThrowOnError>) => (options.client ?? client).get<GetUsersByUserIdPersonalAccessTokensResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getUsersByUserIdPersonalAccessTokens = <ThrowOnError extends boolean = true>(
+  options: Options<GetUsersByUserIdPersonalAccessTokensData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetUsersByUserIdPersonalAccessTokensResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/personal-access-tokens',
-    ...options
-});
+    ...options,
+  });
 
-export const postUsersByUserIdPersonalAccessTokens = <ThrowOnError extends boolean = true>(options: Options<PostUsersByUserIdPersonalAccessTokensData, ThrowOnError>) => (options.client ?? client).post<PostUsersByUserIdPersonalAccessTokensResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postUsersByUserIdPersonalAccessTokens = <ThrowOnError extends boolean = true>(
+  options: Options<PostUsersByUserIdPersonalAccessTokensData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostUsersByUserIdPersonalAccessTokensResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/personal-access-tokens',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteUsersByUserIdPersonalAccessTokensByPatId = <ThrowOnError extends boolean = true>(options: Options<DeleteUsersByUserIdPersonalAccessTokensByPatIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteUsersByUserIdPersonalAccessTokensByPatIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteUsersByUserIdPersonalAccessTokensByPatId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteUsersByUserIdPersonalAccessTokensByPatIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteUsersByUserIdPersonalAccessTokensByPatIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/personal-access-tokens/{patId}',
-    ...options
-});
+    ...options,
+  });
 
-export const patchUsersByUserIdPersonalAccessTokensByPatId = <ThrowOnError extends boolean = true>(options: Options<PatchUsersByUserIdPersonalAccessTokensByPatIdData, ThrowOnError>) => (options.client ?? client).patch<PatchUsersByUserIdPersonalAccessTokensByPatIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const patchUsersByUserIdPersonalAccessTokensByPatId = <ThrowOnError extends boolean = true>(
+  options: Options<PatchUsersByUserIdPersonalAccessTokensByPatIdData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<PatchUsersByUserIdPersonalAccessTokensByPatIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/users/{userId}/personal-access-tokens/{patId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
 /**
  * Preview which servers a specific user or team can access.
  */
-export const getMcpServersAccessPreview = <ThrowOnError extends boolean = true>(options?: Options<GetMcpServersAccessPreviewData, ThrowOnError>) => (options?.client ?? client).get<GetMcpServersAccessPreviewResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersAccessPreview = <ThrowOnError extends boolean = true>(
+  options?: Options<GetMcpServersAccessPreviewData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<GetMcpServersAccessPreviewResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/access-preview',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServers = <ThrowOnError extends boolean = true>(options?: Options<GetMcpServersData, ThrowOnError>) => (options?.client ?? client).get<GetMcpServersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServers = <ThrowOnError extends boolean = true>(
+  options?: Options<GetMcpServersData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<GetMcpServersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers',
-    ...options
-});
+    ...options,
+  });
 
-export const postMcpServers = <ThrowOnError extends boolean = true>(options?: Options<PostMcpServersData, ThrowOnError>) => (options?.client ?? client).post<PostMcpServersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postMcpServers = <ThrowOnError extends boolean = true>(
+  options?: Options<PostMcpServersData, ThrowOnError>
+) =>
+  (options?.client ?? client).post<PostMcpServersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
-export const deleteMcpServersByServerSlug = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteMcpServersByServerSlug = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteMcpServersByServerSlugData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteMcpServersByServerSlugResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlug = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlug = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlug = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlug = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getMcpServersByServerSlugRunningStatus = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugRunningStatusData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugRunningStatusResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugRunningStatus = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugRunningStatusData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugRunningStatusResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/running-status',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Starts a stopped MCP server. Only usable if the server has transport type "stdio" or "local".
  */
-export const postMcpServersByServerSlugStart = <ThrowOnError extends boolean = true>(options: Options<PostMcpServersByServerSlugStartData, ThrowOnError>) => (options.client ?? client).post<PostMcpServersByServerSlugStartResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postMcpServersByServerSlugStart = <ThrowOnError extends boolean = true>(
+  options: Options<PostMcpServersByServerSlugStartData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostMcpServersByServerSlugStartResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/start',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Stops a running MCP server. Only usable if the server has transport type "stdio" or "local".
  */
-export const postMcpServersByServerSlugStop = <ThrowOnError extends boolean = true>(options: Options<PostMcpServersByServerSlugStopData, ThrowOnError>) => (options.client ?? client).post<PostMcpServersByServerSlugStopResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postMcpServersByServerSlugStop = <ThrowOnError extends boolean = true>(
+  options: Options<PostMcpServersByServerSlugStopData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostMcpServersByServerSlugStopResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/stop',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugIsEnabled = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugIsEnabledData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugIsEnabledResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugIsEnabled = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugIsEnabledData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugIsEnabledResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/isEnabled',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
 /**
  * Discover OAuth metadata from the given URL or from the remote MCP server URL.
  */
-export const getMcpServersByServerSlugOauthDiscover = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugOauthDiscoverData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugOauthDiscoverResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugOauthDiscover = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugOauthDiscoverData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugOauthDiscoverResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/oauth/discover',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugTools = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugToolsData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugToolsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+/**
+ * Fetch a remote OpenAPI/Swagger specification from the given URL and validate that it is a valid spec.
+ */
+export const postMcpServersByServerSlugOpenapiTest = <ThrowOnError extends boolean = true>(
+  options: Options<PostMcpServersByServerSlugOpenapiTestData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostMcpServersByServerSlugOpenapiTestResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
+    url: '/mcp-servers/{serverSlug}/openapi/test',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+export const getMcpServersByServerSlugTools = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugToolsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugToolsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/tools',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugToolsByToolName = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugToolsByToolNameData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugToolsByToolNameResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugToolsByToolName = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugToolsByToolNameData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugToolsByToolNameResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/tools/{toolName}',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugAllToolsIsEnabled = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugAllToolsIsEnabledData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugAllToolsIsEnabledResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugAllToolsIsEnabled = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugAllToolsIsEnabledData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugAllToolsIsEnabledResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/all-tools-isEnabled',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const putMcpServersByServerSlugToolsByToolNameIsEnabled = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugToolsByToolNameIsEnabledData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugToolsByToolNameIsEnabled = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugToolsByToolNameIsEnabledData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugToolsByToolNameIsEnabledResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/tools/{toolName}/isEnabled',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const postMcpServersByServerSlugToolsByToolNameCall = <ThrowOnError extends boolean = true>(options: Options<PostMcpServersByServerSlugToolsByToolNameCallData, ThrowOnError>) => (options.client ?? client).post<PostMcpServersByServerSlugToolsByToolNameCallResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postMcpServersByServerSlugToolsByToolNameCall = <ThrowOnError extends boolean = true>(
+  options: Options<PostMcpServersByServerSlugToolsByToolNameCallData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostMcpServersByServerSlugToolsByToolNameCallResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/tools/{toolName}/call',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getTools = <ThrowOnError extends boolean = true>(options?: Options<GetToolsData, ThrowOnError>) => (options?.client ?? client).get<GetToolsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTools = <ThrowOnError extends boolean = true>(options?: Options<GetToolsData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetToolsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/tools',
-    ...options
-});
+    ...options,
+  });
 
-export const postToolsRefresh = <ThrowOnError extends boolean = true>(options?: Options<PostToolsRefreshData, ThrowOnError>) => (options?.client ?? client).post<PostToolsRefreshResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postToolsRefresh = <ThrowOnError extends boolean = true>(
+  options?: Options<PostToolsRefreshData, ThrowOnError>
+) =>
+  (options?.client ?? client).post<PostToolsRefreshResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/tools/refresh',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugMembers = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugMembersData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugMembersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugMembers = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugMembersData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugMembersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/members/',
-    ...options
-});
+    ...options,
+  });
 
-export const deleteMcpServersByServerSlugMembersByMemberTypeByMemberId = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteMcpServersByServerSlugMembersByMemberTypeByMemberId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    DeleteMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/members/{memberType}/{memberId}',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugMembersByMemberTypeByMemberId = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugMembersByMemberTypeByMemberIdData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugMembersByMemberTypeByMemberId = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugMembersByMemberTypeByMemberIdData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    PutMcpServersByServerSlugMembersByMemberTypeByMemberIdResponses,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/members/{memberType}/{memberId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteMcpServersByServerSlugCredentialsUser = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugCredentialsUserData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugCredentialsUserResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteMcpServersByServerSlugCredentialsUser = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteMcpServersByServerSlugCredentialsUserData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteMcpServersByServerSlugCredentialsUserResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/user',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugCredentialsUser = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsUserData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsUserResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsUser = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsUserData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugCredentialsUserResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/user',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugCredentialsUser = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugCredentialsUserData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugCredentialsUserResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugCredentialsUser = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugCredentialsUserData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugCredentialsUserResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/user',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteMcpServersByServerSlugCredentialsServer = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugCredentialsServerData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugCredentialsServerResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteMcpServersByServerSlugCredentialsServer = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteMcpServersByServerSlugCredentialsServerData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteMcpServersByServerSlugCredentialsServerResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/server',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugCredentialsServer = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsServerData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsServerResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsServer = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsServerData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugCredentialsServerResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/server',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugCredentialsServer = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugCredentialsServerData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugCredentialsServerResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugCredentialsServer = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugCredentialsServerData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugCredentialsServerResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/server',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getMcpServersByServerSlugCredentialsProfile = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsProfileData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsProfileResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsProfile = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsProfileData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugCredentialsProfileResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/profile',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugCredentialsUserApikeys = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsUserApikeysData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsUserApikeysResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsUserApikeys = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsUserApikeysData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugCredentialsUserApikeysResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/user/apikeys',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugCredentialsServerApikeys = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsServerApikeysData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsServerApikeysResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsServerApikeys = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsServerApikeysData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugCredentialsServerApikeysResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/server/apikeys',
-    ...options
-});
+    ...options,
+  });
 
-export const getMcpServersByServerSlugCredentialsProfileByProfileIdApikeys = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsProfileByProfileIdApikeys = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    GetMcpServersByServerSlugCredentialsProfileByProfileIdApikeysResponses,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/profile/{profileId}/apikeys',
-    ...options
-});
+    ...options,
+  });
 
-export const deleteMcpServersByServerSlugCredentialsProfilesByProfileId = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteMcpServersByServerSlugCredentialsProfilesByProfileId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    DeleteMcpServersByServerSlugCredentialsProfilesByProfileIdResponses,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/profiles/{profileId}',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugCredentialsProfilesByProfileId = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugCredentialsProfilesByProfileIdData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugCredentialsProfilesByProfileId = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugCredentialsProfilesByProfileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    PutMcpServersByServerSlugCredentialsProfilesByProfileIdResponses,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/profiles/{profileId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
 /**
  * Copy credentials to the another scope
  */
-export const postMcpServersByServerSlugCredentialsCopy = <ThrowOnError extends boolean = true>(options: Options<PostMcpServersByServerSlugCredentialsCopyData, ThrowOnError>) => (options.client ?? client).post<PostMcpServersByServerSlugCredentialsCopyResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postMcpServersByServerSlugCredentialsCopy = <ThrowOnError extends boolean = true>(
+  options: Options<PostMcpServersByServerSlugCredentialsCopyData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostMcpServersByServerSlugCredentialsCopyResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/copy',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Get an out-of-band OAuth URL which can be opened in any browser on any device to provide authorization credentials for this request's authenticated user. The generated URL will not require user to sign-in to Gatana; instead it will directly start the OAuth authorization flow with the remote MCP server.
  */
-export const getMcpServersByServerSlugCredentialsAuthorizeUrl = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsAuthorizeUrlData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsAuthorizeUrl = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsAuthorizeUrlData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugCredentialsAuthorizeUrlResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/authorize-url',
-    ...options
-});
+    ...options,
+  });
 
-export const deleteMcpServersByServerSlugCredentialsByCredentialsId = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugCredentialsByCredentialsIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteMcpServersByServerSlugCredentialsByCredentialsId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteMcpServersByServerSlugCredentialsByCredentialsIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    DeleteMcpServersByServerSlugCredentialsByCredentialsIdResponses,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/{credentialsId}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Get the usable token for a credential. For API key credentials, returns the API keys. For OAuth credentials, returns the access token, refreshing it first if possible and necessary. When credentialsId is omitted, resolves the effective credentials for the current user.
  */
-export const getMcpServersByServerSlugCredentialsToken = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugCredentialsTokenData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugCredentialsTokenResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugCredentialsToken = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugCredentialsTokenData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugCredentialsTokenResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/credentials/token',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Download the source code of the MCP server as a zip file.
  */
-export const getMcpServersByServerSlugSourceCode = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugSourceCodeData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugSourceCodeResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugSourceCode = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugSourceCodeData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugSourceCodeResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/source-code',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Upload source code zip file to update the MCP server source code.
  */
-export const putMcpServersByServerSlugSourceCode = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugSourceCodeData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugSourceCodeResponses, unknown, ThrowOnError>({
+export const putMcpServersByServerSlugSourceCode = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugSourceCodeData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugSourceCodeResponses, unknown, ThrowOnError>({
     ...formDataBodySerializer,
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/source-code',
     ...options,
     headers: {
-        'Content-Type': null,
-        ...options.headers
-    }
-});
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
 
-export const getMcpServersByServerSlugFiles = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugFilesData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugFilesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugFiles = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugFilesData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugFilesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/files',
-    ...options
-});
+    ...options,
+  });
 
-export const postMcpServersByServerSlugFiles = <ThrowOnError extends boolean = true>(options: Options<PostMcpServersByServerSlugFilesData, ThrowOnError>) => (options.client ?? client).post<PostMcpServersByServerSlugFilesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postMcpServersByServerSlugFiles = <ThrowOnError extends boolean = true>(
+  options: Options<PostMcpServersByServerSlugFilesData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostMcpServersByServerSlugFilesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/files',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugFilesByFileIdName = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugFilesByFileIdNameData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugFilesByFileIdNameResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugFilesByFileIdName = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugFilesByFileIdNameData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugFilesByFileIdNameResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/files/{fileId}/name',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteMcpServersByServerSlugFilesByFileId = <ThrowOnError extends boolean = true>(options: Options<DeleteMcpServersByServerSlugFilesByFileIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteMcpServersByServerSlugFilesByFileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteMcpServersByServerSlugFilesByFileId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteMcpServersByServerSlugFilesByFileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteMcpServersByServerSlugFilesByFileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/files/{fileId}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Download a files content
  */
-export const getMcpServersByServerSlugFilesByFileId = <ThrowOnError extends boolean = true>(options: Options<GetMcpServersByServerSlugFilesByFileIdData, ThrowOnError>) => (options.client ?? client).get<GetMcpServersByServerSlugFilesByFileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getMcpServersByServerSlugFilesByFileId = <ThrowOnError extends boolean = true>(
+  options: Options<GetMcpServersByServerSlugFilesByFileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetMcpServersByServerSlugFilesByFileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/files/{fileId}',
-    ...options
-});
+    ...options,
+  });
 
-export const putMcpServersByServerSlugFilesByFileId = <ThrowOnError extends boolean = true>(options: Options<PutMcpServersByServerSlugFilesByFileIdData, ThrowOnError>) => (options.client ?? client).put<PutMcpServersByServerSlugFilesByFileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putMcpServersByServerSlugFilesByFileId = <ThrowOnError extends boolean = true>(
+  options: Options<PutMcpServersByServerSlugFilesByFileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutMcpServersByServerSlugFilesByFileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/mcp-servers/{serverSlug}/files/{fileId}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Get tenant details
  */
-export const getTenantsByTenantId = <ThrowOnError extends boolean = true>(options: Options<GetTenantsByTenantIdData, ThrowOnError>) => (options.client ?? client).get<GetTenantsByTenantIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTenantsByTenantId = <ThrowOnError extends boolean = true>(
+  options: Options<GetTenantsByTenantIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetTenantsByTenantIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/tenants/{tenantId}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Get tenant subscription details
  */
-export const getTenantsByTenantIdSubscription = <ThrowOnError extends boolean = true>(options: Options<GetTenantsByTenantIdSubscriptionData, ThrowOnError>) => (options.client ?? client).get<GetTenantsByTenantIdSubscriptionResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTenantsByTenantIdSubscription = <ThrowOnError extends boolean = true>(
+  options: Options<GetTenantsByTenantIdSubscriptionData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetTenantsByTenantIdSubscriptionResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/tenants/{tenantId}/subscription',
-    ...options
-});
+    ...options,
+  });
 
-export const getDeploymentsStatus = <ThrowOnError extends boolean = true>(options?: Options<GetDeploymentsStatusData, ThrowOnError>) => (options?.client ?? client).get<GetDeploymentsStatusResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postInstallPredefinedById = <ThrowOnError extends boolean = true>(
+  options: Options<PostInstallPredefinedByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostInstallPredefinedByIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
+    url: '/install-predefined/{id}',
+    ...options,
+  });
+
+export const getDeploymentsStatus = <ThrowOnError extends boolean = true>(
+  options?: Options<GetDeploymentsStatusData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<GetDeploymentsStatusResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/deployments/status',
-    ...options
-});
+    ...options,
+  });
 
-export const getDeploymentsLogs = <ThrowOnError extends boolean = true>(options: Options<GetDeploymentsLogsData, ThrowOnError>) => (options.client ?? client).get<GetDeploymentsLogsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getDeploymentsLogs = <ThrowOnError extends boolean = true>(
+  options: Options<GetDeploymentsLogsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetDeploymentsLogsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/deployments/logs',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Get historical CPU and memory usage metrics for a deployment
  */
-export const getDeploymentsMetrics = <ThrowOnError extends boolean = true>(options?: Options<GetDeploymentsMetricsData, ThrowOnError>) => (options?.client ?? client).get<GetDeploymentsMetricsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getDeploymentsMetrics = <ThrowOnError extends boolean = true>(
+  options?: Options<GetDeploymentsMetricsData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<GetDeploymentsMetricsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/deployments/metrics',
-    ...options
-});
+    ...options,
+  });
 
-export const getDeploymentsDeploymentLogs = <ThrowOnError extends boolean = true>(options?: Options<GetDeploymentsDeploymentLogsData, ThrowOnError, GetDeploymentsDeploymentLogsResponse>) => (options?.client ?? client).sse.get<GetDeploymentsDeploymentLogsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getDeploymentsDeploymentLogs = <ThrowOnError extends boolean = true>(
+  options?: Options<GetDeploymentsDeploymentLogsData, ThrowOnError, GetDeploymentsDeploymentLogsResponse>
+) =>
+  (options?.client ?? client).sse.get<GetDeploymentsDeploymentLogsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/deployments/deployment-logs',
-    ...options
-});
+    ...options,
+  });
 
-export const getTeams = <ThrowOnError extends boolean = true>(options?: Options<GetTeamsData, ThrowOnError>) => (options?.client ?? client).get<GetTeamsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/teams',
-    ...options
-});
-
-export const postTeams = <ThrowOnError extends boolean = true>(options?: Options<PostTeamsData, ThrowOnError>) => (options?.client ?? client).post<PostTeamsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTeams = <ThrowOnError extends boolean = true>(options?: Options<GetTeamsData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetTeamsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams',
     ...options,
+  });
+
+export const postTeams = <ThrowOnError extends boolean = true>(options?: Options<PostTeamsData, ThrowOnError>) =>
+  (options?.client ?? client).post<PostTeamsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
+    url: '/teams',
+    ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
-export const deleteTeamsByTeamId = <ThrowOnError extends boolean = true>(options: Options<DeleteTeamsByTeamIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteTeamsByTeamIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteTeamsByTeamId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteTeamsByTeamIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteTeamsByTeamIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}',
-    ...options
-});
+    ...options,
+  });
 
-export const getTeamsByTeamId = <ThrowOnError extends boolean = true>(options: Options<GetTeamsByTeamIdData, ThrowOnError>) => (options.client ?? client).get<GetTeamsByTeamIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTeamsByTeamId = <ThrowOnError extends boolean = true>(
+  options: Options<GetTeamsByTeamIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetTeamsByTeamIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}',
-    ...options
-});
+    ...options,
+  });
 
-export const putTeamsByTeamId = <ThrowOnError extends boolean = true>(options: Options<PutTeamsByTeamIdData, ThrowOnError>) => (options.client ?? client).put<PutTeamsByTeamIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putTeamsByTeamId = <ThrowOnError extends boolean = true>(
+  options: Options<PutTeamsByTeamIdData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutTeamsByTeamIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getTeamsByTeamIdMembers = <ThrowOnError extends boolean = true>(options: Options<GetTeamsByTeamIdMembersData, ThrowOnError>) => (options.client ?? client).get<GetTeamsByTeamIdMembersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTeamsByTeamIdMembers = <ThrowOnError extends boolean = true>(
+  options: Options<GetTeamsByTeamIdMembersData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetTeamsByTeamIdMembersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/members',
-    ...options
-});
+    ...options,
+  });
 
-export const postTeamsByTeamIdMembers = <ThrowOnError extends boolean = true>(options: Options<PostTeamsByTeamIdMembersData, ThrowOnError>) => (options.client ?? client).post<PostTeamsByTeamIdMembersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postTeamsByTeamIdMembers = <ThrowOnError extends boolean = true>(
+  options: Options<PostTeamsByTeamIdMembersData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostTeamsByTeamIdMembersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/members',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteTeamsByTeamIdMembersByUserId = <ThrowOnError extends boolean = true>(options: Options<DeleteTeamsByTeamIdMembersByUserIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteTeamsByTeamIdMembersByUserIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteTeamsByTeamIdMembersByUserId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteTeamsByTeamIdMembersByUserIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteTeamsByTeamIdMembersByUserIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/members/{userId}',
-    ...options
-});
+    ...options,
+  });
 
-export const putTeamsByTeamIdMembersByUserId = <ThrowOnError extends boolean = true>(options: Options<PutTeamsByTeamIdMembersByUserIdData, ThrowOnError>) => (options.client ?? client).put<PutTeamsByTeamIdMembersByUserIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putTeamsByTeamIdMembersByUserId = <ThrowOnError extends boolean = true>(
+  options: Options<PutTeamsByTeamIdMembersByUserIdData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutTeamsByTeamIdMembersByUserIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/members/{userId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getTeamsByTeamIdInvitations = <ThrowOnError extends boolean = true>(options: Options<GetTeamsByTeamIdInvitationsData, ThrowOnError>) => (options.client ?? client).get<GetTeamsByTeamIdInvitationsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTeamsByTeamIdInvitations = <ThrowOnError extends boolean = true>(
+  options: Options<GetTeamsByTeamIdInvitationsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetTeamsByTeamIdInvitationsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/invitations',
-    ...options
-});
+    ...options,
+  });
 
-export const postTeamsByTeamIdInvitations = <ThrowOnError extends boolean = true>(options: Options<PostTeamsByTeamIdInvitationsData, ThrowOnError>) => (options.client ?? client).post<PostTeamsByTeamIdInvitationsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postTeamsByTeamIdInvitations = <ThrowOnError extends boolean = true>(
+  options: Options<PostTeamsByTeamIdInvitationsData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostTeamsByTeamIdInvitationsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/invitations',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteTeamsByTeamIdInvitationsByInvitationId = <ThrowOnError extends boolean = true>(options: Options<DeleteTeamsByTeamIdInvitationsByInvitationIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteTeamsByTeamIdInvitationsByInvitationIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteTeamsByTeamIdInvitationsByInvitationId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteTeamsByTeamIdInvitationsByInvitationIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteTeamsByTeamIdInvitationsByInvitationIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/invitations/{invitationId}',
-    ...options
-});
+    ...options,
+  });
 
-export const getTeamsByTeamIdServers = <ThrowOnError extends boolean = true>(options: Options<GetTeamsByTeamIdServersData, ThrowOnError>) => (options.client ?? client).get<GetTeamsByTeamIdServersResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTeamsByTeamIdServers = <ThrowOnError extends boolean = true>(
+  options: Options<GetTeamsByTeamIdServersData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetTeamsByTeamIdServersResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/servers',
-    ...options
-});
+    ...options,
+  });
 
-export const getTeamsByTeamIdClaimMappings = <ThrowOnError extends boolean = true>(options: Options<GetTeamsByTeamIdClaimMappingsData, ThrowOnError>) => (options.client ?? client).get<GetTeamsByTeamIdClaimMappingsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getTeamsByTeamIdClaimMappings = <ThrowOnError extends boolean = true>(
+  options: Options<GetTeamsByTeamIdClaimMappingsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetTeamsByTeamIdClaimMappingsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/claim-mappings',
-    ...options
-});
+    ...options,
+  });
 
-export const postTeamsByTeamIdClaimMappings = <ThrowOnError extends boolean = true>(options: Options<PostTeamsByTeamIdClaimMappingsData, ThrowOnError>) => (options.client ?? client).post<PostTeamsByTeamIdClaimMappingsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postTeamsByTeamIdClaimMappings = <ThrowOnError extends boolean = true>(
+  options: Options<PostTeamsByTeamIdClaimMappingsData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostTeamsByTeamIdClaimMappingsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/claim-mappings',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteTeamsByTeamIdClaimMappingsByMappingId = <ThrowOnError extends boolean = true>(options: Options<DeleteTeamsByTeamIdClaimMappingsByMappingIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteTeamsByTeamIdClaimMappingsByMappingIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteTeamsByTeamIdClaimMappingsByMappingId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteTeamsByTeamIdClaimMappingsByMappingIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteTeamsByTeamIdClaimMappingsByMappingIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/teams/{teamId}/claim-mappings/{mappingId}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * List all secret stores for the tenant
  */
-export const getSecretStores = <ThrowOnError extends boolean = true>(options?: Options<GetSecretStoresData, ThrowOnError>) => (options?.client ?? client).get<GetSecretStoresResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getSecretStores = <ThrowOnError extends boolean = true>(
+  options?: Options<GetSecretStoresData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<GetSecretStoresResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Create a new secret store
  */
-export const postSecretStores = <ThrowOnError extends boolean = true>(options?: Options<PostSecretStoresData, ThrowOnError>) => (options?.client ?? client).post<PostSecretStoresResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postSecretStores = <ThrowOnError extends boolean = true>(
+  options?: Options<PostSecretStoresData, ThrowOnError>
+) =>
+  (options?.client ?? client).post<PostSecretStoresResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
 /**
  * Delete a secret store
  */
-export const deleteSecretStoresById = <ThrowOnError extends boolean = true>(options: Options<DeleteSecretStoresByIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteSecretStoresByIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteSecretStoresById = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteSecretStoresByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteSecretStoresByIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{id}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Get a secret store by ID
  */
-export const getSecretStoresById = <ThrowOnError extends boolean = true>(options: Options<GetSecretStoresByIdData, ThrowOnError>) => (options.client ?? client).get<GetSecretStoresByIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getSecretStoresById = <ThrowOnError extends boolean = true>(
+  options: Options<GetSecretStoresByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetSecretStoresByIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{id}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Update a secret store
  */
-export const patchSecretStoresById = <ThrowOnError extends boolean = true>(options: Options<PatchSecretStoresByIdData, ThrowOnError>) => (options.client ?? client).patch<PatchSecretStoresByIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const patchSecretStoresById = <ThrowOnError extends boolean = true>(
+  options: Options<PatchSecretStoresByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<PatchSecretStoresByIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{id}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
 /**
  * List all secret mappings for a store
  */
-export const getSecretStoresByStoreIdMappings = <ThrowOnError extends boolean = true>(options: Options<GetSecretStoresByStoreIdMappingsData, ThrowOnError>) => (options.client ?? client).get<GetSecretStoresByStoreIdMappingsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getSecretStoresByStoreIdMappings = <ThrowOnError extends boolean = true>(
+  options: Options<GetSecretStoresByStoreIdMappingsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetSecretStoresByStoreIdMappingsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{storeId}/mappings',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Create a new secret mapping
  */
-export const postSecretStoresByStoreIdMappings = <ThrowOnError extends boolean = true>(options: Options<PostSecretStoresByStoreIdMappingsData, ThrowOnError>) => (options.client ?? client).post<PostSecretStoresByStoreIdMappingsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postSecretStoresByStoreIdMappings = <ThrowOnError extends boolean = true>(
+  options: Options<PostSecretStoresByStoreIdMappingsData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostSecretStoresByStoreIdMappingsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{storeId}/mappings',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
 /**
  * Delete a secret mapping
  */
-export const deleteSecretStoresByStoreIdMappingsByMappingName = <ThrowOnError extends boolean = true>(options: Options<DeleteSecretStoresByStoreIdMappingsByMappingNameData, ThrowOnError>) => (options.client ?? client).delete<DeleteSecretStoresByStoreIdMappingsByMappingNameResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteSecretStoresByStoreIdMappingsByMappingName = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteSecretStoresByStoreIdMappingsByMappingNameData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteSecretStoresByStoreIdMappingsByMappingNameResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{storeId}/mappings/{mappingName}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Update a secret mapping
  */
-export const patchSecretStoresByStoreIdMappingsByMappingName = <ThrowOnError extends boolean = true>(options: Options<PatchSecretStoresByStoreIdMappingsByMappingNameData, ThrowOnError>) => (options.client ?? client).patch<PatchSecretStoresByStoreIdMappingsByMappingNameResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const patchSecretStoresByStoreIdMappingsByMappingName = <ThrowOnError extends boolean = true>(
+  options: Options<PatchSecretStoresByStoreIdMappingsByMappingNameData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<PatchSecretStoresByStoreIdMappingsByMappingNameResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{storeId}/mappings/{mappingName}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
 /**
  * Test fetching a secret from the store using a secret identifier (e.g., AWS ARN, GCP secret path)
  */
-export const postSecretStoresByStoreIdTest = <ThrowOnError extends boolean = true>(options: Options<PostSecretStoresByStoreIdTestData, ThrowOnError>) => (options.client ?? client).post<PostSecretStoresByStoreIdTestResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postSecretStoresByStoreIdTest = <ThrowOnError extends boolean = true>(
+  options: Options<PostSecretStoresByStoreIdTestData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostSecretStoresByStoreIdTestResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/secret-stores/{storeId}/test',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getProfiles = <ThrowOnError extends boolean = true>(options?: Options<GetProfilesData, ThrowOnError>) => (options?.client ?? client).get<GetProfilesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
-    url: '/profiles',
-    ...options
-});
-
-export const postProfiles = <ThrowOnError extends boolean = true>(options?: Options<PostProfilesData, ThrowOnError>) => (options?.client ?? client).post<PostProfilesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getProfiles = <ThrowOnError extends boolean = true>(options?: Options<GetProfilesData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetProfilesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles',
     ...options,
+  });
+
+export const postProfiles = <ThrowOnError extends boolean = true>(options?: Options<PostProfilesData, ThrowOnError>) =>
+  (options?.client ?? client).post<PostProfilesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
+    url: '/profiles',
+    ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
-export const deleteProfilesByProfileId = <ThrowOnError extends boolean = true>(options: Options<DeleteProfilesByProfileIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteProfilesByProfileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteProfilesByProfileId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteProfilesByProfileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteProfilesByProfileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}',
-    ...options
-});
+    ...options,
+  });
 
-export const getProfilesByProfileId = <ThrowOnError extends boolean = true>(options: Options<GetProfilesByProfileIdData, ThrowOnError>) => (options.client ?? client).get<GetProfilesByProfileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getProfilesByProfileId = <ThrowOnError extends boolean = true>(
+  options: Options<GetProfilesByProfileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetProfilesByProfileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}',
-    ...options
-});
+    ...options,
+  });
 
-export const putProfilesByProfileId = <ThrowOnError extends boolean = true>(options: Options<PutProfilesByProfileIdData, ThrowOnError>) => (options.client ?? client).put<PutProfilesByProfileIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putProfilesByProfileId = <ThrowOnError extends boolean = true>(
+  options: Options<PutProfilesByProfileIdData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutProfilesByProfileIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getProfilesByProfileIdClaimMappings = <ThrowOnError extends boolean = true>(options: Options<GetProfilesByProfileIdClaimMappingsData, ThrowOnError>) => (options.client ?? client).get<GetProfilesByProfileIdClaimMappingsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getProfilesByProfileIdClaimMappings = <ThrowOnError extends boolean = true>(
+  options: Options<GetProfilesByProfileIdClaimMappingsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetProfilesByProfileIdClaimMappingsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}/claim-mappings',
-    ...options
-});
+    ...options,
+  });
 
-export const postProfilesByProfileIdClaimMappings = <ThrowOnError extends boolean = true>(options: Options<PostProfilesByProfileIdClaimMappingsData, ThrowOnError>) => (options.client ?? client).post<PostProfilesByProfileIdClaimMappingsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postProfilesByProfileIdClaimMappings = <ThrowOnError extends boolean = true>(
+  options: Options<PostProfilesByProfileIdClaimMappingsData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostProfilesByProfileIdClaimMappingsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}/claim-mappings',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const deleteProfilesByProfileIdClaimMappingsByMappingId = <ThrowOnError extends boolean = true>(options: Options<DeleteProfilesByProfileIdClaimMappingsByMappingIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteProfilesByProfileIdClaimMappingsByMappingIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteProfilesByProfileIdClaimMappingsByMappingId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteProfilesByProfileIdClaimMappingsByMappingIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteProfilesByProfileIdClaimMappingsByMappingIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}/claim-mappings/{mappingId}',
-    ...options
-});
+    ...options,
+  });
 
-export const getProfilesByProfileIdDirectAssignments = <ThrowOnError extends boolean = true>(options: Options<GetProfilesByProfileIdDirectAssignmentsData, ThrowOnError>) => (options.client ?? client).get<GetProfilesByProfileIdDirectAssignmentsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getProfilesByProfileIdDirectAssignments = <ThrowOnError extends boolean = true>(
+  options: Options<GetProfilesByProfileIdDirectAssignmentsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetProfilesByProfileIdDirectAssignmentsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}/direct-assignments',
-    ...options
-});
+    ...options,
+  });
 
-export const getProfilesByProfileIdTools = <ThrowOnError extends boolean = true>(options: Options<GetProfilesByProfileIdToolsData, ThrowOnError>) => (options.client ?? client).get<GetProfilesByProfileIdToolsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getProfilesByProfileIdTools = <ThrowOnError extends boolean = true>(
+  options: Options<GetProfilesByProfileIdToolsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetProfilesByProfileIdToolsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}/tools',
-    ...options
-});
+    ...options,
+  });
 
-export const putProfilesByProfileIdServersByServerSlugTools = <ThrowOnError extends boolean = true>(options: Options<PutProfilesByProfileIdServersByServerSlugToolsData, ThrowOnError>) => (options.client ?? client).put<PutProfilesByProfileIdServersByServerSlugToolsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const putProfilesByProfileIdServersByServerSlugTools = <ThrowOnError extends boolean = true>(
+  options: Options<PutProfilesByProfileIdServersByServerSlugToolsData, ThrowOnError>
+) =>
+  (options.client ?? client).put<PutProfilesByProfileIdServersByServerSlugToolsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/profiles/{profileId}/servers/{serverSlug}/tools',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const getSandboxes = <ThrowOnError extends boolean = true>(options?: Options<GetSandboxesData, ThrowOnError>) => (options?.client ?? client).get<GetSandboxesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getSandboxes = <ThrowOnError extends boolean = true>(options?: Options<GetSandboxesData, ThrowOnError>) =>
+  (options?.client ?? client).get<GetSandboxesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes',
-    ...options
-});
+    ...options,
+  });
 
-export const postSandboxes = <ThrowOnError extends boolean = true>(options?: Options<PostSandboxesData, ThrowOnError>) => (options?.client ?? client).post<PostSandboxesResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postSandboxes = <ThrowOnError extends boolean = true>(
+  options?: Options<PostSandboxesData, ThrowOnError>
+) =>
+  (options?.client ?? client).post<PostSandboxesResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes',
-    ...options
-});
+    ...options,
+  });
 
-export const deleteSandboxesBySandboxId = <ThrowOnError extends boolean = true>(options: Options<DeleteSandboxesBySandboxIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteSandboxesBySandboxIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteSandboxesBySandboxId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteSandboxesBySandboxIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteSandboxesBySandboxIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}',
-    ...options
-});
+    ...options,
+  });
 
-export const getSandboxesBySandboxId = <ThrowOnError extends boolean = true>(options: Options<GetSandboxesBySandboxIdData, ThrowOnError>) => (options.client ?? client).get<GetSandboxesBySandboxIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getSandboxesBySandboxId = <ThrowOnError extends boolean = true>(
+  options: Options<GetSandboxesBySandboxIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetSandboxesBySandboxIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}',
-    ...options
-});
+    ...options,
+  });
 
-export const postSandboxesBySandboxIdSshSession = <ThrowOnError extends boolean = true>(options: Options<PostSandboxesBySandboxIdSshSessionData, ThrowOnError>) => (options.client ?? client).post<PostSandboxesBySandboxIdSshSessionResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postSandboxesBySandboxIdSshSession = <ThrowOnError extends boolean = true>(
+  options: Options<PostSandboxesBySandboxIdSshSessionData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostSandboxesBySandboxIdSshSessionResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}/ssh-session',
-    ...options
-});
+    ...options,
+  });
 
-export const postSandboxesBySandboxIdExec = <ThrowOnError extends boolean = true>(options: Options<PostSandboxesBySandboxIdExecData, ThrowOnError>) => (options.client ?? client).post<PostSandboxesBySandboxIdExecResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postSandboxesBySandboxIdExec = <ThrowOnError extends boolean = true>(
+  options: Options<PostSandboxesBySandboxIdExecData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostSandboxesBySandboxIdExecResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}/exec',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
-export const postSandboxesBySandboxIdWriteFile = <ThrowOnError extends boolean = true>(options: Options<PostSandboxesBySandboxIdWriteFileData, ThrowOnError>) => (options.client ?? client).post<PostSandboxesBySandboxIdWriteFileResponses, unknown, ThrowOnError>({
+export const postSandboxesBySandboxIdWriteFile = <ThrowOnError extends boolean = true>(
+  options: Options<PostSandboxesBySandboxIdWriteFileData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostSandboxesBySandboxIdWriteFileResponses, unknown, ThrowOnError>({
     bodySerializer: null,
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}/write-file',
     ...options,
     headers: {
-        'Content-Type': 'application/octet-stream',
-        ...options.headers
-    }
-});
+      'Content-Type': 'application/octet-stream',
+      ...options.headers,
+    },
+  });
 
-export const postSandboxesBySandboxIdReadFile = <ThrowOnError extends boolean = true>(options: Options<PostSandboxesBySandboxIdReadFileData, ThrowOnError>) => (options.client ?? client).post<PostSandboxesBySandboxIdReadFileResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postSandboxesBySandboxIdReadFile = <ThrowOnError extends boolean = true>(
+  options: Options<PostSandboxesBySandboxIdReadFileData, ThrowOnError>
+) =>
+  (options.client ?? client).post<PostSandboxesBySandboxIdReadFileResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}/read-file',
-    ...options
-});
+    ...options,
+  });
 
-export const getSandboxesBySandboxIdAuditLogs = <ThrowOnError extends boolean = true>(options: Options<GetSandboxesBySandboxIdAuditLogsData, ThrowOnError>) => (options.client ?? client).get<GetSandboxesBySandboxIdAuditLogsResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getSandboxesBySandboxIdAuditLogs = <ThrowOnError extends boolean = true>(
+  options: Options<GetSandboxesBySandboxIdAuditLogsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetSandboxesBySandboxIdAuditLogsResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}/audit-logs',
-    ...options
-});
+    ...options,
+  });
 
-export const getSandboxesBySandboxIdAuditLogsById = <ThrowOnError extends boolean = true>(options: Options<GetSandboxesBySandboxIdAuditLogsByIdData, ThrowOnError>) => (options.client ?? client).get<GetSandboxesBySandboxIdAuditLogsByIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getSandboxesBySandboxIdAuditLogsById = <ThrowOnError extends boolean = true>(
+  options: Options<GetSandboxesBySandboxIdAuditLogsByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetSandboxesBySandboxIdAuditLogsByIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/sandboxes/{sandboxId}/audit-logs/{id}',
-    ...options
-});
+    ...options,
+  });
 
 /**
  * Send an email verification code
  */
-export const postEmailVerificationSendCode = <ThrowOnError extends boolean = true>(options?: Options<PostEmailVerificationSendCodeData, ThrowOnError>) => (options?.client ?? client).post<PostEmailVerificationSendCodeResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postEmailVerificationSendCode = <ThrowOnError extends boolean = true>(
+  options?: Options<PostEmailVerificationSendCodeData, ThrowOnError>
+) =>
+  (options?.client ?? client).post<PostEmailVerificationSendCodeResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/email-verification/send-code',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
-export const getScimConfigTokens = <ThrowOnError extends boolean = true>(options?: Options<GetScimConfigTokensData, ThrowOnError>) => (options?.client ?? client).get<GetScimConfigTokensResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getScimConfigTokens = <ThrowOnError extends boolean = true>(
+  options?: Options<GetScimConfigTokensData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<GetScimConfigTokensResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/scim-config/tokens',
-    ...options
-});
+    ...options,
+  });
 
-export const postScimConfigTokens = <ThrowOnError extends boolean = true>(options?: Options<PostScimConfigTokensData, ThrowOnError>) => (options?.client ?? client).post<PostScimConfigTokensResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const postScimConfigTokens = <ThrowOnError extends boolean = true>(
+  options?: Options<PostScimConfigTokensData, ThrowOnError>
+) =>
+  (options?.client ?? client).post<PostScimConfigTokensResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/scim-config/tokens',
     ...options,
     headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
-});
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
 
-export const getScimConfigTokensByTokenIdSecret = <ThrowOnError extends boolean = true>(options: Options<GetScimConfigTokensByTokenIdSecretData, ThrowOnError>) => (options.client ?? client).get<GetScimConfigTokensByTokenIdSecretResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const getScimConfigTokensByTokenIdSecret = <ThrowOnError extends boolean = true>(
+  options: Options<GetScimConfigTokensByTokenIdSecretData, ThrowOnError>
+) =>
+  (options.client ?? client).get<GetScimConfigTokensByTokenIdSecretResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/scim-config/tokens/{tokenId}/secret',
-    ...options
-});
+    ...options,
+  });
 
-export const deleteScimConfigTokensByTokenId = <ThrowOnError extends boolean = true>(options: Options<DeleteScimConfigTokensByTokenIdData, ThrowOnError>) => (options.client ?? client).delete<DeleteScimConfigTokensByTokenIdResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }, { scheme: 'bearer', type: 'http' }],
+export const deleteScimConfigTokensByTokenId = <ThrowOnError extends boolean = true>(
+  options: Options<DeleteScimConfigTokensByTokenIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<DeleteScimConfigTokensByTokenIdResponses, unknown, ThrowOnError>({
+    security: [
+      { scheme: 'bearer', type: 'http' },
+      { scheme: 'bearer', type: 'http' },
+    ],
     url: '/scim-config/tokens/{tokenId}',
-    ...options
-});
+    ...options,
+  });

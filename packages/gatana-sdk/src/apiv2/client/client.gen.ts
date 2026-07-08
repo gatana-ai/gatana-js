@@ -37,7 +37,7 @@ export const createClient = (config: Config = {}): Client => {
     ThrowOnError extends boolean = boolean,
     Url extends string = string,
   >(
-    options: RequestOptions<TData, TResponseStyle, ThrowOnError, Url>,
+    options: RequestOptions<TData, TResponseStyle, ThrowOnError, Url>
   ) => {
     const opts = {
       ..._config,
@@ -67,14 +67,13 @@ export const createClient = (config: Config = {}): Client => {
       opts.headers.delete('Content-Type');
     }
 
-    const resolvedOpts = opts as typeof opts &
-      ResolvedRequestOptions<TResponseStyle, ThrowOnError, Url>;
+    const resolvedOpts = opts as typeof opts & ResolvedRequestOptions<TResponseStyle, ThrowOnError, Url>;
     const url = buildUrl(resolvedOpts);
 
     return { opts: resolvedOpts, url };
   };
 
-  const request: Client['request'] = async (options) => {
+  const request: Client['request'] = async options => {
     const { opts, url } = await beforeRequest(options);
     const requestInit: ReqInit = {
       redirect: 'follow',
@@ -136,9 +135,7 @@ export const createClient = (config: Config = {}): Client => {
 
     if (response.ok) {
       const parseAs =
-        (opts.parseAs === 'auto'
-          ? getParseAs(response.headers.get('Content-Type'))
-          : opts.parseAs) ?? 'json';
+        (opts.parseAs === 'auto' ? getParseAs(response.headers.get('Content-Type')) : opts.parseAs) ?? 'json';
 
       if (response.status === 204 || response.headers.get('Content-Length') === '0') {
         let emptyData: any;
@@ -242,8 +239,7 @@ export const createClient = (config: Config = {}): Client => {
         };
   };
 
-  const makeMethodFn = (method: Uppercase<HttpMethod>) => (options: RequestOptions) =>
-    request({ ...options, method });
+  const makeMethodFn = (method: Uppercase<HttpMethod>) => (options: RequestOptions) => request({ ...options, method });
 
   const makeSseFn = (method: Uppercase<HttpMethod>) => async (options: RequestOptions) => {
     const { opts, url } = await beforeRequest(options);
@@ -266,7 +262,7 @@ export const createClient = (config: Config = {}): Client => {
     });
   };
 
-  const _buildUrl: Client['buildUrl'] = (options) => buildUrl({ ..._config, ...options });
+  const _buildUrl: Client['buildUrl'] = options => buildUrl({ ..._config, ...options });
 
   return {
     buildUrl: _buildUrl,

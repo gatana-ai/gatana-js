@@ -232,12 +232,12 @@ confirm_release
 
 if [[ "$RELEASE_SDK" == true ]]; then
   step "Bumping gatana-sdk version (${SDK_BUMP})..."
-  pnpm --filter gatana-sdk exec pnpm version "$SDK_BUMP" --no-git-tag-version
+  pnpm --filter gatana-sdk exec pnpm version "$SDK_BUMP" --no-git-tag-version --no-git-checks
 fi
 
 if [[ "$RELEASE_CLI" == true ]]; then
   step "Bumping gatana version (${CLI_BUMP})..."
-  pnpm --filter gatana exec pnpm version "$CLI_BUMP" --no-git-tag-version
+  pnpm --filter gatana exec pnpm version "$CLI_BUMP" --no-git-tag-version --no-git-checks
 fi
 
 SDK_VERSION=$(node -p "require('./packages/gatana-sdk/package.json').version")

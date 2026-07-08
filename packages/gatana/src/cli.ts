@@ -33,8 +33,9 @@ interface GlobalOptions {
 }
 
 const configLoader = new ConfigLoader([new EnvConfigStrategy(), new FileConfigStrategy()]);
-const gatana = new Gatana({ configLoader, isCli: true });
-const gatana2 = new Gatana2({ configLoader, isCli: true });
+const config = configLoader.getConfig();
+const gatana = new Gatana({ config, isCli: true });
+const gatana2 = new Gatana2({ config, isCli: true });
 
 program
   .name('gatana')
